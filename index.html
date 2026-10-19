@@ -118,6 +118,26 @@
   .photo-field textarea{font-family:inherit;font-size:.9rem;resize:vertical}
   .share-hint{margin:11px 0 0!important}
   .collage-preview-box{margin:12px 0 6px;background:#fff9f6;border:1px solid #e3b6af;border-radius:16px;padding:11px}
+  .crop-editor{margin:13px 0;padding:13px 10px 15px;background:linear-gradient(145deg,#fffaf7,#ffe9ef);border:1px solid #dfb1aa;border-radius:17px}
+  .crop-editor[hidden]{display:none!important}
+  .crop-title{font-weight:800;font-size:1.02rem;color:#992653;text-align:center}
+  .crop-help,.crop-note{font-size:.79rem;color:#885268;line-height:1.5;margin:7px 2px 12px}
+  .crop-note{text-align:center;margin:9px 2px 0}
+  .crop-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .crop-side{min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:5px}
+  .crop-side-title{font-weight:800;font-size:.86rem;text-align:center;color:#ab2c60}
+  .crop-frame{position:relative;width:100%;aspect-ratio:504/708;background:#fff7f3;border:2px solid #c89a68;overflow:hidden;border-radius:11px;touch-action:none}
+  .crop-frame canvas{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+  .crop-frame canvas:active{cursor:grabbing}
+  .crop-guides{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,transparent 27%,rgba(255,255,255,.72) 27%,rgba(255,255,255,.72) 27.5%,transparent 27.5%,transparent 70%,rgba(255,255,255,.7) 70%,rgba(255,255,255,.7) 70.5%,transparent 70.5%);filter:drop-shadow(0 1px 1px rgba(100,30,50,.3))}
+  .crop-zoom-label{font-weight:750;font-size:.72rem;color:#853850;display:flex;justify-content:space-between;gap:3px}
+  .crop-zoom-label output{color:#b52361}
+  .crop-slider{width:100%;padding:0;accent-color:#bb2963;height:29px;cursor:pointer}
+  .crop-reset,.crop-edit-again{font-family:inherit;font-weight:750;font-size:.76rem;color:#9d2458;border:1px solid #e5bbc0;background:#fff8f6;border-radius:10px;padding:8px 7px;cursor:pointer}
+  .crop-edit-again{margin-left:auto;white-space:nowrap}
+  .crop-apply{width:100%;margin-top:13px}
+  @media(max-width:520px){.crop-editor{padding:11px 7px}.crop-pair{gap:7px}.crop-zoom-label{font-size:.68rem}.crop-edit-again{font-size:.69rem;padding:7px 5px}}
+  
   .collage-preview-box[hidden]{display:none!important}
   .collage-heading{font-size:.86rem;color:#942853;font-weight:800;min-width:0}
   .collage-heading-row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 9px}
@@ -244,9 +264,32 @@
         </div>
       </div>
       <label class="photo-field">Ваш отзыв<textarea id="photoReview" placeholder="Напишите короткий отзыв (необязательно)" rows="3"></textarea></label>
+      <div class="crop-editor" id="cropEditor" hidden>
+        <div class="crop-title">✂️ Подгони фотографии по размеру</div>
+        <p class="crop-help">Оба кадра одинаковые. Передвигай фото пальцем и увеличивай масштаб, чтобы голова и плечи оказались примерно на одной высоте. Пунктирные линии помогут сравнить.</p>
+        <div class="crop-pair">
+          <div class="crop-side">
+            <div class="crop-side-title">ДО</div>
+            <div class="crop-frame"><canvas id="cropBefore" width="504" height="708" aria-label="Подвинуть и увеличить фотографию ДО"></canvas><div class="crop-guides" aria-hidden="true"></div></div>
+            <label class="crop-zoom-label" for="zoomBefore">Масштаб ДО <output id="zoomBeforeValue">100%</output></label>
+            <input class="crop-slider" id="zoomBefore" type="range" min="1" max="3.5" step=".01" value="1">
+            <button type="button" class="crop-reset" id="resetBefore">↺ Сбросить ДО</button>
+          </div>
+          <div class="crop-side">
+            <div class="crop-side-title">ПОСЛЕ</div>
+            <div class="crop-frame"><canvas id="cropAfter" width="504" height="708" aria-label="Подвинуть и увеличить фотографию ПОСЛЕ"></canvas><div class="crop-guides" aria-hidden="true"></div></div>
+            <label class="crop-zoom-label" for="zoomAfter">Масштаб ПОСЛЕ <output id="zoomAfterValue">100%</output></label>
+            <input class="crop-slider" id="zoomAfter" type="range" min="1" max="3.5" step=".01" value="1">
+            <button type="button" class="crop-reset" id="resetAfter">↺ Сбросить ПОСЛЕ</button>
+          </div>
+        </div>
+        <button type="button" class="action-btn main crop-apply" id="applyCrop">✓ Готово, создать коллаж</button>
+        <p class="crop-note">Кадрируются только края фото. Внешность, пропорции лица и сами изображения не изменяются.</p>
+      </div>
       <div class="collage-preview-box" id="collageBox" hidden>
         <div class="collage-heading-row">
           <div class="collage-heading">✨ Ваш готовый коллаж</div>
+          <button class="crop-edit-again" id="editCrop" type="button">✂️ Подправить кадры</button>
           <button type="button" class="photo-remove collage-remove" id="removeCollage" aria-label="Удалить коллаж и очистить обе фотографии" title="Удалить коллаж и обе фотографии">✕</button>
         </div>
         <canvas class="collage-preview" id="collagePreview" width="1200" height="1300" aria-label="Предварительный просмотр коллажа до и после"></canvas>
@@ -573,14 +616,100 @@
       img.src = url;
     });
   }
-  function paintPhoto(ctx,img,x,y,w,h){
-    const scale = Math.min(w/img.naturalWidth,h/img.naturalHeight);
-    const iw = img.naturalWidth*scale;
-    const ih = img.naturalHeight*scale;
-    ctx.fillStyle='#fffaf7';
-    ctx.fillRect(x,y,w,h);
-    // Contain (rather than cover) preserves the entire picture and the person's original face.
-    ctx.drawImage(img,x+(w-iw)/2,y+(h-ih)/2,iw,ih);
+  // Only geometric framing: no filters, face retouching, AI or distortion.
+  const crops=[{zoom:1,x:0,y:0},{zoom:1,x:0,y:0}];
+  let loadedPhotoFiles=[null,null];
+  let loadedPhotoImages=[null,null];
+  function cropBounds(img,index,w,h){
+    const z=crops[index].zoom;
+    const scale=Math.max(w/img.naturalWidth,h/img.naturalHeight)*z;
+    const iw=img.naturalWidth*scale,ih=img.naturalHeight*scale;
+    return {iw,ih,xLimit:Math.max(0,(iw-w)/2),yLimit:Math.max(0,(ih-h)/2)};
+  }
+  function paintPhoto(ctx,img,x,y,w,h,index){
+    const p=crops[index];
+    const b=cropBounds(img,index,w,h);
+    const shiftX=Math.min(b.xLimit,Math.max(-b.xLimit,p.x*w));
+    const shiftY=Math.min(b.yLimit,Math.max(-b.yLimit,p.y*h));
+    p.x=shiftX/w;p.y=shiftY/h;
+    ctx.save();
+    ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();
+    ctx.fillStyle='#fffaf7';ctx.fillRect(x,y,w,h);
+    ctx.drawImage(img,x+(w-b.iw)/2+shiftX,y+(h-b.ih)/2+shiftY,b.iw,b.ih);
+    ctx.restore();
+  }
+  function drawCropPreview(index){
+    const img=loadedPhotoImages[index];
+    if(!img)return;
+    const id=index===0?'cropBefore':'cropAfter';
+    const canvas=$(id),ctx=canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    paintPhoto(ctx,img,0,0,canvas.width,canvas.height,index);
+    const id2=index===0?'zoomBefore':'zoomAfter';
+    $(id2).value=String(crops[index].zoom);
+    $(id2+'Value').textContent=Math.round(crops[index].zoom*100)+'%';
+  }
+  function drawBothCropPreviews(){
+    drawCropPreview(0);
+    drawCropPreview(1);
+  }
+  function resetCrop(index){
+    crops[index]={zoom:1,x:0,y:0};
+    drawCropPreview(index);
+  }
+  function setCropZoom(index,newZoom){
+    crops[index].zoom=Math.min(3.5,Math.max(1,Number(newZoom)||1));
+    drawCropPreview(index);
+  }
+  function setupCropDrag(index){
+    const canvas=$(index===0?'cropBefore':'cropAfter');
+    const pointers=new Map();
+    let previous=null,pinch=null;
+    function distance(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+    canvas.addEventListener('pointerdown',e=>{
+      if(!loadedPhotoImages[index])return;
+      e.preventDefault();
+      canvas.setPointerCapture(e.pointerId);
+      pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      previous={x:e.clientX,y:e.clientY};
+      if(pointers.size===2){
+        const [a,b]=Array.from(pointers.values());
+        pinch={distance:Math.max(distance(a,b),1),zoom:crops[index].zoom};
+      }
+    });
+    canvas.addEventListener('pointermove',e=>{
+      if(!pointers.has(e.pointerId))return;
+      e.preventDefault();
+      const old=pointers.get(e.pointerId);
+      const now={x:e.clientX,y:e.clientY};
+      pointers.set(e.pointerId,now);
+      if(pointers.size===2){
+        if(!pinch){
+          const [a,b]=Array.from(pointers.values());
+          pinch={distance:Math.max(distance(a,b),1),zoom:crops[index].zoom};
+        }
+        const [a,b]=Array.from(pointers.values());
+        setCropZoom(index,pinch.zoom*distance(a,b)/pinch.distance);
+        return;
+      }
+      pinch=null;
+      const rect=canvas.getBoundingClientRect();
+      if(rect.width&&rect.height){
+        crops[index].x+=(now.x-old.x)/rect.width;
+        crops[index].y+=(now.y-old.y)/rect.height;
+        drawCropPreview(index);
+      }
+      previous=now;
+    });
+    function release(e){
+      pointers.delete(e.pointerId);
+      pinch=null;
+      if(pointers.size===1)previous=Array.from(pointers.values())[0];
+      else previous=null;
+    }
+    canvas.addEventListener('pointerup',release);
+    canvas.addEventListener('pointercancel',release);
+    canvas.addEventListener('lostpointercapture',release);
   }
   function wrapCaption(ctx,message,x,y,width,lineHeight,maxLines){
     const words=message.trim().split(/\s+/).filter(Boolean);
@@ -624,7 +753,7 @@
       roundedPath(c,x,top,boxWidth,photoHeight+66,24);c.fill();
       c.save();
       roundedPath(c,x+11,top+11,boxWidth-22,photoHeight-22,17);c.clip();
-      paintPhoto(c,i===0?before:after,x+11,top+11,boxWidth-22,photoHeight-22);
+      paintPhoto(c,i===0?before:after,x+11,top+11,boxWidth-22,photoHeight-22,i);
       c.restore();
       c.strokeStyle='#d7a76f';c.lineWidth=3;
       roundedPath(c,x,top,boxWidth,photoHeight+66,24);c.stroke();
@@ -667,34 +796,75 @@
     collageReady=null;
     $('sharePhotos').disabled=true;
     $('downloadCollage').disabled=true;
-    const box=$('collageBox');
-    const status=$('shareStatus');
+    $('collageBox').hidden=true;
     const before=$('beforePhoto').files[0],after=$('afterPhoto').files[0];
     if(!before||!after){
-      box.hidden=true;
-      status.textContent='Выберите фото ДО и ПОСЛЕ — коллаж соберётся автоматически.';
+      loadedPhotoFiles=[null,null];
+      loadedPhotoImages=[null,null];
+      $('cropEditor').hidden=true;
+      $('shareStatus').textContent='Выберите фото ДО и ПОСЛЕ, затем настройте кадры и создайте коллаж.';
       return;
     }
-    status.textContent='⏳ Собираю коллаж из ваших фотографий…';
+    $('shareStatus').textContent='⏳ Загружаю фотографии для настройки кадра…';
     try{
-      const images=await Promise.all([photoFromFile(before),photoFromFile(after)]);
+      const files=[before,after];
+      const newImages=await Promise.all(files.map((file,i)=>
+        loadedPhotoFiles[i]===file&&loadedPhotoImages[i]
+          ?Promise.resolve(loadedPhotoImages[i]):photoFromFile(file)));
       if(version!==collageVersion)return;
+      files.forEach((file,i)=>{
+        if(loadedPhotoFiles[i]!==file)crops[i]={zoom:1,x:0,y:0};
+      });
+      loadedPhotoFiles=files;
+      loadedPhotoImages=newImages;
+      drawBothCropPreviews();
+      $('cropEditor').hidden=false;
+      $('shareStatus').textContent='✂️ Передвиньте и увеличьте фото ДО и ПОСЛЕ, чтобы человек был одного размера, затем нажмите «Готово, создать коллаж».';
+      $('cropEditor').scrollIntoView({behavior:'smooth',block:'nearest'});
+    }catch(error){
+      if(version!==collageVersion)return;
+      loadedPhotoImages=[null,null];
+      $('cropEditor').hidden=true;
+      $('shareStatus').textContent='Не удалось открыть фото. Попробуйте выбрать JPG или PNG.';
+    }
+  }
+  async function applyCrop(){
+    if(!loadedPhotoImages[0]||!loadedPhotoImages[1])return;
+    const version=++collageVersion;
+    $('sharePhotos').disabled=true;
+    $('downloadCollage').disabled=true;
+    $('shareStatus').textContent='⏳ Создаю коллаж из выбранных кадров…';
+    try{
       const canvas=$('collagePreview');
-      paintCollage(canvas,images[0],images[1]);
+      paintCollage(canvas,loadedPhotoImages[0],loadedPhotoImages[1]);
       const blob=await canvasPng(canvas);
       if(version!==collageVersion)return;
       const filename='perezagruzka_do_posle_'+getReport().name.replace(/[^a-zA-Zа-яА-ЯёЁ0-9_-]+/g,'_').slice(0,40)+'.png';
-      const file=new File([blob],filename,{type:'image/png'});
-      collageReady={file,blob,filename};
-      box.hidden=false;
+      collageReady={blob,filename};
+      $('cropEditor').hidden=true;
+      $('collageBox').hidden=false;
       $('sharePhotos').disabled=false;
       $('downloadCollage').disabled=false;
-      status.textContent='✅ Коллаж готов! Нажмите «Отправить коллаж Виктории», затем выберите WhatsApp и чат Виктории Никитиной. Сайт не отправляет фото без вашего подтверждения.';
+      $('shareStatus').textContent='✅ Коллаж готов! Сохраните его или нажмите «Отправить коллаж Виктории»: откроется её WhatsApp, где нужно прикрепить скачанное изображение.';
     }catch(error){
       if(version!==collageVersion)return;
-      box.hidden=true;
-      status.textContent='Не получилось создать коллаж. Попробуйте выбрать фотографии в формате JPG или PNG.';
+      $('shareStatus').textContent='Не удалось собрать коллаж. Попробуйте ещё раз.';
+      $('cropEditor').hidden=false;
     }
+  }
+  function reframePhotos(){
+    if(!loadedPhotoImages[0]||!loadedPhotoImages[1])return;
+    collageReady=null;
+    $('sharePhotos').disabled=true;
+    $('downloadCollage').disabled=true;
+    $('collageBox').hidden=true;
+    drawBothCropPreviews();
+    $('cropEditor').hidden=false;
+    $('cropEditor').scrollIntoView({behavior:'smooth',block:'nearest'});
+    $('shareStatus').textContent='✂️ Поправьте кадры и нажмите «Готово, создать коллаж».';
+  }
+  function refreshCollageContent(){
+    if(loadedPhotoImages[0]&&loadedPhotoImages[1]&&$('cropEditor').hidden)applyCrop();
   }
   function downloadCollage(){
     if(!collageReady)return;
@@ -727,16 +897,20 @@
   $('sharePhotos').addEventListener('click',sharePhotos);
   $('downloadCollage').addEventListener('click',downloadCollage);
   $('beforePhoto').addEventListener('change',prepareCollage);
+  setupCropDrag(0);
+  setupCropDrag(1);
+  $('zoomBefore').addEventListener('input',v=>setCropZoom(0,v.target.value));
+  $('zoomAfter').addEventListener('input',v=>setCropZoom(1,v.target.value));
+  $('resetBefore').addEventListener('click',()=>resetCrop(0));
+  $('resetAfter').addEventListener('click',()=>resetCrop(1));
+  $('applyCrop').addEventListener('click',applyCrop);
+  $('editCrop').addEventListener('click',reframePhotos);
   $('removeBefore').addEventListener('click',()=>removeSelectedPhoto('beforePhoto'));
   $('removeAfter').addEventListener('click',()=>removeSelectedPhoto('afterPhoto'));
   $('removeCollage').addEventListener('click',removeEntireCollage);
   $('afterPhoto').addEventListener('change',prepareCollage);
-  $('photoReview').addEventListener('change',()=>{
-    if($('beforePhoto').files[0]&&$('afterPhoto').files[0])prepareCollage();
-  });
-  $('pName').addEventListener('change',()=>{
-    if($('beforePhoto').files[0]&&$('afterPhoto').files[0])prepareCollage();
-  });
+  $('photoReview').addEventListener('change',refreshCollageContent);
+  $('pName').addEventListener('change',refreshCollageContent);
 
   load();
   bind();
