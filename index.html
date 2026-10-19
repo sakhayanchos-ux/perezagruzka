@@ -255,7 +255,7 @@
         <button class="action-btn main" id="sharePhotos" type="button" disabled>📲 Отправить коллаж Виктории</button>
         <button class="action-btn light" id="downloadCollage" type="button" disabled>📥 Скачать коллаж</button>
       </div>
-      <p class="share-hint" id="shareStatus" aria-live="polite">Выберите фото ДО и ПОСЛЕ. Коллаж появится автоматически. Кнопка «Отправить коллаж Виктории» сразу откроет отправку: выберите WhatsApp и чат Виктории Никитиной, затем подтвердите отправку. Фото не загружаются на сайт.</p>
+      <p class="share-hint" id="shareStatus" aria-live="polite">Выберите фото ДО и ПОСЛЕ. Коллаж появится автоматически. Кнопка «Отправить коллаж Виктории» открывает сразу её чат WhatsApp, как отправка звёзд. Коллаж сохраняется отдельным файлом: прикрепите его через «+» в чате и нажмите «Отправить». WhatsApp не разрешает сайту автоматически прикреплять фото. Фото не загружаются на сайт.</p>
     </div>
   </section>
 
@@ -708,37 +708,17 @@
       return;
     }
     const review=$('photoReview').value.trim();
-    const text='Здравствуйте, Виктория! Отправляю коллаж ДО / ПОСЛЕ. Участник: '
-      +getReport().name+'.'+(review?'\nМой отзыв: '+review:'')
-      +'\nМарафон «Перезагрузка».';
-    const file=collageReady.file;
-    // Calling navigator.share synchronously from the tap preserves iPhone user activation.
-    if(typeof navigator.share==='function'){
-      let shareable=true;
-      if(typeof navigator.canShare==='function'){
-        try{shareable=navigator.canShare({files:[file]})}catch(e){shareable=false}
-      }
-      if(shareable){
-        try{
-          status.textContent='Открыта отправка: выберите WhatsApp → чат Виктории Никитиной → Отправить.';
-          const shareResult=navigator.share({files:[file],title:'Коллаж ДО и ПОСЛЕ · Перезагрузка',text:text});
-          Promise.resolve(shareResult).then(()=>{
-            status.textContent='Окно отправки закрыто. Проверьте в WhatsApp, что коллаж действительно отправился Виктории Никитиной.';
-          }).catch(error=>{
-            if(error&&error.name==='AbortError'){
-              status.textContent='Отправка отменена — коллаж остался здесь. Можно попробовать ещё раз.';
-            }else{
-              status.textContent='Не удалось открыть отправку файлов. Нажмите «Скачать коллаж», затем отправьте его через WhatsApp Виктории.';
-            }
-          });
-          return;
-        }catch(error){}
-      }
-    }
-    // Browsers cannot automatically upload/attach images to a particular WhatsApp chat.
-    // Fall back to a local download plus Victoria's WhatsApp conversation.
+    const name=getReport().name;
+    const text='Здравствуйте, Виктория! Отправляю мой коллаж ДО / ПОСЛЕ.\n'
+      +'Участник: '+name+'.'
+      +(review?'\nМой отзыв: '+review:'')
+      +'\nМарафон «Перезагрузка».\n'
+      +'Коллаж прикреплю отдельной фотографией.';
+    // Use the exact same wa.me direct-chat mechanism as "Отправить звёзды Виктории".
+    // WhatsApp click-to-chat URLs do not support attaching local image files.
+    // Offer the generated image locally so the participant can attach it in that chat.
     saveBlob(collageReady.blob,collageReady.filename);
-    status.textContent='Коллаж скачан. Откройте чат Виктории и прикрепите скачанную картинку вручную. Сайт не может прикрепить её в WhatsApp без вашего участия.';
+    status.textContent='Чат Виктории откроется в WhatsApp с готовым сообщением. Коллаж сохранён для прикрепления: добавьте его через «+» и подтвердите отправку.';
     openWhatsApp(text);
   }
   $('downloadStars').addEventListener('click',exportCsv);
