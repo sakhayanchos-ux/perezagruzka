@@ -117,6 +117,11 @@
   .photo-field input[type=file]{font-size:.75rem}
   .photo-field textarea{font-family:inherit;font-size:.9rem;resize:vertical}
   .share-hint{margin:11px 0 0!important}
+  .collage-preview-box{margin:12px 0 6px;background:#fff9f6;border:1px solid #e3b6af;border-radius:16px;padding:11px}
+  .collage-preview-box[hidden]{display:none!important}
+  .collage-heading{font-size:.86rem;color:#942853;font-weight:800;margin:0 0 8px;text-align:center}
+  .collage-preview{display:block;width:100%;height:auto;border-radius:11px;border:1px solid #e9bcbd;box-shadow:0 4px 12px rgba(98,30,62,.11)}
+  .action-btn:disabled{cursor:default;opacity:.52;box-shadow:none}
   @media(max-width:520px){.photo-inputs{grid-template-columns:1fr}.action-btn{flex-basis:100%}}
 
 
@@ -217,11 +222,16 @@
         <label class="photo-field">Фото ПОСЛЕ<input type="file" accept="image/*" id="afterPhoto"></label>
       </div>
       <label class="photo-field">Ваш отзыв<textarea id="photoReview" placeholder="Напишите короткий отзыв (необязательно)" rows="3"></textarea></label>
-      <div class="action-buttons">
-        <button class="action-btn main" id="sharePhotos" type="button">💌 Поделиться фото с Викторией</button>
-        <a class="action-btn light" href="https://wa.me/79247611616" target="_blank" rel="noopener noreferrer">💬 Открыть WhatsApp Виктории</a>
+      <div class="collage-preview-box" id="collageBox" hidden>
+        <div class="collage-heading">✨ Ваш готовый коллаж</div>
+        <canvas class="collage-preview" id="collagePreview" width="1200" height="1300" aria-label="Предварительный просмотр коллажа до и после"></canvas>
       </div>
-      <p class="share-hint" id="shareStatus" aria-live="polite">При отправке фото выберите WhatsApp и чат Виктории Никитиной. Если обмен файлами не поддерживается, откроется чат — прикрепите фотографии вручную. Фото не загружаются и не хранятся на сайте.</p>
+      <div class="action-buttons">
+        <button class="action-btn main" id="sharePhotos" type="button" disabled>📲 Отправить коллаж Виктории</button>
+        <button class="action-btn light" id="downloadCollage" type="button" disabled>📥 Скачать коллаж</button>
+        <a class="action-btn light" href="https://wa.me/79247611616" target="_blank" rel="noopener noreferrer">💬 WhatsApp Виктории</a>
+      </div>
+      <p class="share-hint" id="shareStatus" aria-live="polite">Выберите оба фото — сайт сам соберёт один коллаж «ДО / ПОСЛЕ». Затем нажмите «Отправить», выберите WhatsApp и чат Виктории Никитиной. Фото обрабатываются только на вашем телефоне и на сайт не загружаются.</p>
     </div>
   </section>
 
@@ -513,37 +523,196 @@
   function sendStars(){
     openWhatsApp(reportText()+'\n\nВиктория, проверьте, пожалуйста, мой результат ⭐');
   }
-  async function sharePhotos(){
-    const photos=[$('beforePhoto').files[0],$('afterPhoto').files[0]].filter(Boolean);
-    const status=$('shareStatus');
+  // The photos never leave this device while the collage is being assembled.
+  let collageReady = null;
+  let collageVersion = 0;
+
+  function roundedPath(ctx,x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.lineTo(x+w-r,y);
+    ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+    ctx.lineTo(x+w,y+h-r);
+    ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    ctx.lineTo(x+r,y+h);
+    ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+    ctx.lineTo(x,y+r);
+    ctx.quadraticCurveTo(x,y,x+r,y);
+    ctx.closePath();
+  }
+  function photoFromFile(file){
+    return new Promise((resolve,reject)=>{
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = ()=>{URL.revokeObjectURL(url);resolve(img)};
+      img.onerror = ()=>{URL.revokeObjectURL(url);reject(new Error('Не удалось открыть изображение: '+file.name))};
+      img.src = url;
+    });
+  }
+  function paintPhoto(ctx,img,x,y,w,h){
+    const scale = Math.min(w/img.naturalWidth,h/img.naturalHeight);
+    const iw = img.naturalWidth*scale;
+    const ih = img.naturalHeight*scale;
+    ctx.fillStyle='#fffaf7';
+    ctx.fillRect(x,y,w,h);
+    // Contain (rather than cover) preserves the entire picture and the person's original face.
+    ctx.drawImage(img,x+(w-iw)/2,y+(h-ih)/2,iw,ih);
+  }
+  function wrapCaption(ctx,message,x,y,width,lineHeight,maxLines){
+    const words=message.trim().split(/\s+/).filter(Boolean);
+    const lines=[];
+    let line='';
+    for(const word of words){
+      const candidate=line?line+' '+word:word;
+      if(ctx.measureText(candidate).width>width&&line){
+        lines.push(line);
+        line=word;
+      }else{line=candidate}
+    }
+    if(line)lines.push(line);
+    for(let i=0;i<Math.min(lines.length,maxLines);i++){
+      let txt=lines[i];
+      if(i===maxLines-1&&lines.length>maxLines)txt=txt.replace(/[\s.,!?]+$/,'')+'…';
+      ctx.fillText(txt,x,y+i*lineHeight);
+    }
+  }
+  function paintCollage(canvas,before,after){
+    const c=canvas.getContext('2d');
+    const W=canvas.width,H=canvas.height;
+    c.clearRect(0,0,W,H);
+    const bg=c.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,'#fff9f4');bg.addColorStop(.52,'#ffe3ea');bg.addColorStop(1,'#f4afc8');
+    c.fillStyle=bg;c.fillRect(0,0,W,H);
+    c.strokeStyle='#ce9a58';c.lineWidth=5;
+    roundedPath(c,24,24,W-48,H-48,46);c.stroke();
+
+    c.textAlign='center';c.fillStyle='#a0184d';
+    c.font='bold 65px Georgia,serif';c.fillText('ПЕРЕЗАГРУЗКА',W/2,106);
+    c.fillStyle='#9d4b67';c.font='bold 34px Arial,sans-serif';
+    c.fillText('МОИ ИЗМЕНЕНИЯ · ДО И ПОСЛЕ',W/2,166);
+    const name=$('pName').value.trim();
+    if(name){c.fillStyle='#752c49';c.font='31px Arial,sans-serif';c.fillText(name.slice(0,42),W/2,212)}
+
+    const top=252,photoHeight=730,boxWidth=526,photoX=[57,617];
+    for(let i=0;i<2;i++){
+      const x=photoX[i];
+      c.fillStyle='#fffaf7';
+      roundedPath(c,x,top,boxWidth,photoHeight+66,24);c.fill();
+      c.save();
+      roundedPath(c,x+11,top+11,boxWidth-22,photoHeight-22,17);c.clip();
+      paintPhoto(c,i===0?before:after,x+11,top+11,boxWidth-22,photoHeight-22);
+      c.restore();
+      c.strokeStyle='#d7a76f';c.lineWidth=3;
+      roundedPath(c,x,top,boxWidth,photoHeight+66,24);c.stroke();
+      c.fillStyle='#a62b5b';c.font='bold 39px Arial,sans-serif';c.fillText(i===0?'ДО':'ПОСЛЕ',x+boxWidth/2,top+photoHeight+37);
+    }
     const review=$('photoReview').value.trim();
-    const text='Фото ДО/ПОСЛЕ. '+$('pName').value.trim()+'\n'+(review?'Отзыв: '+review+'\n':'')+'Звёзды: '+getReport().total+' ⭐';
-    if(photos.length===0){
-      status.textContent='Выберите фото «до» и «после» для отправки.';
-      return;
-    }
-    if(photos.length<2){
-      status.textContent='Для полного отчёта выберите оба фото: «до» и «после».';
-      return;
-    }
-    if(navigator.share&&navigator.canShare&&navigator.canShare({files:photos})){
-      try{
-        await navigator.share({files:photos,title:'Фото до и после · Марафон стройности',text:text+'\nПолучатель: Виктория Никитина'});
-        status.textContent='Фото переданы в выбранное вами приложение. Убедитесь, что адресат — Виктория Никитина.';
-      }catch(err){
-        if(err&&err.name!=='AbortError'){
-          status.textContent='Не удалось поделиться файлами. Откройте чат Виктории и прикрепите фото вручную.';
-        }
-      }
+    if(review){
+      c.textAlign='left';c.fillStyle='#78384f';c.font='29px Arial,sans-serif';
+      wrapCaption(c,'“'+review+'”',70,1100,W-140,43,3);
     }else{
-      status.textContent='Ваш браузер не поддерживает отправку выбранных фото. Сейчас откроется WhatsApp Виктории: прикрепите оба фото из галереи вручную.';
-      openWhatsApp('Здравствуйте, Виктория! Отправляю фото ДО и ПОСЛЕ. '+text);
+      c.textAlign='center';c.fillStyle='#8e4967';c.font='30px Arial,sans-serif';
+      c.fillText('Каждый шаг — это движение к цели ✨',W/2,1118);
     }
+    c.textAlign='center';c.fillStyle='#a42356';c.font='bold 27px Arial,sans-serif';
+    c.fillText('МАРАФОН СТРОЙНОСТИ · 2026',W/2,1247);
+  }
+  function canvasPng(canvas){
+    return new Promise((resolve,reject)=>{
+      canvas.toBlob(blob=>blob?resolve(blob):reject(new Error('Не удалось сохранить коллаж')),'image/png');
+    });
+  }
+  async function prepareCollage(){
+    const version=++collageVersion;
+    collageReady=null;
+    $('sharePhotos').disabled=true;
+    $('downloadCollage').disabled=true;
+    const box=$('collageBox');
+    const status=$('shareStatus');
+    const before=$('beforePhoto').files[0],after=$('afterPhoto').files[0];
+    if(!before||!after){
+      box.hidden=true;
+      status.textContent='Выберите фото ДО и ПОСЛЕ — коллаж соберётся автоматически.';
+      return;
+    }
+    status.textContent='⏳ Собираю коллаж из ваших фотографий…';
+    try{
+      const images=await Promise.all([photoFromFile(before),photoFromFile(after)]);
+      if(version!==collageVersion)return;
+      const canvas=$('collagePreview');
+      paintCollage(canvas,images[0],images[1]);
+      const blob=await canvasPng(canvas);
+      if(version!==collageVersion)return;
+      const filename='perezagruzka_do_posle_'+getReport().name.replace(/[^a-zA-Zа-яА-ЯёЁ0-9_-]+/g,'_').slice(0,40)+'.png';
+      const file=new File([blob],filename,{type:'image/png'});
+      collageReady={file,blob,filename};
+      box.hidden=false;
+      $('sharePhotos').disabled=false;
+      $('downloadCollage').disabled=false;
+      status.textContent='✅ Коллаж готов! Нажмите «Отправить коллаж Виктории», затем выберите WhatsApp и чат Виктории Никитиной. Сайт не отправляет фото без вашего подтверждения.';
+    }catch(error){
+      if(version!==collageVersion)return;
+      box.hidden=true;
+      status.textContent='Не получилось создать коллаж. Попробуйте выбрать фотографии в формате JPG или PNG.';
+    }
+  }
+  function downloadCollage(){
+    if(!collageReady)return;
+    saveBlob(collageReady.blob,collageReady.filename);
+    $('shareStatus').textContent='Коллаж скачан. Теперь его можно отправить Виктории в WhatsApp.';
+  }
+  function sharePhotos(){
+    const status=$('shareStatus');
+    if(!collageReady){
+      status.textContent='Сначала выберите обе фотографии и дождитесь готового коллажа.';
+      return;
+    }
+    const review=$('photoReview').value.trim();
+    const text='Здравствуйте, Виктория! Отправляю коллаж ДО / ПОСЛЕ. Участник: '
+      +getReport().name+'.'+(review?'\nМой отзыв: '+review:'')
+      +'\nМарафон «Перезагрузка».';
+    const file=collageReady.file;
+    // Calling navigator.share synchronously from the tap preserves iPhone user activation.
+    if(typeof navigator.share==='function'){
+      let shareable=true;
+      if(typeof navigator.canShare==='function'){
+        try{shareable=navigator.canShare({files:[file]})}catch(e){shareable=false}
+      }
+      if(shareable){
+        try{
+          const shareResult=navigator.share({files:[file],title:'Коллаж ДО и ПОСЛЕ · Перезагрузка',text:text+'\nПолучатель: Виктория Никитина'});
+          Promise.resolve(shareResult).then(()=>{
+            status.textContent='Вы выбрали приложение для отправки. Проверьте, что коллаж отправлен в чат Виктории Никитиной.';
+          }).catch(error=>{
+            if(error&&error.name==='AbortError'){
+              status.textContent='Отправка отменена — коллаж остался здесь. Можно попробовать ещё раз.';
+            }else{
+              status.textContent='Не удалось открыть отправку файлов. Нажмите «Скачать коллаж», затем отправьте его через WhatsApp Виктории.';
+            }
+          });
+          return;
+        }catch(error){}
+      }
+    }
+    // Browsers cannot automatically upload/attach images to a particular WhatsApp chat.
+    // Fall back to a local download plus Victoria's WhatsApp conversation.
+    saveBlob(collageReady.blob,collageReady.filename);
+    status.textContent='Коллаж скачан. Откройте чат Виктории и прикрепите скачанную картинку вручную. Сайт не может прикрепить её в WhatsApp без вашего участия.';
+    openWhatsApp(text);
   }
   $('downloadStars').addEventListener('click',exportCsv);
   $('downloadCard').addEventListener('click',drawCard);
   $('sendStars').addEventListener('click',sendStars);
   $('sharePhotos').addEventListener('click',sharePhotos);
+  $('downloadCollage').addEventListener('click',downloadCollage);
+  $('beforePhoto').addEventListener('change',prepareCollage);
+  $('afterPhoto').addEventListener('change',prepareCollage);
+  $('photoReview').addEventListener('change',()=>{
+    if($('beforePhoto').files[0]&&$('afterPhoto').files[0])prepareCollage();
+  });
+  $('pName').addEventListener('change',()=>{
+    if($('beforePhoto').files[0]&&$('afterPhoto').files[0])prepareCollage();
+  });
 
   load();
   bind();
