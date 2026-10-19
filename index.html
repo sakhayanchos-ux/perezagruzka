@@ -3,175 +3,198 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>ШЁЛКОВЫЙ ПУТЬ</title>
+  <title>Совместный марафон стройности — трекер</title>
   
-  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%D0%A8%D0%81%D0%9B%D0%9A%D0%9E%D0%92%D0%AB%D0%99%20%D0%9F%D0%A3%D0%A2%D0%AC%22%2C%22short_name%22%3A%22%D0%A8%D0%81%D0%9B%D0%9A%D0%9E%D0%92%D0%AB%D0%99%20%D0%9F%D0%A3%D0%A2%D0%AC%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%232D1B0E%22%2C%22theme_color%22%3A%22%232D1B0E%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg' viewBox%3D'0 0 512 512'%253E%253Crect fill%3D'%25232D1B0E' width%3D'512' height%3D'512' rx%3D'100'%2F%253E%253Ctext x%3D'256' y%3D'350' text-anchor%3D'middle' fill%3D'%2523DAA520' font-size%3D'280' font-family%3D'Arial'%253E%F0%9F%95%8C%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%D0%A1%D0%BE%D0%B2%D0%BC%D0%B5%D1%81%D1%82%D0%BD%D1%8B%D0%B9%20%D0%BC%D0%B0%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BD%D0%BE%D1%81%D1%82%D0%B8%22%2C%22short_name%22%3A%22%D0%9C%D0%B0%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BD%D0%BE%D1%81%D1%82%D0%B8%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23F8E6E6%22%2C%22theme_color%22%3A%22%23A61852%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%253D%2522http%253A%252F%252Fwww.w3.org%252F2000%252Fsvg%2522%2520viewBox%253D%25220%25200%2520512%2520512%2522%253E%253Crect%2520width%253D%2522512%2522%2520height%253D%2522512%2522%2520rx%253D%2522106%2522%2520fill%253D%2522%2523A61852%2522%252F%253E%253Ctext%2520x%253D%2522256%2522%2520y%253D%2522348%2522%2520text-anchor%253D%2522middle%2522%2520font-size%253D%2522300%2522%2520fill%253D%2522%2523F6C67D%2522%253E%25E2%2598%2585%253C%252Ftext%253E%253C%252Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="ШЁЛКОВЫЙ ПУТЬ">
-  <meta name="theme-color" content="#2D1B0E">
+  <meta name="apple-mobile-web-app-title" content="Марафон стройности">
+  <meta name="theme-color" content="#A61852">
   
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: #2D1B0E;
-      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><pattern id="darkgold" x="0" y="0" width="300" height="300" patternUnits="userSpaceOnUse"><rect width="300" height="300" fill="%232D1B0E"/><path d="M0 150 Q75 50 150 150 T300 150" stroke="%23DAA520" stroke-width="0.8" fill="none" opacity="0.15"/><circle cx="150" cy="150" r="60" stroke="%23DAA520" stroke-width="0.8" fill="none" opacity="0.1"/><path d="M0 0 Q150 120 300 0" stroke="%238B3A3A" stroke-width="1.5" fill="none" opacity="0.2"/></pattern></defs><rect width="400" height="300" fill="url(%23darkgold)"/></svg>');
-      background-size: cover;
-      background-attachment: fixed;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      padding: 16px 8px 40px;
-      color: #3D2B1A;
-      line-height: 1.3;
-    }
-    .container { max-width: 650px; margin: 0 auto; }
-    h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 4px; text-align: center; color: #DAA520; text-shadow: 2px 2px 4px #000; }
-    .subhead { color: #DAA520; margin-bottom: 16px; text-align: center; font-size: 0.85rem; }
-    
-    .section {
-      background: rgba(245, 230, 200, 0.92);
-      border-radius: 24px; padding: 14px; margin: 10px 0;
-      border: 2px solid #DAA520;
-    }
-    .section-title { font-weight: 700; font-size: 1.1rem; color: #8B3A3A; margin-bottom: 8px; border-bottom: 2px solid #DAA520; padding-bottom: 5px; text-align: center; }
-    
-    .row { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-bottom: 5px; }
-    .field { display: flex; align-items: baseline; gap: 4px; }
-    .field label { font-weight: 600; color: #8B3A3A; font-size: 0.8rem; white-space: nowrap; }
-    input, select { padding: 6px 10px; border: 1px solid #DAA520; border-radius: 12px; font-size: 0.85rem; background: #FFF5E6; color: #3D2B1A; width: 100%; max-width: 150px; }
-    input:focus, select:focus { border-color: #8B3A3A; outline: none; }
-    
-    .weight-block { background: rgba(139,58,58,0.08); border-radius: 14px; padding: 10px; margin-top: 8px; text-align: center; border: 1px solid #DAA520; }
-    .weight-row { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
-    .weight-result { font-weight: 700; color: #8B3A3A; font-size: 0.85rem; }
-    
-    .table-container { overflow-x: auto; border-radius: 14px; border: 1px solid #DAA520; margin-top: 6px; }
-    table { border-collapse: collapse; font-size: 0.4rem; width: 100%; min-width: 1050px; }
-    th { background: #8B3A3A; color: #FFF5E6; padding: 5px 1px; font-weight: 600; text-align: center; white-space: nowrap; }
-    td { padding: 3px 1px; border-bottom: 1px solid #DAA520; text-align: center; background: rgba(255, 245, 230, 0.9); }
-    .sticky-col { position: sticky; left: 0; background: #F5E6C8; z-index: 2; }
-    th.sticky-col { background: #8B3A3A; z-index: 3; }
-    .sticky-col2 { position: sticky; left: 45px; background: #F5E6C8; z-index: 2; }
-    th.sticky-col2 { background: #8B3A3A; z-index: 3; }
-    td input { width: 35px; padding: 2px; text-align: center; border: 1px solid #DAA520; border-radius: 4px; font-size: 0.38rem; color: #3D2B1A; background: #FFF5E6; }
-    td input[type="checkbox"] { width: 13px; height: 13px; accent-color: #8B3A3A; }
-    .date-col { font-weight: 600; color: #8B3A3A; font-size: 0.45rem; }
-    .day-col { font-weight: 500; color: #B8860B; font-size: 0.4rem; }
-    
-    .special-block { background: rgba(218,165,32,0.12); border-radius: 14px; padding: 10px; margin: 8px 0; border: 1px solid #DAA520; }
-    .special-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; flex-wrap: wrap; }
-    .special-label { font-weight: 600; color: #8B3A3A; font-size: 0.7rem; }
-    .special-row input[type="checkbox"] { width: 17px; height: 17px; accent-color: #8B3A3A; }
-    .special-row input[type="number"] { width: 50px; padding: 4px; text-align: center; border: 1px solid #DAA520; border-radius: 8px; background: #FFF5E6; color: #3D2B1A; font-size: 0.7rem; }
-    .special-row span { color: #8B3A3A; font-weight: 600; }
-    
-    .total-box {
-      background: linear-gradient(135deg, #8B3A3A, #B8860B);
-      color: #FFF5E6; padding: 14px 16px; border-radius: 30px;
-      text-align: center; margin: 14px 0; border: 2px solid #DAA520;
-    }
-    .total-label { font-size: 0.85rem; opacity: 0.9; }
-    .total-value { font-size: 2.5rem; font-weight: 800; line-height: 1.2; }
-    
-    .footer { text-align: center; margin-top: 8px; color: #DAA520; font-size: 0.65rem; opacity: 0.9; }
-    .footer a { color: #DAA520; text-decoration: none; }
-    .note { font-size: 0.5rem; color: #8B3A3A; margin: 6px 0; text-align: center; opacity: 0.7; }
-  </style>
+  :root { --wine:#831e40;--berry:#bc2158;--pink:#ed78a0;--blush:#ffe4e9;--cream:#fff7ef;--gold:#bf8642;--goldlight:#f3cf91;--ink:#55223b; }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;padding:18px 10px 36px;color:var(--ink);line-height:1.42;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:radial-gradient(ellipse at 0% 1%,#f7afc5 0,transparent 42%),
+    radial-gradient(ellipse at 100% 33%,#fff4e4 0,transparent 44%),
+    radial-gradient(ellipse at 3% 95%,#ed94b2 0,transparent 42%),
+    linear-gradient(145deg,#ffe2e8,#fdf3ed 38%,#f9bfd0 100%);min-height:100vh}
+  body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.24;background:
+    repeating-linear-gradient(133deg,transparent 0,transparent 118px,rgba(255,255,255,.52) 122px,transparent 154px);
+    mask-image:linear-gradient(to bottom,#000,transparent 76%)}
+  .container{position:relative;max-width:920px;margin:0 auto}
+  .hero,.section,.total-box{position:relative;overflow:hidden;border:1px solid rgba(189,132,66,.65);box-shadow:0 9px 28px rgba(121,43,75,.12)}
+  .hero{border-radius:27px;padding:26px 18px 22px;text-align:center;background:
+    radial-gradient(ellipse at 95% -18%,rgba(255,255,255,.96),transparent 61%),
+    radial-gradient(ellipse at 0 95%,rgba(233,69,123,.25),transparent 58%),
+    linear-gradient(138deg,#fff8f0,#ffe3e8 55%,#fac5d8)}
+  .hero:before,.hero:after{content:"";position:absolute;border:1px solid rgba(191,134,66,.38);border-radius:50%;pointer-events:none}
+  .hero:before{width:420px;height:160px;transform:rotate(-20deg);top:-98px;right:-170px;box-shadow:0 0 0 24px rgba(248,172,193,.12)}
+  .hero:after{width:370px;height:135px;transform:rotate(29deg);bottom:-107px;left:-125px;box-shadow:0 0 0 20px rgba(255,255,255,.23)}
+  .eyebrow{position:relative;z-index:1;color:var(--wine);font-size:.8rem;font-weight:650;letter-spacing:.35em;text-transform:uppercase}
+  .hero h1{position:relative;z-index:1;margin:8px auto 4px;max-width:880px;font-family:Georgia,"Times New Roman",serif;
+    font-size:clamp(2rem,8vw,4.8rem);font-weight:700;line-height:.98;letter-spacing:-.055em;color:var(--berry);text-shadow:0 2px 0 rgba(255,255,255,.64)}
+  .hero h1 span{display:block;color:var(--gold);font-size:.83em;letter-spacing:-.045em}
+  .subhead{position:relative;z-index:1;display:inline-block;margin:12px auto 8px;padding:7px 17px;color:var(--wine);letter-spacing:.19em;
+    text-transform:uppercase;font-weight:600;font-size:.74rem;border-radius:99px;background:rgba(255,212,221,.7);border:1px solid #f5bfce}
+  .hero-bottom{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px 16px;margin-top:5px;font-size:.83rem}
+  .hero-bottom strong{color:var(--wine)}
+  .hero-price{background:linear-gradient(135deg,#9b1749,#cc3567);color:#fff6e9;padding:8px 17px;border:1px solid var(--goldlight);border-radius:50px;box-shadow:0 3px 10px #9b174933}
+  .section{background:rgba(255,250,248,.94);border-radius:24px;padding:18px;margin:13px 0}
+  .section-title{font-weight:800;font-size:1.03rem;letter-spacing:.04em;color:var(--wine);margin:0 0 13px;padding-bottom:10px;border-bottom:1px solid #eab6b7}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:9px}
+  .field{display:flex;flex:1 1 180px;flex-direction:column;gap:5px}
+  label,.special-label{font-weight:650;font-size:.8rem;color:var(--wine)}
+  input,select{background:#fffaf8;color:var(--ink);border:1px solid #e7bdbe;border-radius:12px;font:inherit;font-size:.91rem;padding:10px 12px;max-width:100%;min-width:0}
+  .field input{width:100%}
+  input:focus-visible{outline:3px solid #ee91b7;outline-offset:1px;border-color:var(--berry)}
+  input[type="checkbox"]{accent-color:var(--berry);width:19px;height:19px;cursor:pointer}
+  .weight-block{background:linear-gradient(115deg,#fff0e9,#ffe5ec);border:1px solid #f0c6c6;border-radius:16px;padding:13px}
+  .weight-row{display:flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:7px}
+  .weight-row input{width:95px;font-size:.93rem}
+  .weight-row strong{color:var(--wine);font-size:.83rem}
+  .weight-result{display:inline-block;margin:3px 0;padding:8px 10px;border-radius:12px;font-weight:800;color:#971d52;background:#fff9f0;font-size:.89rem}
+  .reward-guide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:16px}
+  .reward-card{padding:10px 11px;background:linear-gradient(155deg,#fff7f6,#ffe9ef);border:1px solid #f0c3c5;border-radius:16px}
+  .reward-card:last-child{grid-column:1 / -1}
+  .reward-score{font-family:Georgia,serif;color:var(--berry);font-size:1.9rem;font-weight:700;line-height:1.1;white-space:nowrap}
+  .reward-list{margin-top:5px;color:#722944;font-size:.76rem;line-height:1.47;overflow-wrap:anywhere}
+  .table-container{width:100%;overflow-x:auto;border:1px solid #e8b8b8;border-radius:13px;overscroll-behavior-x:contain;scrollbar-color:#c84078 #ffe4eb}
+  table{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;font-size:.75rem}
+  th,td{border-right:1px solid #f0d5d4;border-bottom:1px solid #f0d5d4;text-align:center;min-width:81px;padding:7px 5px}
+  th{position:sticky;top:0;z-index:1;background:linear-gradient(145deg,#971d4e,#ca3c73);color:#fff4e6;font-size:.72rem;line-height:1.18;white-space:normal}
+  th small{display:block;margin-top:4px;color:#ffe6b3;font-size:.7rem}
+  tbody tr:nth-child(even) td{background:#fff0f2}
+  tbody tr:nth-child(odd) td{background:#fffbf8}
+  .sticky-col,.sticky-col2{position:sticky;z-index:3;min-width:72px;width:72px;left:0;background:#fff8f4!important;font-weight:750;color:var(--wine)}
+  .sticky-col2{z-index:3;left:72px;min-width:55px;width:55px}
+  th.sticky-col,th.sticky-col2{z-index:5;background:var(--wine)!important;color:white}
+  td input[type="number"]{width:68px;text-align:center;padding:7px 4px;border-radius:7px;font-size:.86rem}
+  td input[type="checkbox"]{width:19px;height:19px}
+  .note{margin:9px 0 0;color:#98516c;font-size:.76rem}
+  .special-block{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .special-row{display:flex;align-items:center;flex-wrap:wrap;gap:9px;border:1px solid #f2cbd0;border-radius:12px;background:#fff2f3;padding:10px}
+  .special-row .special-label{flex:1 1 150px}
+  .special-row span:last-child{color:var(--berry);font-weight:800;white-space:nowrap}
+  .special-row input[type="number"]{width:65px;text-align:center;padding:7px}
+  .total-box{text-align:center;margin:16px 0;padding:22px 16px;border-radius:24px;color:#fff7e7;background:
+    radial-gradient(ellipse at 90% 0,rgba(255,225,177,.24),transparent 42%),
+    linear-gradient(135deg,#921c4c,#c82d64 56%,#7f214a)}
+  .total-box:after{content:"✦";position:absolute;right:7%;top:14%;font-size:3rem;color:#ffd99a;opacity:.8}
+  .total-label{color:#ffebd2;font-size:.87rem;letter-spacing:.17em;font-weight:750}
+  .total-value{font-family:Georgia,serif;font-size:clamp(3rem,12vw,5rem);line-height:1.1;font-weight:700}
+  .footer{text-align:center;color:#8b4560;font-size:.74rem;margin:19px 8px}
+  .footer a{color:#9e2356;font-weight:700}
+  @media(min-width:700px){.hero{padding:35px 32px}.section{padding:23px}.reward-guide{grid-template-columns:repeat(3,minmax(0,1fr))}.reward-card:last-child{grid-column:auto}}
+  @media(max-width:520px){body{padding:8px 7px 28px}.hero{padding:24px 10px 20px;border-radius:20px}.section{padding:13px 10px;border-radius:19px;margin:10px 0}.special-block{grid-template-columns:1fr}
+    .reward-card{padding:9px}.reward-score{font-size:1.7rem}.reward-list{font-size:.72rem}.sticky-col{min-width:64px;width:64px}.sticky-col2{min-width:49px;width:49px;left:64px}th,td{min-width:76px}}
+</style>
 </head>
 <body>
-<div class="container">
-  <h1>🕌 ШЁЛКОВЫЙ ПУТЬ</h1>
-  <div class="subhead">Марафон · 12–23 мая</div>
 
-  <div class="section">
+<div class="container">
+  <header class="hero">
+    <div class="eyebrow">Совместный</div>
+    <h1>МАРАФОН <span>СТРОЙНОСТИ</span></h1>
+    <div class="subhead">Тело · Энергия · Поддержка</div>
+    <div class="hero-bottom">
+      <span><strong>⭐ Звёздный трекер</strong> · 12–23 мая</span>
+      <span class="hero-price">Вход 899 ₽</span>
+      <span>Призы: LED-маска · смарт-очки · умное кольцо</span>
+    </div>
+  </header>
+
+  <section class="section">
     <div class="section-title">👤 УЧАСТНИК</div>
     <div class="row">
-      <div class="field"><label>👤 Имя</label><input type="text" id="pName" placeholder="Имя"></div>
-      <div class="field"><label>👩‍💼 Консультант</label><input type="text" id="pConsultant" placeholder="Консультант"></div>
-      <div class="field"><label>💰 Скидка</label><input type="text" id="pDiscount" placeholder="%"></div>
+      <div class="field"><label for="pName">👤 Имя</label><input type="text" id="pName" placeholder="Имя"></div>
+      <div class="field"><label for="pConsultant">👩‍💼 Консультант</label><input type="text" id="pConsultant" placeholder="Консультант"></div>
+      <div class="field"><label for="pDiscount">💰 Скидка</label><input type="text" id="pDiscount" placeholder="%"></div>
     </div>
     <div class="weight-block">
       <div class="weight-row">
-        <span style="color:#8B3A3A;font-weight:600;">⚖️ Вес начало:</span>
-        <input type="number" id="pStartWeight" placeholder="кг" step="0.1" style="width:75px;">
-        <span style="color:#8B3A3A;font-weight:600;">→ Конец:</span>
-        <input type="number" id="pEndWeight" placeholder="кг" step="0.1" style="width:75px;">
-        <span class="weight-result" id="weightResult">💪 0 🍃</span>
+        <strong>⚖️ Вес начало:</strong>
+        <input type="number" id="pStartWeight" min="0" placeholder="кг" step="0.1" aria-label="Начальный вес">
+        <strong>→ Конец:</strong>
+        <input type="number" id="pEndWeight" min="0" placeholder="кг" step="0.1" aria-label="Конечный вес">
+        <span class="weight-result" id="weightResult">⭐ 0 за снижение веса</span>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="section">
-    <div class="section-title">🍃 СОБИРАЕМ ЛЕПЕСТКИ 🍃</div>
-    <div class="table-container">
+  <section class="section">
+    <div class="section-title">⭐ ЗВЁЗДНАЯ СИСТЕМА</div>
+    <div class="reward-guide">
+      <div class="reward-card"><div class="reward-score">1 ★</div><div class="reward-list">Каждый 1 VP · каждые −300 г · ужин вечерним коктейлем · выпечка из продукта · Герби-напитки · Zoom и отзыв · друг на Zoom</div></div>
+      <div class="reward-card"><div class="reward-score">3 ★</div><div class="reward-list">Турбо-напиток · сторис с отметкой консультанта · репост друга</div></div>
+      <div class="reward-card"><div class="reward-score">5 ★</div><div class="reward-list">Друг на офлайн-мероприятии · онлайн-тренировка · день Хибера · Reels о проекте</div></div>
+      <div class="reward-card"><div class="reward-score">10 ★</div><div class="reward-list">10-дневный абонемент · друг на диагностике состава тела</div></div>
+      <div class="reward-card"><div class="reward-score">20 ★</div><div class="reward-list">Домашний клиент (алоэ, чай, коктейль) или месячный абонемент в клуб</div></div>
+      <div class="reward-card"><div class="reward-score">30 ★</div><div class="reward-list">VIP 300 — открыть промоушен «Байкал»</div></div>
+      <div class="reward-card"><div class="reward-score">50 ★</div><div class="reward-list">VIP 500 — открыть промоушен «Забугор-2»</div></div>
+    </div>
+    <div class="section-title">📅 ЕЖЕДНЕВНЫЙ ТРЕКЕР</div>
+    <div class="table-container" role="region" aria-label="Таблица звёзд по дням">
       <table>
-        <thead>
-          <tr>
-            <th class="sticky-col">📅</th><th class="sticky-col2">День</th>
-            <th>1 VP<br>=1🍃</th><th>Шёлк<br>5🍃</th><th>Турбо<br>5🍃</th>
-            <th>Ужин<br>5🍃</th><th>Сторис<br>5🍃</th><th>Репост<br>5🍃</th>
-            <th>ШП<br>10🍃</th><th>ДругШП<br>10🍃</th><th>АУ/ВВ<br>10🍃</th>
-            <th>ДругВВ<br>10🍃</th>
-            <th>Чек-ап<br>30🍃</th><th>👣Шаги<br>1🍃/500</th><th>Абонем<br>3/10/30🍃</th>
-          </tr>
-        </thead>
+        <thead><tr id="tableHead"><th class="sticky-col">Дата</th><th class="sticky-col2">День</th></tr></thead>
         <tbody id="tableBody"></tbody>
       </table>
     </div>
-    <div class="note">⬅️➡️ Листай таблицу вправо и влево. Заполняй каждый день!</div>
-  </div>
-
+    <div class="note">↔️ Прокручивай таблицу влево и вправо. Награды за вес и особые события прибавляются к общему счёту автоматически.</div>
+  </section>
   <div class="section">
     <div class="section-title">🎉 ОСОБЫЕ СОБЫТИЯ</div>
     <div class="special-block">
       <div class="special-row">
         <span class="special-label">🏔️ Пеший поход 16.05 сб</span>
-        <input type="checkbox" id="efir"> <span>20🍃</span>
+        <input type="checkbox" id="efir"> <span>20⭐</span>
       </div>
       <div class="special-row">
         <span class="special-label">👥 Друзья на поход 16.05 сб</span>
-        <input type="number" id="efirFriends" min="0" value="0"> <span>20🍃</span>
+        <input type="number" id="efirFriends" min="0" value="0"> <span>20⭐</span>
       </div>
       <div class="special-row">
         <span class="special-label">📹 Эфир с нутрициологом 17.05 вс</span>
-        <input type="checkbox" id="hike"> <span>20🍃</span>
+        <input type="checkbox" id="hike"> <span>20⭐</span>
       </div>
       <div class="special-row">
         <span class="special-label">👥 Друзья на эфир 17.05 вс</span>
-        <input type="number" id="hikeFriends" min="0" value="0"> <span>20🍃</span>
+        <input type="number" id="hikeFriends" min="0" value="0"> <span>20⭐</span>
       </div>
       <div class="special-row">
         <span class="special-label">💃 Онлайн танец 18.05 пн</span>
-        <input type="checkbox" id="dance1"> <span>30🍃</span>
+        <input type="checkbox" id="dance1"> <span>30⭐</span>
       </div>
       <div class="special-row">
         <span class="special-label">👥 Друзья на танец 18.05 пн</span>
-        <input type="number" id="dance1Friends" min="0" value="0"> <span>30🍃</span>
+        <input type="number" id="dance1Friends" min="0" value="0"> <span>30⭐</span>
       </div>
       <div class="special-row">
         <span class="special-label">💃 Онлайн танец 22.05 пт</span>
-        <input type="checkbox" id="dance2"> <span>30🍃</span>
+        <input type="checkbox" id="dance2"> <span>30⭐</span>
       </div>
       <div class="special-row">
         <span class="special-label">👥 Друзья на танец 22.05 пт</span>
-        <input type="number" id="dance2Friends" min="0" value="0"> <span>30🍃</span>
+        <input type="number" id="dance2Friends" min="0" value="0"> <span>30⭐</span>
       </div>
       <div class="special-row">
         <span class="special-label">🎓 Выпускной офлайн 23.05 сб</span>
-        <input type="checkbox" id="graduation"> <span>30🍃</span>
+        <input type="checkbox" id="graduation"> <span>30⭐</span>
       </div>
       <div class="special-row">
         <span class="special-label">📸 Фото до/после + отзыв до 23.05</span>
-        <input type="checkbox" id="photo"> <span>30🍃</span>
+        <input type="checkbox" id="photo"> <span>30⭐</span>
       </div>
       <div class="special-row">
         <span class="special-label">👑 Амбассадор до 23.05</span>
-        <input type="checkbox" id="ambassador"> <span>50🍃</span>
+        <input type="checkbox" id="ambassador"> <span>50⭐</span>
       </div>
     </div>
   </div>
 
   <div class="total-box">
-    <div class="total-label">🍃 ВСЕГО ЛЕПЕСТКОВ</div>
+    <div class="total-label">⭐ ВСЕГО ЗВЁЗД</div>
     <div class="total-value" id="totalPoints">0</div>
   </div>
 
@@ -181,140 +204,147 @@
 </div>
 
 <script>
-  (function(){
-    const STORAGE_KEY = 'silk_road_v11';
-    const DATES = ['12.05','13.05','14.05','15.05','16.05','17.05','18.05','19.05','20.05','21.05','22.05','23.05🎓'];
-    const DAYS = ['Вт','Ср','Чт','Пт','Сб','Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
-    
-    // [VP, шёлк, турбо, ужин, сторис(кол), репост(кол), шп, другШП(кол), ау, другВВ(кол), чекАп(кол), шаги(кол), абонемент]
-    let tableData = DATES.map(() => ['', false, false, false, 0, 0, false, 0, false, 0, 0, 0, 0]);
-    
-    function load() {
-      const s = localStorage.getItem(STORAGE_KEY);
-      if(s) { try { const p = JSON.parse(s); tableData = p.table || tableData; } catch(e){} }
-      document.getElementById('pName').value = localStorage.getItem('silk_v11_name') || '';
-      document.getElementById('pConsultant').value = localStorage.getItem('silk_v11_cons') || '';
-      document.getElementById('pDiscount').value = localStorage.getItem('silk_v11_disc') || '';
-      document.getElementById('pStartWeight').value = localStorage.getItem('silk_v11_ws') || '';
-      document.getElementById('pEndWeight').value = localStorage.getItem('silk_v11_we') || '';
-      ['efir','hike','dance1','dance2','graduation','photo','ambassador'].forEach(id => {
-        document.getElementById(id).checked = localStorage.getItem('silk_v11_'+id) === 'true';
-      });
-      ['efirFriends','hikeFriends','dance1Friends','dance2Friends'].forEach(id => {
-        document.getElementById(id).value = localStorage.getItem('silk_v11_'+id) || '0';
-      });
-      renderTable();
-      calc();
+(function(){
+  'use strict';
+  const STORAGE_KEY = 'slim_marathon_stars_v1';
+  const DATES = ['12.05','13.05','14.05','15.05','16.05','17.05','18.05','19.05','20.05','21.05','22.05','23.05🎓'];
+  const DAYS = ['Вт','Ср','Чт','Пт','Сб','Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+  const ACTIVITIES = [
+    {key:'vp',short:'VP',title:'Каждый 1 VP',points:1,type:'num'},
+    {key:'dinner',short:'Ужин',title:'Ужин вечерним коктейлем',points:1,type:'check'},
+    {key:'bake',short:'Выпечка',title:'Выпечка из продукта',points:1,type:'check'},
+    {key:'drink',short:'Герби',title:'Герби-напитки (количество)',points:1,type:'num'},
+    {key:'zoom',short:'Zoom',title:'Посещение Zoom и отзыв',points:1,type:'check'},
+    {key:'zoomFriend',short:'Друг Zoom',title:'Подключение друга к Zoom (количество)',points:1,type:'num'},
+    {key:'turbo',short:'Турбо',title:'Турбо-напиток',points:3,type:'check'},
+    {key:'story',short:'Сторис',title:'Статус / сторис с отметкой консультанта (количество)',points:3,type:'num'},
+    {key:'repost',short:'Репост',title:'Друг сделал репост готовых статусов (количество)',points:3,type:'num'},
+    {key:'offline',short:'Друг офлайн',title:'Приведи друга на офлайн-мероприятие (количество)',points:5,type:'num'},
+    {key:'training',short:'Тренировка',title:'Посещение онлайн-тренировки',points:5,type:'check'},
+    {key:'hiber',short:'Хибер',title:'День Хибера',points:5,type:'check'},
+    {key:'reels',short:'Reels',title:'Reels по тематике проекта',points:5,type:'check'},
+    {key:'sub10',short:'10 дней',title:'10-дневный абонемент',points:10,type:'check'},
+    {key:'diagnostic',short:'Диагностика',title:'Друг на диагностике состава тела (количество)',points:10,type:'num'},
+    {key:'homeClient',short:'Клиент / месяц',title:'Домашний клиент или месячный абонемент (количество)',points:20,type:'num'},
+    {key:'vip300',short:'VIP 300',title:'VIP 300 — промоушен Байкал',points:30,type:'check'},
+    {key:'vip500',short:'VIP 500',title:'VIP 500 — промоушен Забугор-2',points:50,type:'check'}
+  ];
+  const EVENT_POINTS = {efir:20,efirFriends:20,hike:20,hikeFriends:20,dance1:30,dance1Friends:30,dance2:30,dance2Friends:30,graduation:30,photo:30,ambassador:50};
+  const EVENT_IDS = Object.keys(EVENT_POINTS);
+  const PROFILE_IDS = ['pName','pConsultant','pDiscount','pStartWeight','pEndWeight'];
+  const PROFILE_STORAGE = {pName:'silk_v11_name',pConsultant:'silk_v11_cons',pDiscount:'silk_v11_disc',pStartWeight:'silk_v11_ws',pEndWeight:'silk_v11_we'};
+  const $ = id => document.getElementById(id);
+  const get = key => {try{return localStorage.getItem(key)}catch(e){return null}};
+  const set = (key,value) => {try{localStorage.setItem(key,String(value))}catch(e){}};
+  function normalise(item,value){
+    if(item.type === 'check')return value === true;
+    const n = Number(value);
+    return Number.isFinite(n) && n > 0 ? Math.floor(n) : 0;
+  }
+  function emptyDay(){
+    const day = {};
+    ACTIVITIES.forEach(item => {day[item.key] = item.type === 'check' ? false : 0});
+    return day;
+  }
+  let tableData = DATES.map(emptyDay);
+  function load(){
+    const stored = get(STORAGE_KEY);
+    if(stored){
+      try{
+        const parsed = JSON.parse(stored);
+        if(Array.isArray(parsed.table)){
+          tableData = DATES.map((_,i)=>{
+            const day = emptyDay();
+            const old = parsed.table[i] || {};
+            ACTIVITIES.forEach(item=>{day[item.key]=normalise(item,old[item.key])});
+            return day;
+          });
+        }
+      }catch(e){}
     }
-    
-    function save() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ table: tableData }));
-      localStorage.setItem('silk_v11_name', document.getElementById('pName').value);
-      localStorage.setItem('silk_v11_cons', document.getElementById('pConsultant').value);
-      localStorage.setItem('silk_v11_disc', document.getElementById('pDiscount').value);
-      localStorage.setItem('silk_v11_ws', document.getElementById('pStartWeight').value);
-      localStorage.setItem('silk_v11_we', document.getElementById('pEndWeight').value);
-      ['efir','hike','dance1','dance2','graduation','photo','ambassador'].forEach(id => {
-        localStorage.setItem('silk_v11_'+id, document.getElementById(id).checked);
+    PROFILE_IDS.forEach(id=>{$(id).value=get(PROFILE_STORAGE[id]) || ''});
+    EVENT_IDS.forEach(id=>{
+      const el=$(id);
+      if(el.type==='checkbox')el.checked=get('silk_v11_'+id)==='true';
+      else el.value=get('silk_v11_'+id) || '0';
+    });
+    renderTable();
+    calc();
+  }
+  function save(){
+    set(STORAGE_KEY,JSON.stringify({version:1,table:tableData}));
+    PROFILE_IDS.forEach(id=>set(PROFILE_STORAGE[id],$(id).value));
+    EVENT_IDS.forEach(id=>set('silk_v11_'+id,$(id).type==='checkbox'?$(id).checked:$(id).value));
+  }
+  function renderTable(){
+    let header='';
+    ACTIVITIES.forEach(item=>{
+      header+='<th scope="col" title="'+item.title+'">'+item.short+'<small>'+item.points+' ⭐</small></th>';
+    });
+    $('tableHead').innerHTML='<th class="sticky-col" scope="col">Дата</th><th class="sticky-col2" scope="col">День</th>'+header;
+    let rows='';
+    tableData.forEach((day,i)=>{
+      rows+='<tr><td class="sticky-col">'+DATES[i]+'</td><td class="sticky-col2">'+DAYS[i]+'</td>';
+      ACTIVITIES.forEach(item=>{
+        const desc=item.title+' — '+item.points+' звезд за выполнение, день '+DATES[i];
+        rows+='<td>';
+        if(item.type==='check'){
+          rows+='<input type="checkbox" data-day="'+i+'" data-col="'+item.key+'" aria-label="'+desc+'" '+(day[item.key]?'checked':'')+'>';
+        }else{
+          rows+='<input type="number" min="0" step="1" inputmode="numeric" data-day="'+i+'" data-col="'+item.key+'" aria-label="'+desc+'" value="'+day[item.key]+'" title="'+item.title+'">';
+        }
+        rows+='</td>';
       });
-      ['efirFriends','hikeFriends','dance1Friends','dance2Friends'].forEach(id => {
-        localStorage.setItem('silk_v11_'+id, document.getElementById(id).value);
+      rows+='</tr>';
+    });
+    $('tableBody').innerHTML=rows;
+  }
+  function calc(){
+    let total=0;
+    tableData.forEach(day=>{
+      ACTIVITIES.forEach(item=>{
+        const v=normalise(item,day[item.key]);
+        total+=item.points*(item.type==='check'?(v?1:0):v);
       });
-    }
-    
-    function renderTable() {
-      let html = '';
-      for(let i=0; i<tableData.length; i++) {
-        const row = tableData[i];
-        html += `<tr>`;
-        html += `<td class="sticky-col date-col">${DATES[i]}</td>`;
-        html += `<td class="sticky-col2 day-col">${DAYS[i]}</td>`;
-        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="0" value="${row[0]||''}" placeholder="0"></td>`;
-        for(let j=1; j<=3; j++) html += `<td><input type="checkbox" class="tbl" data-day="${i}" data-col="${j}" ${row[j]?'checked':''}></td>`;
-        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="4" value="${row[4]||0}" placeholder="0"></td>`;
-        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="5" value="${row[5]||0}" placeholder="0"></td>`;
-        html += `<td><input type="checkbox" class="tbl" data-day="${i}" data-col="6" ${row[6]?'checked':''}></td>`;
-        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="7" value="${row[7]||0}" placeholder="0"></td>`;
-        html += `<td><input type="checkbox" class="tbl" data-day="${i}" data-col="8" ${row[8]?'checked':''}></td>`;
-        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="9" value="${row[9]||0}" placeholder="0"></td>`;
-        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="10" value="${row[10]||0}" placeholder="0"></td>`;
-        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="11" value="${row[11]||0}" placeholder="0" style="width:42px;"></td>`;
-        html += `<td><input type="number" class="tbl" data-day="${i}" data-col="12" value="${row[12]||0}" placeholder="0"></td>`;
-        html += `</tr>`;
+    });
+    EVENT_IDS.forEach(id=>{
+      const el=$(id);
+      if(el.type==='checkbox'){if(el.checked)total+=EVENT_POINTS[id]}
+      else{total+=normalise({type:'num'},el.value)*EVENT_POINTS[id]}
+    });
+    let weightStars=0;
+    if($('pStartWeight').value!=='' && $('pEndWeight').value!==''){
+      const start=Number($('pStartWeight').value),end=Number($('pEndWeight').value);
+      if(Number.isFinite(start)&&Number.isFinite(end)&&start>0&&end>0&&end<start){
+        const grams=Math.round((start-end)*1000);
+        weightStars=Math.floor(grams/300);
       }
-      document.getElementById('tableBody').innerHTML = html;
     }
-    
-    function calc() {
-      let total = 0;
-      
-      const rows = document.querySelectorAll('#tableBody tr');
-      rows.forEach((tr, i) => {
-        if(i >= tableData.length) return;
-        tableData[i][0] = tr.querySelector('[data-col="0"]')?.value || '';
-        total += parseFloat(tableData[i][0]) || 0;
-        [1,2,3].forEach(j => {
-          tableData[i][j] = tr.querySelector(`[data-col="${j}"]`)?.checked || false;
-          if(tableData[i][j]) total += 5;
-        });
-        tableData[i][4] = parseInt(tr.querySelector('[data-col="4"]')?.value) || 0;
-        total += tableData[i][4] * 5;
-        tableData[i][5] = parseInt(tr.querySelector('[data-col="5"]')?.value) || 0;
-        total += tableData[i][5] * 5;
-        tableData[i][6] = tr.querySelector('[data-col="6"]')?.checked || false;
-        if(tableData[i][6]) total += 10;
-        tableData[i][7] = parseInt(tr.querySelector('[data-col="7"]')?.value) || 0;
-        total += tableData[i][7] * 10;
-        tableData[i][8] = tr.querySelector('[data-col="8"]')?.checked || false;
-        if(tableData[i][8]) total += 10;
-        tableData[i][9] = parseInt(tr.querySelector('[data-col="9"]')?.value) || 0;
-        total += tableData[i][9] * 10;
-        tableData[i][10] = parseInt(tr.querySelector('[data-col="10"]')?.value) || 0;
-        total += tableData[i][10] * 30;
-        tableData[i][11] = parseInt(tr.querySelector('[data-col="11"]')?.value) || 0;
-        total += Math.floor(tableData[i][11] / 500);
-        tableData[i][12] = parseInt(tr.querySelector('[data-col="12"]')?.value) || 0;
-total += tableData[i][12] * 30;
-      });
-      
-      if(document.getElementById('efir')?.checked) total += 20;
-      total += (parseInt(document.getElementById('efirFriends')?.value)||0) * 20;
-      if(document.getElementById('hike')?.checked) total += 20;
-      total += (parseInt(document.getElementById('hikeFriends')?.value)||0) * 20;
-      if(document.getElementById('dance1')?.checked) total += 30;
-      total += (parseInt(document.getElementById('dance1Friends')?.value)||0) * 30;
-      if(document.getElementById('dance2')?.checked) total += 30;
-      total += (parseInt(document.getElementById('dance2Friends')?.value)||0) * 30;
-      if(document.getElementById('graduation')?.checked) total += 30;
-      if(document.getElementById('photo')?.checked) total += 30;
-      if(document.getElementById('ambassador')?.checked) total += 50;
-      
-      const sw = parseFloat(document.getElementById('pStartWeight')?.value)||0;
-      const ew = parseFloat(document.getElementById('pEndWeight')?.value)||0;
-      const wd = sw - ew;
-      const wp = wd>0 ? Math.floor(wd/0.5)*10 : 0;
-      total += wp;
-      document.getElementById('weightResult').textContent = '💪 ' + wp + ' 🍃';
-      
-      document.getElementById('totalPoints').textContent = total;
-      save();
-    }
-    
-    function bindEvents() {
-      document.querySelector('#tableBody').addEventListener('input', calc);
-      document.querySelector('#tableBody').addEventListener('change', calc);
-      ['efir','efirFriends','hike','hikeFriends','dance1','dance1Friends','dance2','dance2Friends','graduation','photo','ambassador'].forEach(id => {
-        const el = document.getElementById(id);
-        if(el) el.addEventListener(el.type==='checkbox'?'change':'input', calc);
-      });
-      ['pName','pConsultant','pDiscount','pStartWeight','pEndWeight'].forEach(id => {
-        document.getElementById(id)?.addEventListener('input', () => { save(); calc(); });
-      });
-    }
-    
-    load();
-    bindEvents();
-  })();
-</script>
+    total+=weightStars;
+    $('weightResult').textContent='⭐ '+weightStars+' за каждые −300 г';
+    $('totalPoints').textContent=String(total);
+    save();
+  }
+  function onTableChange(e){
+    const el=e.target;
+    if(!el || !el.dataset || !el.dataset.col)return;
+    const rowIndex=Number(el.dataset.day);
+    const item=ACTIVITIES.find(a=>a.key===el.dataset.col);
+    if(!item||!Number.isInteger(rowIndex)||rowIndex<0||rowIndex>=tableData.length)return;
+    tableData[rowIndex][item.key]=normalise(item,item.type==='check'?el.checked:el.value);
+    calc();
+  }
+  function bind(){
+    $('tableBody').addEventListener('input',onTableChange);
+    $('tableBody').addEventListener('change',onTableChange);
+    EVENT_IDS.forEach(id=>{
+      const el=$(id);
+      el.addEventListener(el.type==='checkbox'?'change':'input',calc);
+    });
+    PROFILE_IDS.forEach(id=>$(id).addEventListener('input',calc));
+  }
+  load();
+  bind();
+})();</script>
 </body>
 </html>
