@@ -81,6 +81,10 @@
   .special-row .special-label{flex:1 1 150px}
   .special-row span:last-child{color:var(--berry);font-weight:800;white-space:nowrap}
   .special-row input[type="number"]{width:65px;text-align:center;padding:7px}
+  .special-row.friend-event-row{display:grid;grid-template-columns:max-content minmax(0,1fr) 55px 51px;align-items:center;column-gap:7px;flex-wrap:nowrap}
+  .friend-event-row .special-label{min-width:0;flex:none;overflow-wrap:break-word}
+  .special-row.friend-event-row input[type="number"]{width:55px;min-width:0;padding:7px 3px;justify-self:end}
+  .friend-event-row span:last-child{justify-self:end;white-space:nowrap;text-align:right}
   .total-box{text-align:center;margin:16px 0;padding:22px 16px;border-radius:24px;color:#fff7e7;background:
     radial-gradient(ellipse at 90% 0,rgba(255,225,177,.24),transparent 42%),
     linear-gradient(135deg,#921c4c,#c82d64 56%,#7f214a)}
@@ -185,7 +189,7 @@
     <div class="section-title">🎉 ОСОБЫЕ СОБЫТИЯ</div>
     <div class="special-block">
       <label class="special-row"><span class="event-date">01.11</span><span class="special-label">💖 Мисс Herbalife</span><input type="checkbox" id="miss"><span>20 ⭐</span></label>
-      <label class="special-row"><span class="event-date">01.11</span><span class="special-label">👥 Каждый друг на Мисс Herbalife</span><input type="number" min="0" step="1" inputmode="numeric" id="missFriends" value="0" aria-label="Количество друзей на Мисс Herbalife"><span>20 ⭐ за друга</span></label>
+      <label class="special-row friend-event-row"><span class="event-date">01.11</span><span class="special-label">👥 Каждый друг на Мисс Herbalife</span><input type="number" min="0" step="1" inputmode="numeric" id="missFriends" value="0" aria-label="Количество друзей на Мисс Herbalife"><span>20 ⭐</span></label>
       <label class="special-row"><span class="event-date">до 11.11</span><span class="special-label">📸 Фото до/после + отзыв</span><input type="checkbox" id="photo"><span>30 ⭐</span></label>
       <label class="special-row"><span class="event-date">до 11.11</span><span class="special-label">👑 Амбассадор</span><input type="checkbox" id="ambassador"><span>50 ⭐</span></label>
       <label class="special-row"><span class="event-date">11.11</span><span class="special-label">🎓 Выпускной</span><input type="checkbox" id="graduation"><span>30 ⭐</span></label>
