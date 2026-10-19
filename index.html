@@ -878,9 +878,10 @@
       return;
     }
     const review=$('photoReview').value.trim();
-    const name=getReport().name;
+    const report=getReport();
     const text='Здравствуйте, Виктория! Отправляю мой коллаж ДО / ПОСЛЕ.\n'
-      +'Участник: '+name+'.'
+      +'Участник: '+report.name+'\n'
+      +'Консультант: '+report.consultant
       +(review?'\nМой отзыв: '+review:'')
       +'\nМарафон «Перезагрузка».\n'
       +'Коллаж прикреплю отдельной фотографией.';
