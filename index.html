@@ -119,7 +119,17 @@
   .share-hint{margin:11px 0 0!important}
   .collage-preview-box{margin:12px 0 6px;background:#fff9f6;border:1px solid #e3b6af;border-radius:16px;padding:11px}
   .collage-preview-box[hidden]{display:none!important}
-  .collage-heading{font-size:.86rem;color:#942853;font-weight:800;margin:0 0 8px;text-align:center}
+  .collage-heading{font-size:.86rem;color:#942853;font-weight:800;min-width:0}
+  .collage-heading-row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 9px}
+  .photo-slot{min-width:0}
+  .file-picker-row{display:flex;align-items:center;gap:7px;min-width:0}
+  .file-picker-row input[type="file"]{flex:1;min-width:0;margin-top:0}
+  .photo-remove{display:inline-flex;align-items:center;justify-content:center;flex:0 0 40px;width:40px;height:40px;border:1px solid #e3a2b5;border-radius:11px;background:#fff5f4;color:#a21f50;font-size:1.3rem;font-weight:750;cursor:pointer;line-height:1}
+  .photo-remove[hidden]{display:none!important}
+  .photo-remove:focus-visible{outline:3px solid #d35082;outline-offset:2px}
+  .photo-remove:active{background:#f9dce7}
+  .collage-remove{flex:0 0 38px;width:38px;height:38px}
+  @media(max-width:520px){.file-picker-row input[type="file"]{font-size:.72rem}.photo-remove{flex-basis:39px;width:39px;height:39px}}
   .collage-preview{display:block;width:100%;height:auto;border-radius:11px;border:1px solid #e9bcbd;box-shadow:0 4px 12px rgba(98,30,62,.11)}
   .action-btn:disabled{cursor:default;opacity:.52;box-shadow:none}
   @media(max-width:520px){.photo-inputs{grid-template-columns:1fr}.action-btn{flex-basis:100%}}
@@ -218,20 +228,34 @@
     <div class="photos-panel">
       <div class="photos-title">📸 Фото «до» и «после» для Виктории</div>
       <div class="photo-inputs">
-        <label class="photo-field">Фото ДО<input type="file" accept="image/*" id="beforePhoto"></label>
-        <label class="photo-field">Фото ПОСЛЕ<input type="file" accept="image/*" id="afterPhoto"></label>
+        <div class="photo-slot">
+          <label class="photo-field" for="beforePhoto">Фото ДО</label>
+          <div class="file-picker-row">
+            <input type="file" accept="image/*" id="beforePhoto" aria-label="Выбрать фото ДО">
+            <button type="button" class="photo-remove" id="removeBefore" aria-label="Удалить фото ДО" title="Удалить фото ДО" hidden>✕</button>
+          </div>
+        </div>
+        <div class="photo-slot">
+          <label class="photo-field" for="afterPhoto">Фото ПОСЛЕ</label>
+          <div class="file-picker-row">
+            <input type="file" accept="image/*" id="afterPhoto" aria-label="Выбрать фото ПОСЛЕ">
+            <button type="button" class="photo-remove" id="removeAfter" aria-label="Удалить фото ПОСЛЕ" title="Удалить фото ПОСЛЕ" hidden>✕</button>
+          </div>
+        </div>
       </div>
       <label class="photo-field">Ваш отзыв<textarea id="photoReview" placeholder="Напишите короткий отзыв (необязательно)" rows="3"></textarea></label>
       <div class="collage-preview-box" id="collageBox" hidden>
-        <div class="collage-heading">✨ Ваш готовый коллаж</div>
+        <div class="collage-heading-row">
+          <div class="collage-heading">✨ Ваш готовый коллаж</div>
+          <button type="button" class="photo-remove collage-remove" id="removeCollage" aria-label="Удалить коллаж и очистить обе фотографии" title="Удалить коллаж и обе фотографии">✕</button>
+        </div>
         <canvas class="collage-preview" id="collagePreview" width="1200" height="1300" aria-label="Предварительный просмотр коллажа до и после"></canvas>
       </div>
       <div class="action-buttons">
         <button class="action-btn main" id="sharePhotos" type="button" disabled>📲 Отправить коллаж Виктории</button>
         <button class="action-btn light" id="downloadCollage" type="button" disabled>📥 Скачать коллаж</button>
-        <a class="action-btn light" href="https://wa.me/79247611616" target="_blank" rel="noopener noreferrer">💬 WhatsApp Виктории</a>
       </div>
-      <p class="share-hint" id="shareStatus" aria-live="polite">Выберите оба фото — сайт сам соберёт один коллаж «ДО / ПОСЛЕ». Затем нажмите «Отправить», выберите WhatsApp и чат Виктории Никитиной. Фото обрабатываются только на вашем телефоне и на сайт не загружаются.</p>
+      <p class="share-hint" id="shareStatus" aria-live="polite">Выберите фото ДО и ПОСЛЕ. Коллаж появится автоматически. Кнопка «Отправить коллаж Виктории» сразу откроет отправку: выберите WhatsApp и чат Виктории Никитиной, затем подтвердите отправку. Фото не загружаются на сайт.</p>
     </div>
   </section>
 
@@ -622,8 +646,24 @@
       canvas.toBlob(blob=>blob?resolve(blob):reject(new Error('Не удалось сохранить коллаж')),'image/png');
     });
   }
+  function updatePhotoClearButtons(){
+    $('removeBefore').hidden=!$('beforePhoto').files.length;
+    $('removeAfter').hidden=!$('afterPhoto').files.length;
+  }
+  function removeSelectedPhoto(id){
+    $(id).value='';
+    prepareCollage();
+  }
+  function removeEntireCollage(){
+    $('beforePhoto').value='';
+    $('afterPhoto').value='';
+    $('photoReview').value='';
+    prepareCollage();
+    $('shareStatus').textContent='Коллаж и обе выбранные фотографии удалены. Вы можете выбрать новые фото.';
+  }
   async function prepareCollage(){
     const version=++collageVersion;
+    updatePhotoClearButtons();
     collageReady=null;
     $('sharePhotos').disabled=true;
     $('downloadCollage').disabled=true;
@@ -680,9 +720,10 @@
       }
       if(shareable){
         try{
-          const shareResult=navigator.share({files:[file],title:'Коллаж ДО и ПОСЛЕ · Перезагрузка',text:text+'\nПолучатель: Виктория Никитина'});
+          status.textContent='Открыта отправка: выберите WhatsApp → чат Виктории Никитиной → Отправить.';
+          const shareResult=navigator.share({files:[file],title:'Коллаж ДО и ПОСЛЕ · Перезагрузка',text:text});
           Promise.resolve(shareResult).then(()=>{
-            status.textContent='Вы выбрали приложение для отправки. Проверьте, что коллаж отправлен в чат Виктории Никитиной.';
+            status.textContent='Окно отправки закрыто. Проверьте в WhatsApp, что коллаж действительно отправился Виктории Никитиной.';
           }).catch(error=>{
             if(error&&error.name==='AbortError'){
               status.textContent='Отправка отменена — коллаж остался здесь. Можно попробовать ещё раз.';
@@ -706,6 +747,9 @@
   $('sharePhotos').addEventListener('click',sharePhotos);
   $('downloadCollage').addEventListener('click',downloadCollage);
   $('beforePhoto').addEventListener('change',prepareCollage);
+  $('removeBefore').addEventListener('click',()=>removeSelectedPhoto('beforePhoto'));
+  $('removeAfter').addEventListener('click',()=>removeSelectedPhoto('afterPhoto'));
+  $('removeCollage').addEventListener('click',removeEntireCollage);
   $('afterPhoto').addEventListener('change',prepareCollage);
   $('photoReview').addEventListener('change',()=>{
     if($('beforePhoto').files[0]&&$('afterPhoto').files[0])prepareCollage();
