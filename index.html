@@ -89,6 +89,24 @@
   @media(min-width:700px){.hero{padding:35px 32px}.section{padding:23px}.reward-guide{grid-template-columns:repeat(3,minmax(0,1fr))}.reward-card:last-child{grid-column:auto}}
   @media(max-width:520px){body{padding:8px 7px 28px}.hero{padding:24px 10px 20px;border-radius:20px}.section{padding:13px 10px;border-radius:19px;margin:10px 0}.special-block{grid-template-columns:1fr}
     .reward-card{padding:9px}.reward-score{font-size:1.7rem}.reward-list{font-size:.72rem}.sticky-col{min-width:64px;width:64px}.sticky-col2{min-width:49px;width:49px;left:64px}th,td{min-width:76px}}
+
+  .hero-win{flex-basis:100%;font-weight:750;color:#992451;line-height:1.42;max-width:620px;margin:5px auto 0;padding:9px 14px;border-radius:16px;background:rgba(255,248,239,.75);border:1px solid #eebba8}
+  .share-section p{margin:0 0 13px}
+  .share-text,.share-hint{color:#8f4967;font-size:.83rem;line-height:1.5}
+  .action-buttons{display:flex;flex-wrap:wrap;gap:10px;margin:11px 0}
+  .action-btn{display:inline-flex;align-items:center;justify-content:center;flex:1 1 190px;min-height:46px;cursor:pointer;padding:11px 14px;border-radius:14px;text-decoration:none;text-align:center;font-size:.87rem;font-weight:750;line-height:1.3;border:1px solid #d7a56b;font-family:inherit;box-shadow:0 3px 9px rgba(131,30,64,.08)}
+  .action-btn.main{background:linear-gradient(120deg,#9a194b,#ca3267);color:#fff8f0}
+  .action-btn.light{background:#fff3ef;color:#9d2454}
+  .action-btn:focus-visible{outline:3px solid #ec70a1;outline-offset:2px}
+  .photos-panel{background:linear-gradient(135deg,#fff3ef,#ffe9f1);border:1px solid #f0c8cb;padding:14px;border-radius:18px;margin-top:18px}
+  .photos-title{font-weight:800;color:var(--wine);margin-bottom:10px}
+  .photo-inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+  .photo-field{display:block;min-width:0;margin-bottom:9px;font-size:.83rem;color:var(--wine);font-weight:700}
+  .photo-field input[type=file],.photo-field textarea{display:block;width:100%;margin-top:6px;max-width:none;padding:9px;background:white;border-radius:10px}
+  .photo-field input[type=file]{font-size:.75rem}
+  .photo-field textarea{font-family:inherit;font-size:.9rem;resize:vertical}
+  .share-hint{margin:11px 0 0!important}
+  @media(max-width:520px){.photo-inputs{grid-template-columns:1fr}.action-btn{flex-basis:100%}}
 </style>
 </head>
 <body>
@@ -99,9 +117,10 @@
     <h1>МАРАФОН <span>СТРОЙНОСТИ</span></h1>
     <div class="subhead">Тело · Энергия · Поддержка</div>
     <div class="hero-bottom">
-      <span><strong>⭐ Звёздный трекер</strong> · 12–23 мая</span>
+      <span><strong>⭐ Звёздный трекер</strong> · 01–11 ноября</span>
       <span class="hero-price">Вход 899 ₽</span>
       <span>Призы: LED-маска · смарт-очки · умное кольцо</span>
+      <div class="hero-win">✨ 15 победителей! Каждая из вас может стать обладательницей наших суперпризов и любимых продуктов 💗</div>
     </div>
   </header>
 
@@ -143,60 +162,46 @@
     </div>
     <div class="note">↔️ Прокручивай таблицу влево и вправо. Награды за вес и особые события прибавляются к общему счёту автоматически.</div>
   </section>
-  <div class="section">
+
+  <section class="section">
     <div class="section-title">🎉 ОСОБЫЕ СОБЫТИЯ</div>
     <div class="special-block">
-      <div class="special-row">
-        <span class="special-label">🏔️ Пеший поход 16.05 сб</span>
-        <input type="checkbox" id="efir"> <span>20⭐</span>
-      </div>
-      <div class="special-row">
-        <span class="special-label">👥 Друзья на поход 16.05 сб</span>
-        <input type="number" id="efirFriends" min="0" value="0"> <span>20⭐</span>
-      </div>
-      <div class="special-row">
-        <span class="special-label">📹 Эфир с нутрициологом 17.05 вс</span>
-        <input type="checkbox" id="hike"> <span>20⭐</span>
-      </div>
-      <div class="special-row">
-        <span class="special-label">👥 Друзья на эфир 17.05 вс</span>
-        <input type="number" id="hikeFriends" min="0" value="0"> <span>20⭐</span>
-      </div>
-      <div class="special-row">
-        <span class="special-label">💃 Онлайн танец 18.05 пн</span>
-        <input type="checkbox" id="dance1"> <span>30⭐</span>
-      </div>
-      <div class="special-row">
-        <span class="special-label">👥 Друзья на танец 18.05 пн</span>
-        <input type="number" id="dance1Friends" min="0" value="0"> <span>30⭐</span>
-      </div>
-      <div class="special-row">
-        <span class="special-label">💃 Онлайн танец 22.05 пт</span>
-        <input type="checkbox" id="dance2"> <span>30⭐</span>
-      </div>
-      <div class="special-row">
-        <span class="special-label">👥 Друзья на танец 22.05 пт</span>
-        <input type="number" id="dance2Friends" min="0" value="0"> <span>30⭐</span>
-      </div>
-      <div class="special-row">
-        <span class="special-label">🎓 Выпускной офлайн 23.05 сб</span>
-        <input type="checkbox" id="graduation"> <span>30⭐</span>
-      </div>
-      <div class="special-row">
-        <span class="special-label">📸 Фото до/после + отзыв до 23.05</span>
-        <input type="checkbox" id="photo"> <span>30⭐</span>
-      </div>
-      <div class="special-row">
-        <span class="special-label">👑 Амбассадор до 23.05</span>
-        <input type="checkbox" id="ambassador"> <span>50⭐</span>
-      </div>
+      <label class="special-row"><span class="special-label">🎓 Выпускной</span><input type="checkbox" id="graduation"><span>30 ⭐</span></label>
+      <label class="special-row"><span class="special-label">📸 Фото до/после + отзыв</span><input type="checkbox" id="photo"><span>30 ⭐</span></label>
+      <label class="special-row"><span class="special-label">👑 Амбассадор до 11.11</span><input type="checkbox" id="ambassador"><span>50 ⭐</span></label>
+      <label class="special-row"><span class="special-label">💖 Мисс Herbalife · 01.11</span><input type="checkbox" id="miss"><span>20 ⭐</span></label>
+      <label class="special-row"><span class="special-label">👥 Каждый друг на Мисс Herbalife</span><input type="number" min="0" step="1" inputmode="numeric" id="missFriends" value="0" aria-label="Количество друзей на Мисс Herbalife"><span>20 ⭐ за друга</span></label>
     </div>
-  </div>
+  </section>
 
   <div class="total-box">
     <div class="total-label">⭐ ВСЕГО ЗВЁЗД</div>
     <div class="total-value" id="totalPoints">0</div>
   </div>
+
+
+  <section class="section share-section">
+    <div class="section-title">📤 ВЫГРУЗКА ЗВЁЗД И ОТЧЁТОВ</div>
+    <p class="share-text">Виктория Никитина проверяет звёзды. Сначала заполните трекер — итог пересчитается автоматически.</p>
+    <div class="action-buttons">
+      <button class="action-btn light" id="downloadStars" type="button">📥 Выгрузить звёзды (таблица)</button>
+      <button class="action-btn light" id="downloadCard" type="button">🖼️ Скачать карточку звёзд</button>
+      <button class="action-btn main" id="sendStars" type="button">📲 Отправить звёзды Виктории</button>
+    </div>
+    <div class="photos-panel">
+      <div class="photos-title">📸 Фото «до» и «после» для Виктории</div>
+      <div class="photo-inputs">
+        <label class="photo-field">Фото ДО<input type="file" accept="image/*" id="beforePhoto"></label>
+        <label class="photo-field">Фото ПОСЛЕ<input type="file" accept="image/*" id="afterPhoto"></label>
+      </div>
+      <label class="photo-field">Ваш отзыв<textarea id="photoReview" placeholder="Напишите короткий отзыв (необязательно)" rows="3"></textarea></label>
+      <div class="action-buttons">
+        <button class="action-btn main" id="sharePhotos" type="button">💌 Поделиться фото с Викторией</button>
+        <a class="action-btn light" href="https://wa.me/79247611616" target="_blank" rel="noopener noreferrer">💬 Открыть WhatsApp Виктории</a>
+      </div>
+      <p class="share-hint" id="shareStatus" aria-live="polite">При отправке фото выберите WhatsApp и чат Виктории Никитиной. Если обмен файлами не поддерживается, откроется чат — прикрепите фотографии вручную. Фото не загружаются и не хранятся на сайте.</p>
+    </div>
+  </section>
 
   <div class="footer">
     © 2026 · Разработчик: Сахаяна Скрябина · <a href="https://wa.me/message/TD45SYRF66AEK1" target="_blank">📞 WhatsApp</a>
@@ -206,9 +211,11 @@
 <script>
 (function(){
   'use strict';
-  const STORAGE_KEY = 'slim_marathon_stars_v1';
-  const DATES = ['12.05','13.05','14.05','15.05','16.05','17.05','18.05','19.05','20.05','21.05','22.05','23.05🎓'];
-  const DAYS = ['Вт','Ср','Чт','Пт','Сб','Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+  const STORAGE_KEY = 'slim_marathon_nov2026_stars_v1';
+  const EVENT_STORAGE_PREFIX = 'slim_marathon_nov2026_evt_';
+  const VICTORIA_PHONE = '79247611616';
+  const DATES = ['01.11','02.11','03.11','04.11','05.11','06.11','07.11','08.11','09.11','10.11','11.11🎓'];
+  const DAYS = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб','Вс','Пн','Вт','Ср'];
   const ACTIVITIES = [
     {key:'vp',short:'VP',title:'Каждый 1 VP',points:1,type:'num'},
     {key:'dinner',short:'Ужин',title:'Ужин вечерним коктейлем',points:1,type:'check'},
@@ -229,7 +236,8 @@
     {key:'vip300',short:'VIP 300',title:'VIP 300 — промоушен Байкал',points:30,type:'check'},
     {key:'vip500',short:'VIP 500',title:'VIP 500 — промоушен Забугор-2',points:50,type:'check'}
   ];
-  const EVENT_POINTS = {efir:20,efirFriends:20,hike:20,hikeFriends:20,dance1:30,dance1Friends:30,dance2:30,dance2Friends:30,graduation:30,photo:30,ambassador:50};
+  const EVENT_POINTS = {graduation:30,photo:30,ambassador:50,miss:20,missFriends:20};
+  const EVENT_LABELS = {graduation:'Выпускной',photo:'Фото до/после + отзыв',ambassador:'Амбассадор',miss:'Мисс Herbalife',missFriends:'Друзья на Мисс Herbalife'};
   const EVENT_IDS = Object.keys(EVENT_POINTS);
   const PROFILE_IDS = ['pName','pConsultant','pDiscount','pStartWeight','pEndWeight'];
   const PROFILE_STORAGE = {pName:'silk_v11_name',pConsultant:'silk_v11_cons',pDiscount:'silk_v11_disc',pStartWeight:'silk_v11_ws',pEndWeight:'silk_v11_we'};
@@ -265,7 +273,7 @@
     PROFILE_IDS.forEach(id=>{$(id).value=get(PROFILE_STORAGE[id]) || ''});
     EVENT_IDS.forEach(id=>{
       const el=$(id);
-      if(el.type==='checkbox')el.checked=get('silk_v11_'+id)==='true';
+      if(el.type==='checkbox')el.checked=get(EVENT_STORAGE_PREFIX+id)==='true';
       else el.value=get('silk_v11_'+id) || '0';
     });
     renderTable();
@@ -274,7 +282,7 @@
   function save(){
     set(STORAGE_KEY,JSON.stringify({version:1,table:tableData}));
     PROFILE_IDS.forEach(id=>set(PROFILE_STORAGE[id],$(id).value));
-    EVENT_IDS.forEach(id=>set('silk_v11_'+id,$(id).type==='checkbox'?$(id).checked:$(id).value));
+    EVENT_IDS.forEach(id=>set(EVENT_STORAGE_PREFIX+id,$(id).type==='checkbox'?$(id).checked:$(id).value));
   }
   function renderTable(){
     let header='';
@@ -343,6 +351,168 @@
     });
     PROFILE_IDS.forEach(id=>$(id).addEventListener('input',calc));
   }
+
+  function rowTotal(day){
+    return ACTIVITIES.reduce((sum,item)=>{
+      const n=normalise(item,day[item.key]);
+      return sum+item.points*(item.type==='check'?(n?1:0):n);
+    },0);
+  }
+  function eventTotal(){
+    return EVENT_IDS.reduce((sum,id)=>{
+      const el=$(id);
+      const n=el.type==='checkbox'?(el.checked?1:0):normalise({type:'num'},el.value);
+      return sum+EVENT_POINTS[id]*n;
+    },0);
+  }
+  function getWeightStars(){
+    const start=Number($('pStartWeight').value),end=Number($('pEndWeight').value);
+    if(!$('pStartWeight').value||!$('pEndWeight').value||start<=0||end<=0||end>=start)return 0;
+    return Math.floor(Math.round((start-end)*1000)/300);
+  }
+  function getReport(){
+    const byDay=tableData.map(rowTotal);
+    const daily=byDay.reduce((sum,v)=>sum+v,0);
+    const events=eventTotal();
+    const weight=getWeightStars();
+    const name=$('pName').value.trim()||'Участник';
+    const consultant=$('pConsultant').value.trim()||'Не указан';
+    return {name,consultant,discount:$('pDiscount').value.trim(),daily,events,weight,total:daily+events+weight,byDay};
+  }
+  function reportText(){
+    const r=getReport();
+    const eventLines=EVENT_IDS.map(id=>{
+      const el=$(id);
+      const v=el.type==='checkbox'?(el.checked?1:0):normalise({type:'num'},el.value);
+      return v>0 ? '• '+EVENT_LABELS[id]+': '+v+' × '+EVENT_POINTS[id]+' = '+(v*EVENT_POINTS[id])+' ⭐' : '';
+    }).filter(Boolean);
+    return [
+      '⭐ ОТЧЁТ ПО ЗВЁЗДАМ · МАРАФОН СТРОЙНОСТИ',
+      'Период: 01–11 ноября 2026',
+      'Участник: '+r.name,
+      'Консультант: '+r.consultant,
+      'Скидка: '+(r.discount||'—'),
+      'По дням:',
+      ...DATES.map((date,i)=>date.replace('🎓','')+': '+r.byDay[i]+' ⭐'),
+      'Ежедневные задания: '+r.daily+' ⭐',
+      'Особые события: '+r.events+' ⭐',
+      ...(eventLines.length?eventLines:[]),
+      'За снижение веса: '+r.weight+' ⭐',
+      'ИТОГО: '+r.total+' ⭐'
+    ].join('\n');
+  }
+  function saveBlob(blob,fileName){
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),15000);
+  }
+  function fileStem(){
+    const r=getReport();
+    return 'zvezdy_'+r.name.replace(/[^a-zA-Zа-яА-ЯёЁ0-9_-]+/g,'_').slice(0,40);
+  }
+  function exportCsv(){
+    const r=getReport();
+    const esc=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+    const rows=[
+      ['Марафон стройности · 01–11 ноября 2026'],
+      ['Участник',r.name],
+      ['Консультант',r.consultant],
+      ['Скидка',r.discount],
+      ['Дата',...ACTIVITIES.map(a=>a.title),'Звёзд за день']
+    ];
+    tableData.forEach((day,i)=>{
+      rows.push([DATES[i].replace('🎓',''),...ACTIVITIES.map(a=>day[a.key]),r.byDay[i]]);
+    });
+    rows.push(['Ежедневные звёзды',r.daily],['События',r.events],['Снижение веса',r.weight],['ИТОГО',r.total]);
+    EVENT_IDS.forEach(id=>{
+      const el=$(id);
+      rows.push([EVENT_LABELS[id],el.type==='checkbox'?(el.checked?'да':'нет'):el.value]);
+    });
+    const csv='\ufeff'+rows.map(row=>row.map(esc).join(';')).join('\r\n');
+    saveBlob(new Blob([csv],{type:'text/csv;charset=utf-8'}),fileStem()+'.csv');
+  }
+  function drawCard(){
+    const r=getReport();
+    const c=document.createElement('canvas');
+    c.width=1000;c.height=1420;
+    const ctx=c.getContext('2d');
+    const grad=ctx.createLinearGradient(0,0,1000,1420);
+    grad.addColorStop(0,'#fff8f1');grad.addColorStop(.55,'#ffe5eb');grad.addColorStop(1,'#f5b0c6');
+    ctx.fillStyle=grad;ctx.fillRect(0,0,1000,1420);
+    ctx.strokeStyle='#c59459';ctx.lineWidth=6;ctx.strokeRect(26,26,948,1368);
+    ctx.fillStyle='#a61b50';ctx.textAlign='center';ctx.font='bold 45px Georgia,serif';ctx.fillText('СОВМЕСТНЫЙ МАРАФОН',500,120);
+    ctx.fillStyle='#bc8645';ctx.font='bold 66px Georgia,serif';ctx.fillText('СТРОЙНОСТИ',500,205);
+    ctx.fillStyle='#83304c';ctx.font='30px Arial,sans-serif';ctx.fillText('Звёздный отчёт • 01–11 ноября 2026',500,260);
+    ctx.textAlign='left';ctx.font='bold 34px Arial,sans-serif';
+    const clip=(v,n)=>v.length>n?v.slice(0,n-1)+'…':v;
+    ctx.fillText('Участник: '+clip(r.name,30),90,352);
+    ctx.font='29px Arial,sans-serif';ctx.fillText('Консультант: '+clip(r.consultant,31),90,408);
+    ctx.fillStyle='#fff9f6';ctx.fillRect(73,454,854,145);
+    ctx.fillStyle='#a61b50';ctx.textAlign='center';ctx.font='bold 84px Georgia,serif';ctx.fillText(r.total+' ★',500,561);
+    ctx.textAlign='left';ctx.fillStyle='#83304c';ctx.font='bold 29px Arial,sans-serif';ctx.fillText('ЗВЁЗДЫ ПО ДНЯМ',93,677);
+    ctx.font='26px Arial,sans-serif';
+    r.byDay.forEach((n,i)=>{
+      const x=i<6?93:525;
+      const y=743+(i<6?i:i-6)*80;
+      ctx.fillText(DATES[i].replace('🎓','')+'  —  '+n+' ★',x,y);
+    });
+    ctx.fillStyle='#9b1c53';ctx.fillRect(73,1248,854,85);
+    ctx.fillStyle='#fffaf0';ctx.textAlign='center';ctx.font='bold 28px Arial,sans-serif';
+    ctx.fillText('Задания '+r.daily+' ★   ·   События '+r.events+' ★   ·   Вес '+r.weight+' ★',500,1303);
+    c.toBlob(blob=>{if(blob)saveBlob(blob,fileStem()+'.png');else alert('Не удалось подготовить карточку. Попробуйте выгрузить таблицу.')},'image/png');
+  }
+  function whatsappUrl(text){
+    return 'https://wa.me/'+VICTORIA_PHONE+'?text='+encodeURIComponent(text);
+  }
+  function openWhatsApp(text){
+    const link=document.createElement('a');
+    link.href=whatsappUrl(text);
+    link.target='_blank';
+    link.rel='noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+  function sendStars(){
+    openWhatsApp(reportText()+'\n\nВиктория, проверьте, пожалуйста, мой результат ⭐');
+  }
+  async function sharePhotos(){
+    const photos=[$('beforePhoto').files[0],$('afterPhoto').files[0]].filter(Boolean);
+    const status=$('shareStatus');
+    const review=$('photoReview').value.trim();
+    const text='Фото ДО/ПОСЛЕ. '+$('pName').value.trim()+'\n'+(review?'Отзыв: '+review+'\n':'')+'Звёзды: '+getReport().total+' ⭐';
+    if(photos.length===0){
+      status.textContent='Выберите фото «до» и «после» для отправки.';
+      return;
+    }
+    if(photos.length<2){
+      status.textContent='Для полного отчёта выберите оба фото: «до» и «после».';
+      return;
+    }
+    if(navigator.share&&navigator.canShare&&navigator.canShare({files:photos})){
+      try{
+        await navigator.share({files:photos,title:'Фото до и после · Марафон стройности',text:text+'\nПолучатель: Виктория Никитина'});
+        status.textContent='Фото переданы в выбранное вами приложение. Убедитесь, что адресат — Виктория Никитина.';
+      }catch(err){
+        if(err&&err.name!=='AbortError'){
+          status.textContent='Не удалось поделиться файлами. Откройте чат Виктории и прикрепите фото вручную.';
+        }
+      }
+    }else{
+      status.textContent='Ваш браузер не поддерживает отправку выбранных фото. Сейчас откроется WhatsApp Виктории: прикрепите оба фото из галереи вручную.';
+      openWhatsApp('Здравствуйте, Виктория! Отправляю фото ДО и ПОСЛЕ. '+text);
+    }
+  }
+  $('downloadStars').addEventListener('click',exportCsv);
+  $('downloadCard').addEventListener('click',drawCard);
+  $('sendStars').addEventListener('click',sendStars);
+  $('sharePhotos').addEventListener('click',sharePhotos);
+
   load();
   bind();
 })();</script>
