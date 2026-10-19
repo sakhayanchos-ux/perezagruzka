@@ -122,7 +122,7 @@
     <h1>МАРАФОН <span>СТРОЙНОСТИ</span></h1>
     <div class="subhead">Тело · Энергия · Поддержка</div>
     <div class="hero-bottom">
-      <span><strong>⭐ Звёздный трекер</strong> · 19 октября — 11 ноября</span>
+      <span><strong>⭐ Звёздный трекер</strong> · 19 октября — 8 ноября</span>
       <span class="hero-price">Вход 899 ₽</span>
       <div class="prize-strip">
         <span class="prize-pill"><svg class="prize-icon" viewBox="0 0 40 40" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M8 10Q20 2 32 10L35 23Q31 35 20 36Q9 35 5 23Z"/><path d="M10 19q5-5 9 0q-4 5-9 0Zm11 0q5-5 9 0q-4 5-9 0ZM16 29q4 2 8 0"/></svg><span>LED-маска</span></span>
@@ -177,9 +177,9 @@
     <div class="special-block">
       <label class="special-row"><span class="event-date">01.11</span><span class="special-label">💖 Мисс Herbalife</span><input type="checkbox" id="miss"><span>20 ⭐</span></label>
       <label class="special-row"><span class="event-date">01.11</span><span class="special-label">👥 Каждый друг на Мисс Herbalife</span><input type="number" min="0" step="1" inputmode="numeric" id="missFriends" value="0" aria-label="Количество друзей на Мисс Herbalife"><span>20 ⭐ за друга</span></label>
-      <label class="special-row"><span class="event-date">до 11.11</span><span class="special-label">📸 Фото до/после + отзыв</span><input type="checkbox" id="photo"><span>30 ⭐</span></label>
-      <label class="special-row"><span class="event-date">до 11.11</span><span class="special-label">👑 Амбассадор</span><input type="checkbox" id="ambassador"><span>50 ⭐</span></label>
-      <label class="special-row"><span class="event-date">11.11</span><span class="special-label">🎓 Выпускной</span><input type="checkbox" id="graduation"><span>30 ⭐</span></label>
+      <label class="special-row"><span class="event-date">до 08.11</span><span class="special-label">📸 Фото до/после + отзыв</span><input type="checkbox" id="photo"><span>30 ⭐</span></label>
+      <label class="special-row"><span class="event-date">до 08.11</span><span class="special-label">👑 Амбассадор</span><input type="checkbox" id="ambassador"><span>50 ⭐</span></label>
+      <label class="special-row"><span class="event-date">08.11</span><span class="special-label">🎓 Выпускной</span><input type="checkbox" id="graduation"><span>30 ⭐</span></label>
     </div>
   </section>
 
@@ -226,7 +226,7 @@
   const DATES = [];
   const DAYS = [];
   const WEEKDAYS = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
-  for(let t=Date.UTC(2026,9,19);t<=Date.UTC(2026,10,11);t+=86400000){
+  for(let t=Date.UTC(2026,9,19);t<=Date.UTC(2026,10,8);t+=86400000){
     const d = new Date(t);
     DATES.push(String(d.getUTCDate()).padStart(2,'0')+'.'+String(d.getUTCMonth()+1).padStart(2,'0'));
     DAYS.push(WEEKDAYS[d.getUTCDay()]);
@@ -253,7 +253,7 @@
     {key:'vip500',short:'VIP 500',title:'VIP 500 — промоушен Забугор-2',points:50,type:'check'}
   ];
   const EVENT_POINTS = {miss:20,missFriends:20,photo:30,ambassador:50,graduation:30};
-  const EVENT_LABELS = {miss:'Мисс Herbalife (01.11)',missFriends:'Друзья на Мисс Herbalife (01.11)',photo:'Фото до/после + отзыв (до 11.11)',ambassador:'Амбассадор (до 11.11)',graduation:'Выпускной (11.11)'};
+  const EVENT_LABELS = {miss:'Мисс Herbalife (01.11)',missFriends:'Друзья на Мисс Herbalife (01.11)',photo:'Фото до/после + отзыв (до 08.11)',ambassador:'Амбассадор (до 08.11)',graduation:'Выпускной (08.11)'};
   const EVENT_IDS = Object.keys(EVENT_POINTS);
   const PROFILE_IDS = ['pName','pConsultant','pDiscount','pStartWeight','pEndWeight'];
   const PROFILE_STORAGE = {pName:'silk_v11_name',pConsultant:'silk_v11_cons',pDiscount:'silk_v11_disc',pStartWeight:'silk_v11_ws',pEndWeight:'silk_v11_we'};
@@ -407,7 +407,7 @@
     }).filter(Boolean);
     return [
       '⭐ ОТЧЁТ ПО ЗВЁЗДАМ · МАРАФОН СТРОЙНОСТИ',
-      'Период: 19 октября — 11 ноября 2026',
+      'Период: 19 октября — 8 ноября 2026',
       'Участник: '+r.name,
       'Консультант: '+r.consultant,
       'Скидка: '+(r.discount||'—'),
@@ -438,7 +438,7 @@
     const r=getReport();
     const esc=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
     const rows=[
-      ['Марафон стройности · 19 октября — 11 ноября 2026'],
+      ['Марафон стройности · 19 октября — 8 ноября 2026'],
       ['Участник',r.name],
       ['Консультант',r.consultant],
       ['Скидка',r.discount],
@@ -466,7 +466,7 @@
     ctx.strokeStyle='#c59459';ctx.lineWidth=6;ctx.strokeRect(26,26,948,1368);
     ctx.fillStyle='#a61b50';ctx.textAlign='center';ctx.font='bold 45px Georgia,serif';ctx.fillText('СОВМЕСТНЫЙ МАРАФОН',500,120);
     ctx.fillStyle='#bc8645';ctx.font='bold 66px Georgia,serif';ctx.fillText('СТРОЙНОСТИ',500,205);
-    ctx.fillStyle='#83304c';ctx.font='30px Arial,sans-serif';ctx.fillText('Звёздный отчёт • 19 октября — 11 ноября 2026',500,260);
+    ctx.fillStyle='#83304c';ctx.font='30px Arial,sans-serif';ctx.fillText('Звёздный отчёт • 19 октября — 8 ноября 2026',500,260);
     ctx.textAlign='left';ctx.font='bold 34px Arial,sans-serif';
     const clip=(v,n)=>v.length>n?v.slice(0,n-1)+'…':v;
     ctx.fillText('Участник: '+clip(r.name,30),90,352);
