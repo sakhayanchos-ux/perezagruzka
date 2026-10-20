@@ -60,6 +60,7 @@
   .reward-guide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:16px}
   .reward-card{padding:10px 11px;background:linear-gradient(155deg,#fff7f6,#ffe9ef);border:1px solid #f0c3c5;border-radius:16px}
   .reward-card:last-child{grid-column:1 / -1}
+  .drink-examples{margin:0 0 12px;padding:10px 12px;color:#82304f;font-size:.82rem;line-height:1.5;background:#fff1ec;border:1px solid #e9c3bc;border-radius:12px}
   .reward-score{font-family:Georgia,serif;color:var(--berry);font-size:1.9rem;font-weight:700;line-height:1.1;white-space:nowrap}
   .reward-list{margin-top:5px;color:#722944;font-size:.76rem;line-height:1.47;overflow-wrap:anywhere}
   .table-container{width:100%;overflow-x:auto;border:1px solid #e8b8b8;border-radius:13px;overscroll-behavior-x:contain;scrollbar-color:#c84078 #ffe4eb}
@@ -205,7 +206,7 @@
   <section class="section">
     <div class="section-title">⭐ ЗВЁЗДНАЯ СИСТЕМА</div>
     <div class="reward-guide">
-      <div class="reward-card"><div class="reward-score">1 ★</div><div class="reward-list">Каждый 1 VP · каждые −300 г · ужин вечерним коктейлем · выпечка из продукта · Герби-напитки · Zoom и отзыв · друг на Zoom</div></div>
+      <div class="reward-card"><div class="reward-score">1 ★</div><div class="reward-list">Каждый 1 VP · каждые −300 г · ужин вечерним коктейлем · выпечка из продукта · Герби-напитки (коллагеновый лимонад, черешня, кофе, детокс, ЛифтОфф) · Zoom и отзыв · друг на Zoom</div></div>
       <div class="reward-card"><div class="reward-score">3 ★</div><div class="reward-list">Турбо-напиток · сторис с отметкой консультанта · репост друга</div></div>
       <div class="reward-card"><div class="reward-score">5 ★</div><div class="reward-list">Друг на офлайн-мероприятии · онлайн-тренировка · день Хибера · Reels о проекте</div></div>
       <div class="reward-card"><div class="reward-score">10 ★</div><div class="reward-list">10-дневный абонемент · друг на диагностике состава тела</div></div>
@@ -214,6 +215,7 @@
       <div class="reward-card"><div class="reward-score">50 ★</div><div class="reward-list">VIP 500 — открыть промоушен «Забугор-2»</div></div>
     </div>
     <div class="section-title">📅 ЕЖЕДНЕВНЫЙ ТРЕКЕР</div>
+    <p class="drink-examples">🥤 <strong>Герби-напитки:</strong> коллагеновый лимонад, черешня, кофе Гербалайф, детокс, ЛифтОфф. В колонке укажи количество напитков — за каждый 1 ⭐.</p>
     <div class="table-container" role="region" aria-label="Таблица звёзд по дням">
       <table>
         <thead><tr id="tableHead"><th class="sticky-col">Дата</th><th class="sticky-col2">День</th></tr></thead>
@@ -329,7 +331,7 @@
     {key:'vp',short:'Каждый 1 VP (объём)',title:'Каждый 1 VP (балл объёма)',points:1,type:'num'},
     {key:'dinner',short:'Ужин вечерним коктейлем',title:'Ужин вечерним коктейлем',points:1,type:'check'},
     {key:'bake',short:'Выпечка из продукта',title:'Выпечка из продукта',points:1,type:'check'},
-    {key:'drink',short:'Герби-напитки',title:'Герби-напитки (количество)',points:1,type:'num'},
+    {key:'drink',short:'Герби-напитки: коллагеновый лимонад, черешня, кофе, детокс, ЛифтОфф',title:'Герби-напитки (коллагеновый лимонад, черешня, кофе Гербалайф, детокс, ЛифтОфф) — укажи количество',points:1,type:'num'},
     {key:'zoom',short:'Посещение Zoom и отзыв',title:'Посещение Zoom и отзыв',points:1,type:'check'},
     {key:'zoomFriend',short:'Друг на Zoom',title:'Подключение друга к Zoom (количество)',points:1,type:'num'},
     {key:'turbo',short:'Турбо-напиток',title:'Турбо-напиток',points:3,type:'check'},
