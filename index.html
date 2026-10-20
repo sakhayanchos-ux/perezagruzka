@@ -67,6 +67,9 @@
   th,td{border-right:1px solid #f0d5d4;border-bottom:1px solid #f0d5d4;text-align:center;min-width:81px;padding:7px 5px}
   th{position:sticky;top:0;z-index:1;background:linear-gradient(145deg,#971d4e,#ca3c73);color:#fff4e6;font-size:.72rem;line-height:1.18;white-space:normal}
   th small{display:block;margin-top:4px;color:#ffe6b3;font-size:.7rem}
+  .table-container th.task-head{min-width:145px;max-width:166px;width:156px;white-space:normal;vertical-align:middle;padding:10px 8px;overflow-wrap:break-word;hyphens:auto}
+  .task-label{display:block;line-height:1.25;font-size:.81rem;font-weight:750}
+  @media(max-width:520px){.table-container th.task-head{min-width:130px;max-width:145px;width:138px;padding:10px 6px}.task-label{font-size:.77rem}}
   tbody tr:nth-child(even) td{background:#fff0f2}
   tbody tr:nth-child(odd) td{background:#fffbf8}
   .sticky-col,.sticky-col2{position:sticky;z-index:3;min-width:72px;width:72px;left:0;background:#fff8f4!important;font-weight:750;color:var(--wine)}
@@ -217,7 +220,7 @@
         <tbody id="tableBody"></tbody>
       </table>
     </div>
-    <div class="note">↔️ Прокручивай таблицу влево и вправо. Награды за вес и особые события прибавляются к общему счёту автоматически.</div>
+    <div class="note">↔️ Прокручивай таблицу влево и вправо: названия заданий написаны полностью. ✅ Галочка — выполнил(а) задание, 🔢 число — сколько раз или человек. Звёзды за вес и события прибавляются автоматически.</div>
   </section>
 
   <section class="section">
@@ -323,24 +326,24 @@
   }
   const OLD_DATES=Array.from({length:11},(_,i)=>String(i+1).padStart(2,'0')+'.11');
   const ACTIVITIES = [
-    {key:'vp',short:'VP',title:'Каждый 1 VP',points:1,type:'num'},
-    {key:'dinner',short:'Ужин',title:'Ужин вечерним коктейлем',points:1,type:'check'},
-    {key:'bake',short:'Выпечка',title:'Выпечка из продукта',points:1,type:'check'},
-    {key:'drink',short:'Герби',title:'Герби-напитки (количество)',points:1,type:'num'},
-    {key:'zoom',short:'Zoom',title:'Посещение Zoom и отзыв',points:1,type:'check'},
-    {key:'zoomFriend',short:'Друг Zoom',title:'Подключение друга к Zoom (количество)',points:1,type:'num'},
-    {key:'turbo',short:'Турбо',title:'Турбо-напиток',points:3,type:'check'},
-    {key:'story',short:'Сторис',title:'Статус / сторис с отметкой консультанта (количество)',points:3,type:'num'},
-    {key:'repost',short:'Репост',title:'Друг сделал репост готовых статусов (количество)',points:3,type:'num'},
-    {key:'offline',short:'Друг офлайн',title:'Приведи друга на офлайн-мероприятие (количество)',points:5,type:'num'},
-    {key:'training',short:'Тренировка',title:'Посещение онлайн-тренировки',points:5,type:'check'},
-    {key:'hiber',short:'Хибер',title:'День Хибера',points:5,type:'check'},
-    {key:'reels',short:'Reels',title:'Reels по тематике проекта',points:5,type:'check'},
-    {key:'sub10',short:'10 дней',title:'10-дневный абонемент',points:10,type:'check'},
-    {key:'diagnostic',short:'Диагностика',title:'Друг на диагностике состава тела (количество)',points:10,type:'num'},
-    {key:'homeClient',short:'Клиент / месяц',title:'Домашний клиент или месячный абонемент (количество)',points:20,type:'num'},
-    {key:'vip300',short:'VIP 300',title:'VIP 300 — промоушен Байкал',points:30,type:'check'},
-    {key:'vip500',short:'VIP 500',title:'VIP 500 — промоушен Забугор-2',points:50,type:'check'}
+    {key:'vp',short:'Каждый 1 VP (объём)',title:'Каждый 1 VP (балл объёма)',points:1,type:'num'},
+    {key:'dinner',short:'Ужин вечерним коктейлем',title:'Ужин вечерним коктейлем',points:1,type:'check'},
+    {key:'bake',short:'Выпечка из продукта',title:'Выпечка из продукта',points:1,type:'check'},
+    {key:'drink',short:'Герби-напитки',title:'Герби-напитки (количество)',points:1,type:'num'},
+    {key:'zoom',short:'Посещение Zoom и отзыв',title:'Посещение Zoom и отзыв',points:1,type:'check'},
+    {key:'zoomFriend',short:'Друг на Zoom',title:'Подключение друга к Zoom (количество)',points:1,type:'num'},
+    {key:'turbo',short:'Турбо-напиток',title:'Турбо-напиток',points:3,type:'check'},
+    {key:'story',short:'Статус / сторис с отметкой консультанта',title:'Статус или сторис с отметкой консультанта',points:3,type:'check'},
+    {key:'repost',short:'Друг сделал репост статуса',title:'Друг сделал репост готового статуса (количество)',points:3,type:'num'},
+    {key:'offline',short:'Привести друга на офлайн-мероприятие',title:'Привести друга на офлайн-мероприятие (количество)',points:5,type:'num'},
+    {key:'training',short:'Посещение онлайн-тренировки',title:'Посещение онлайн-тренировки',points:5,type:'check'},
+    {key:'hiber',short:'День Хибера',title:'День Хибера',points:5,type:'check'},
+    {key:'reels',short:'Рилс по теме проекта',title:'Рилс по теме проекта',points:5,type:'check'},
+    {key:'sub10',short:'10-дневный абонемент',title:'10-дневный абонемент',points:10,type:'check'},
+    {key:'diagnostic',short:'Друг на диагностике состава тела',title:'Друг на диагностике состава тела (количество)',points:10,type:'num'},
+    {key:'homeClient',short:'Домашний клиент или месячный абонемент',title:'Домашний клиент или месячный абонемент (количество)',points:20,type:'num'},
+    {key:'vip300',short:'VIP 300 — промо «Байкал»',title:'VIP 300 — промоушен Байкал',points:30,type:'check'},
+    {key:'vip500',short:'VIP 500 — промо «Забугор-2»',title:'VIP 500 — промоушен Забугор-2',points:50,type:'check'}
   ];
   const EVENT_POINTS = {miss:20,missFriends:20,photo:30,ambassador:50,graduation:30};
   const EVENT_LABELS = {miss:'Мисс Herbalife (01.11)',missFriends:'Друзья на Мисс Herbalife (01.11)',photo:'Фото до/после + отзыв (до 11.11)',ambassador:'Амбассадор (до 11.11)',graduation:'Выпускной (11.11)'};
@@ -351,13 +354,21 @@
   const get = key => {try{return localStorage.getItem(key)}catch(e){return null}};
   const set = (key,value) => {try{localStorage.setItem(key,String(value))}catch(e){}};
   function normalise(item,value){
+    // Старые значения сторис сохраняем как числа, даже когда столбец стал галочкой.
+    // Так прежние начисления за несколько сторис не пропадут у участников.
+    if(item.key==='story'){
+      if(value===true)return 1;
+      if(value===false)return 0;
+      const oldCount=Number(value);
+      return Number.isFinite(oldCount)&&oldCount>0?Math.floor(oldCount):0;
+    }
     if(item.type === 'check')return value === true;
     const n = Number(value);
     return Number.isFinite(n) && n > 0 ? Math.floor(n) : 0;
   }
   function emptyDay(){
     const day = {};
-    ACTIVITIES.forEach(item => {day[item.key] = item.type === 'check' ? false : 0});
+    ACTIVITIES.forEach(item => {day[item.key] = item.key==='story' ? 0 : (item.type === 'check' ? false : 0)});
     return day;
   }
   let tableData = DATES.map(emptyDay);
@@ -396,7 +407,7 @@
   function renderTable(){
     let header='';
     ACTIVITIES.forEach(item=>{
-      header+='<th scope="col" title="'+item.title+'">'+item.short+'<small>'+item.points+' ⭐</small></th>';
+      header+='<th class="task-head" scope="col" title="'+item.title+'"><span class="task-label">'+item.short+'</span><small>'+item.points+' ⭐</small></th>';
     });
     $('tableHead').innerHTML='<th class="sticky-col" scope="col">Дата</th><th class="sticky-col2" scope="col">День</th>'+header;
     let rows='';
@@ -421,7 +432,7 @@
     tableData.forEach(day=>{
       ACTIVITIES.forEach(item=>{
         const v=normalise(item,day[item.key]);
-        total+=item.points*(item.type==='check'?(v?1:0):v);
+        total+=item.points*(item.type==='check'&&item.key!=='story'?(v?1:0):v);
       });
     });
     EVENT_IDS.forEach(id=>{
@@ -464,7 +475,7 @@
   function rowTotal(day){
     return ACTIVITIES.reduce((sum,item)=>{
       const n=normalise(item,day[item.key]);
-      return sum+item.points*(item.type==='check'?(n?1:0):n);
+      return sum+item.points*(item.type==='check'&&item.key!=='story'?(n?1:0):n);
     },0);
   }
   function eventTotal(){
