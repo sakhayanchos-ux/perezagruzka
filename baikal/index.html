@@ -59,7 +59,7 @@ button:focus-visible,input:focus-visible{outline:3px solid #39c7f1;outline-offse
 .mini-track i{display:block;height:100%;border-radius:inherit;background:#28add7}
 .month-tile.active .mini-track{background:#ffffff50}
 .month-tile.active .mini-track i{background:#b3f3ff}
-.selected{margin-top:13px;padding:19px 16px}
+.motivation{display:flex;align-items:center;gap:13px;margin-top:14px;padding:17px 18px;background:linear-gradient(115deg,#f7fdff,#dbf4ff);border:1px solid #b8e3f7;min-height:84px}.motivation-icon{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:15px;background:#b9eaff;font-size:24px}.motivation strong{display:block;color:#0b5687;font-family:Georgia,serif;font-size:19px;line-height:1.2}.motivation p{margin:5px 0 0;color:#3e7597;font-size:13px;line-height:1.45}.selected{margin-top:13px;padding:19px 16px}
 .selected-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}
 .selected h2{font-family:Georgia,serif;font-size:28px;margin:0}
 .selected .dates{color:#6592ad;font-size:11px;font-weight:700}
@@ -157,7 +157,7 @@ button:focus-visible,input:focus-visible{outline:3px solid #39c7f1;outline-offse
 
 <h2 class="section-title">❄️ Маршрут к Байкалу</h2>
 <div class="route" id="route" aria-label="Этапы промоушена"></div>
-<section class="selected card" id="monthPanel">
+<section class="card motivation" aria-live="polite"><div class="motivation-icon" id="motivationIcon">❄️</div><div><strong id="motivationTitle">Путь к Байкалу</strong><p id="motivationText">Каждый шаг приближает к цели!</p></div></section><section class="selected card" id="monthPanel">
  <div class="selected-top"><div><span class="kicker">ЭТАП <span id="stageNum">1</span> ИЗ 4</span><h2 id="focusMonth">Октябрь</h2><div class="dates" id="focusYear">2026</div></div><span class="status" id="stageStatus">В процессе</span></div>
  <div class="meters">
   <div class="meter"><div class="label">✦ Очки</div><div class="value"><span id="pointsCurrent">0</span> <span id="pointsGoal">/ 300</span></div><div class="progress"><i id="pointsBar" style="width:0%"></i></div><small id="pointsRemain">Осталось 300</small></div>
@@ -237,6 +237,19 @@ function render(){
  $("pointsRemain").textContent=remain(p,m.points);
  $("npRemain").textContent=n>=m.np?"Цель выполнена ✓":"Осталось "+(m.np-n)+" НП";
  const complete=p>=m.points&&n>=m.np;
+ const lp=Math.max(0,Math.round((m.points-p)*100)/100),ln=Math.max(0,m.np-n);
+ let title="",message="",emoji="❄️";
+ if(complete){title="Ура! Этап выполнен!";message="Все очки набраны и все "+m.np+" НП подписаны. Ты справилась!";emoji="🏆"}
+ else if(today()>monthWindow(i).end){title="Этап завершён";message="Срок месяца закончился. Результат сохранён: "+fmt(p)+" очков и "+n+" НП.";emoji="❄️"}
+ else if(today()<monthWindow(i).start){title="Впереди "+m.name+"!";message="Цель: "+fmt(m.points)+" очков и "+m.np+" новых НП.";emoji="🏔️"}
+ else if(lp===0){title="Молодец! Очки уже набраны!";message=ln===1?"Осталось подписать всего 1 нового НП!":"Теперь осталось подписать "+ln+" новых НП. Ты на верном пути!";emoji="🤝"}
+ else if(ln===0){title="Отлично! Все НП подписаны!";message="Осталось "+fmt(lp)+" очков до выполнения этапа.";emoji="⭐"}
+ else if(lp===m.points&&ln===m.np){title="Вперёд, к зимнему Байкалу!";message="В этом месяце нужно "+fmt(m.points)+" очков и "+m.np+" новых НП. Начинаем!";emoji="🏔️"}
+ else if(ln===1){title="Ты уже так близко!";message="Остался 1 новый НП и "+fmt(lp)+" очков. Продолжай!";emoji="💙"}
+ else if(p>=m.points/2||n>=m.np/2){title="Ты уже на полпути!";message="Осталось "+fmt(lp)+" очков и "+ln+" новых НП. Отличный темп!";emoji="🌟"}
+ else{title="Хорошее начало!";message="Осталось "+fmt(lp)+" очков и "+ln+" новых НП. Каждый шаг важен!";emoji="✨"}
+ $("motivationTitle").textContent=title;$("motivationText").textContent=message;$("motivationIcon").textContent=emoji;
+
  $("stageStatus").textContent=complete?"✓ Этап выполнен":isOpen(i)?"В процессе":today()<monthWindow(i).start?"Ещё не начался":"Срок завершён";
  $("stageStatus").classList.toggle("done",complete);
  $("pointsForm").querySelectorAll?.("input,button").forEach(el=>el.disabled=!isOpen(i));
