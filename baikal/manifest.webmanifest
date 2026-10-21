@@ -1,0 +1,19 @@
+{
+  "name": "Зимний Байкал — трекер НП",
+  "short_name": "Зимний Байкал",
+  "description": "Очки и новые НП: маршрут по четырём месяцам",
+  "lang": "ru",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#d5f1ff",
+  "theme_color": "#0c517f",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
