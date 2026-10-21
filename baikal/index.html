@@ -152,9 +152,9 @@ button:focus-visible,input:focus-visible{outline:3px solid #39c7f1;outline-offse
   <div class="stat"><span class="tag">♙ Новых НП</span><b id="totalNp">0</b> <small>/ 15</small><div class="micro"><i id="allNpBar" style="width:0%"></i></div></div>
  </div>
 </section>
-<h2 class="section-title">❄️ Маршрут к Байкалу</h2>
 
-<nav class="route" id="route" aria-label="Этапы промоушена"></nav>
+
+
 <section class="selected card" id="monthPanel">
  <div class="selected-top"><div><span class="kicker">ЭТАП <span id="stageNum">1</span> ИЗ 4</span><h2 id="focusMonth">Октябрь</h2><div class="dates" id="focusYear">2026</div></div><span class="status" id="stageStatus">В процессе</span></div>
  <div class="meters">
@@ -220,12 +220,14 @@ function dateRu(s){if(!/^\d{4}-\d\d-\d\d$/.test(s||""))return "";const d=new Dat
 let toastTimer;
 function toast(message){const t=$("toast");t.textContent=message;t.style.display="block";clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.display="none",3200)}
 function render(){
+ const now=today();const current=months.findIndex((m,i)=>{const w=monthWindow(i);return now>=w.start&&now<=w.end});data.selected=current>=0?current:(now<monthWindow(0).start?0:3);
  $("greeting").textContent=data.profile?"Вперёд, "+data.profile.split(/\s+/)[0]+"!":"Мой прогресс";
  let ap=0,an=0;
  for(let i=0;i<4;i++){ap+=sum(i);an+=npCount(i)}
  $("totalPoints").textContent=fmt(ap);$("totalNp").textContent=fmt(an);
  $("allPointsBar").style.width=pct(ap,2800)+"%";$("allNpBar").style.width=pct(an,15)+"%";
- $("route").innerHTML=months.map((m,i)=>{const done=sum(i)>=m.points&&npCount(i)>=m.np;return '<button type="button" class="month-tile'+(i===data.selected?' active':'')+'" data-month="'+i+'" aria-current="'+(i===data.selected?'step':'false')+'"><span class="ice-icon">'+m.ico+'</span><span class="month-name">'+m.name+'</span><span class="month-target">✦ '+fmt(m.points)+' оч.</span><span class="month-np">♙ '+m.np+' НП '+(done?'✓':'')+'</span><span class="mini-track"><i style="width:'+pct((pct(sum(i),m.points)+pct(npCount(i),m.np))/2,100)+'%"></i></span></button>'}).join("");
+ /* Hidden route cards, month selected automatically */
+ /* $("route").innerHTML=months.map((m,i)=>{const done=sum(i)>=m.points&&npCount(i)>=m.np;return '<button type="button" class="month-tile'+(i===data.selected?' active':'')+'" data-month="'+i+'" aria-current="'+(i===data.selected?'step':'false')+'"><span class="ice-icon">'+m.ico+'</span><span class="month-name">'+m.name+'</span><span class="month-target">✦ '+fmt(m.points)+' оч.</span><span class="month-np">♙ '+m.np+' НП '+(done?'✓':'')+'</span><span class="mini-track"><i style="width:'+pct((pct(sum(i),m.points)+pct(npCount(i),m.np))/2,100)+'%"></i></span></button>'}).join(""); */
  const i=data.selected,m=months[i],mp=data.months[i],p=sum(i),n=npCount(i);
  $("stageNum").textContent=String(i+1);$("focusMonth").textContent=m.name;$("focusYear").textContent=m.year;
  $("pointsCurrent").textContent=fmt(p);$("pointsGoal").textContent="/ "+fmt(m.points);
@@ -245,8 +247,8 @@ function render(){
  $("npList").innerHTML=npItems.length?npItems.map(x=>'<div class="log-item"><div class="details"><b>'+esc(x.name)+'</b><small>'+esc(dateRu(x.date))+'</small></div><button class="trash" type="button" data-delete="partners" data-id="'+esc(x.id)+'" title="Удалить партнёра" aria-label="Удалить запись НП">×</button></div>').join(""):'<div class="empty">Здесь будут новые НП ♙</div>';
 }
 function id(){return String(Date.now())+"-"+Math.random().toString(36).slice(2,10)}
-function setMonth(i){data.selected=i;save();render();$("monthPanel").scrollIntoView({behavior:"smooth",block:"nearest"})}
-$("route").addEventListener("click",e=>{const b=e.target.closest("[data-month]");if(b)setMonth(Number(b.dataset.month))});
+
+
 $("pointsForm").addEventListener("submit",e=>{e.preventDefault();const input=$("addPoints");if(!isOpen(data.selected)){toast("Этот месяц закрыт для внесения результатов");return}const amount=Number(input.value.trim().replace(",","."));if(!Number.isFinite(amount)||amount<=0||amount>1000000){toast("Введи положительное количество очков");return}
 const date=$("pointDate").value||today();if(date!==today()){toast("Записи можно вносить только за сегодняшний день");return}data.months[data.selected].points.push({id:id(),amount:Math.round(amount*100)/100,date,note:$("pointNote").value.trim().slice(0,100)});
 save();render();input.value="";$("pointNote").value="";toast("Очки добавлены ❄️")});
