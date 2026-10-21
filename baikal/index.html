@@ -46,9 +46,9 @@ button:focus-visible,input:focus-visible{outline:3px solid #39c7f1;outline-offse
 .section-title{font-family:Georgia,serif;font-size:25px;line-height:1.14;margin:21px 0 12px}
 .title-note{font-size:12px;color:#507794;margin:-7px 0 12px}
 .route{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
-.month-tile{position:relative;text-align:center;min-width:0;padding:15px 5px 12px;border:1px solid #b8dbed;border-radius:19px;color:#144f78;background:linear-gradient(153deg,#ffffffeb,#dff4ffee);box-shadow:0 5px 14px #1e85b21c;transition:transform .12s,border .12s;outline-offset:3px}
+.month-tile{cursor:default;position:relative;text-align:center;min-width:0;padding:15px 5px 12px;border:1px solid #b8dbed;border-radius:19px;color:#144f78;background:linear-gradient(153deg,#ffffffeb,#dff4ffee);box-shadow:0 5px 14px #1e85b21c;transition:transform .12s,border .12s;outline-offset:3px}
 .month-tile.active{background:linear-gradient(150deg,#0e79b3,#08446d);border:2px solid #fff;color:white;box-shadow:0 10px 25px #155e9b59}
-.month-tile:active{transform:scale(.97)}
+.month-tile:active{transform:none}
 .entry-form input:disabled,.entry-form button:disabled{opacity:.5;cursor:not-allowed}
 .month-tile .ice-icon{display:flex;margin:0 auto 7px;justify-content:center;align-items:center;border-radius:50%;width:39px;height:39px;font-size:21px;background:#d5f2ff}
 .month-tile.active .ice-icon{background:#ffffff3a}
@@ -155,6 +155,8 @@ button:focus-visible,input:focus-visible{outline:3px solid #39c7f1;outline-offse
 
 
 
+<h2 class="section-title">❄️ Маршрут к Байкалу</h2>
+<div class="route" id="route" aria-label="Этапы промоушена"></div>
 <section class="selected card" id="monthPanel">
  <div class="selected-top"><div><span class="kicker">ЭТАП <span id="stageNum">1</span> ИЗ 4</span><h2 id="focusMonth">Октябрь</h2><div class="dates" id="focusYear">2026</div></div><span class="status" id="stageStatus">В процессе</span></div>
  <div class="meters">
@@ -226,8 +228,7 @@ function render(){
  for(let i=0;i<4;i++){ap+=sum(i);an+=npCount(i)}
  $("totalPoints").textContent=fmt(ap);$("totalNp").textContent=fmt(an);
  $("allPointsBar").style.width=pct(ap,2800)+"%";$("allNpBar").style.width=pct(an,15)+"%";
- /* Hidden route cards, month selected automatically */
- /* $("route").innerHTML=months.map((m,i)=>{const done=sum(i)>=m.points&&npCount(i)>=m.np;return '<button type="button" class="month-tile'+(i===data.selected?' active':'')+'" data-month="'+i+'" aria-current="'+(i===data.selected?'step':'false')+'"><span class="ice-icon">'+m.ico+'</span><span class="month-name">'+m.name+'</span><span class="month-target">✦ '+fmt(m.points)+' оч.</span><span class="month-np">♙ '+m.np+' НП '+(done?'✓':'')+'</span><span class="mini-track"><i style="width:'+pct((pct(sum(i),m.points)+pct(npCount(i),m.np))/2,100)+'%"></i></span></button>'}).join(""); */
+ $("route").innerHTML=months.map((m,i)=>{const done=sum(i)>=m.points&&npCount(i)>=m.np;return '<div class="month-tile'+(i===data.selected?' active':'')+'" aria-label="'+m.name+', '+fmt(m.points)+' очков, '+m.np+' НП"><span class="ice-icon">'+m.ico+'</span><span class="month-name">'+m.name+'</span><span class="month-target">✦ '+fmt(m.points)+' оч.</span><span class="month-np">♙ '+m.np+' НП '+(done?'✓':'')+'</span><span class="mini-track"><i style="width:'+pct((pct(sum(i),m.points)+pct(npCount(i),m.np))/2,100)+'%"></i></span></div>'}).join("");
  const i=data.selected,m=months[i],mp=data.months[i],p=sum(i),n=npCount(i);
  $("stageNum").textContent=String(i+1);$("focusMonth").textContent=m.name;$("focusYear").textContent=m.year;
  $("pointsCurrent").textContent=fmt(p);$("pointsGoal").textContent="/ "+fmt(m.points);
