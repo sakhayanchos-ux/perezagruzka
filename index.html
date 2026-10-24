@@ -77,6 +77,9 @@
   .sticky-col2{z-index:3;left:72px;min-width:55px;width:55px}
   th.sticky-col,th.sticky-col2{z-index:5;background:var(--wine)!important;color:white}
   td input[type="number"]{width:68px;text-align:center;padding:7px 4px;border-radius:7px;font-size:.86rem}
+  /* Light guidance only: no number is saved or counted until participant enters one. */
+  .table-container input[type="number"]::placeholder,
+  .special-row input[type="number"]::placeholder{color:#b8a8ad;opacity:1;font-weight:400}
   td input[type="checkbox"]{width:19px;height:19px}
   .note{margin:9px 0 0;color:#98516c;font-size:.76rem}
   .special-block{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
@@ -229,7 +232,7 @@
     <div class="section-title">🎉 ОСОБЫЕ СОБЫТИЯ</div>
     <div class="special-block">
       <label class="special-row"><span class="event-date">01.11</span><span class="special-label">💖 Мисс Herbalife</span><input type="checkbox" id="miss"><span>20 ⭐</span></label>
-      <label class="special-row friend-event-row"><span class="event-date">01.11</span><span class="special-label">👥 Каждый друг на Мисс Herbalife</span><input type="number" min="0" step="1" inputmode="numeric" id="missFriends" value="" aria-label="Количество друзей на Мисс Herbalife"><span>20 ⭐</span></label>
+      <label class="special-row friend-event-row"><span class="event-date">01.11</span><span class="special-label">👥 Каждый друг на Мисс Herbalife</span><input type="number" min="0" step="1" inputmode="numeric" id="missFriends" value="" placeholder="0" aria-label="Количество друзей на Мисс Herbalife"><span>20 ⭐</span></label>
       <label class="special-row"><span class="event-date">до 11.11</span><span class="special-label">📸 Фото до/после + отзыв</span><input type="checkbox" id="photo"><span>30 ⭐</span></label>
       <label class="special-row"><span class="event-date">до 11.11</span><span class="special-label">👑 Амбассадор</span><input type="checkbox" id="ambassador"><span>50 ⭐</span></label>
       <label class="special-row"><span class="event-date">11.11</span><span class="special-label">🎓 Выпускной</span><input type="checkbox" id="graduation"><span>30 ⭐</span></label>
@@ -439,7 +442,7 @@
         }else if(item.type==='check'){
           rows+='<input type="checkbox" data-day="'+i+'" data-col="'+item.key+'" aria-label="'+desc+'" '+(day[item.key]?'checked':'')+'>';
         }else{
-          rows+='<input type="number" min="0" step="1" inputmode="numeric" data-day="'+i+'" data-col="'+item.key+'" aria-label="'+desc+'" value="'+(normalise(item,day[item.key])||'')+'" title="'+item.title+'">';
+          rows+='<input type="number" min="0" step="1" inputmode="numeric" data-day="'+i+'" data-col="'+item.key+'" aria-label="'+desc+'" placeholder="0" value="'+(normalise(item,day[item.key])||'')+'" title="'+item.title+'">';
         }
         rows+='</td>';
       });
