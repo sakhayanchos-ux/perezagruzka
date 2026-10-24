@@ -229,7 +229,7 @@
     <div class="section-title">🎉 ОСОБЫЕ СОБЫТИЯ</div>
     <div class="special-block">
       <label class="special-row"><span class="event-date">01.11</span><span class="special-label">💖 Мисс Herbalife</span><input type="checkbox" id="miss"><span>20 ⭐</span></label>
-      <label class="special-row friend-event-row"><span class="event-date">01.11</span><span class="special-label">👥 Каждый друг на Мисс Herbalife</span><input type="number" min="0" step="1" inputmode="numeric" id="missFriends" value="0" aria-label="Количество друзей на Мисс Herbalife"><span>20 ⭐</span></label>
+      <label class="special-row friend-event-row"><span class="event-date">01.11</span><span class="special-label">👥 Каждый друг на Мисс Herbalife</span><input type="number" min="0" step="1" inputmode="numeric" id="missFriends" value="" aria-label="Количество друзей на Мисс Herbalife"><span>20 ⭐</span></label>
       <label class="special-row"><span class="event-date">до 11.11</span><span class="special-label">📸 Фото до/после + отзыв</span><input type="checkbox" id="photo"><span>30 ⭐</span></label>
       <label class="special-row"><span class="event-date">до 11.11</span><span class="special-label">👑 Амбассадор</span><input type="checkbox" id="ambassador"><span>50 ⭐</span></label>
       <label class="special-row"><span class="event-date">11.11</span><span class="special-label">🎓 Выпускной</span><input type="checkbox" id="graduation"><span>30 ⭐</span></label>
@@ -409,7 +409,10 @@
     EVENT_IDS.forEach(id=>{
       const el=$(id);
       if(el.type==='checkbox')el.checked=get(EVENT_STORAGE_PREFIX+id)==='true'||oldVip[id]===true;
-      else el.value=get(EVENT_STORAGE_PREFIX+id) || '0';
+      else{
+        const count=normalise({type:'num'},get(EVENT_STORAGE_PREFIX+id));
+        el.value=count>0?String(count):'';
+      }
     });
     renderTable();
     calc();
@@ -436,7 +439,7 @@
         }else if(item.type==='check'){
           rows+='<input type="checkbox" data-day="'+i+'" data-col="'+item.key+'" aria-label="'+desc+'" '+(day[item.key]?'checked':'')+'>';
         }else{
-          rows+='<input type="number" min="0" step="1" inputmode="numeric" data-day="'+i+'" data-col="'+item.key+'" aria-label="'+desc+'" value="'+day[item.key]+'" title="'+item.title+'">';
+          rows+='<input type="number" min="0" step="1" inputmode="numeric" data-day="'+i+'" data-col="'+item.key+'" aria-label="'+desc+'" value="'+(normalise(item,day[item.key])||'')+'" title="'+item.title+'">';
         }
         rows+='</td>';
       });
@@ -479,6 +482,7 @@
     if(!item||!Number.isInteger(rowIndex)||rowIndex<0||rowIndex>=tableData.length)return;
     if(item.key==='training'&&!isTrainingDay(rowIndex))return;
     tableData[rowIndex][item.key]=normalise(item,item.type==='check'?el.checked:el.value);
+    if(e.type==='change'&&item.type==='num'&&tableData[rowIndex][item.key]===0)el.value='';
     calc();
   }
   function bind(){
@@ -487,6 +491,10 @@
     EVENT_IDS.forEach(id=>{
       const el=$(id);
       el.addEventListener(el.type==='checkbox'?'change':'input',calc);
+      if(el.type==='number')el.addEventListener('change',()=>{
+        if(normalise({type:'num'},el.value)===0)el.value='';
+        calc();
+      });
     });
     PROFILE_IDS.forEach(id=>$(id).addEventListener('input',calc));
   }
