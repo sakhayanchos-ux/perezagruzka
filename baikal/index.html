@@ -41,14 +41,16 @@ button:focus-visible,input:focus-visible{outline:3px solid #39c7f1;outline-offse
 .stat .tag{display:block;font-size:12px;color:var(--muted);font-weight:650}
 .stat b{font-size:clamp(23px,6vw,30px);letter-spacing:-.04em;white-space:nowrap;color:#075b92}
 .stat small{font-size:12px;color:#6e90a6;font-weight:650}
+.stat .stat-remaining{display:block;margin-top:7px;color:#507e9c;font-size:11px;font-weight:700}
 .stat .micro{height:5px;background:#c7e5f7;border-radius:99px;margin-top:9px;overflow:hidden}
 .stat .micro i{display:block;background:linear-gradient(90deg,#299be0,#6fe1ee);height:100%;border-radius:inherit;transition:width .4s}
 .section-title{font-family:Georgia,serif;font-size:25px;line-height:1.14;margin:21px 0 12px}
 .title-note{font-size:12px;color:#507794;margin:-7px 0 12px}
 .route{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
-.month-tile{cursor:default;position:relative;text-align:center;min-width:0;padding:15px 5px 12px;border:1px solid #b8dbed;border-radius:19px;color:#144f78;background:linear-gradient(153deg,#ffffffeb,#dff4ffee);box-shadow:0 5px 14px #1e85b21c;transition:transform .12s,border .12s;outline-offset:3px}
+.month-tile{cursor:pointer;position:relative;text-align:center;min-width:0;padding:15px 5px 12px;border:1px solid #b8dbed;border-radius:19px;color:#144f78;background:linear-gradient(153deg,#ffffffeb,#dff4ffee);box-shadow:0 5px 14px #1e85b21c;transition:transform .12s,border .12s;outline-offset:3px}
 .month-tile.active{background:linear-gradient(150deg,#0e79b3,#08446d);border:2px solid #fff;color:white;box-shadow:0 10px 25px #155e9b59}
-.month-tile:active{transform:none}
+.month-tile:active{transform:scale(.98)}
+.route-hint{text-align:center;margin:9px 0 0;font-size:12px;color:#477da0;font-weight:600}
 .entry-form input:disabled,.entry-form button:disabled{opacity:.5;cursor:not-allowed}
 .month-tile .ice-icon{display:flex;margin:0 auto 7px;justify-content:center;align-items:center;border-radius:50%;width:39px;height:39px;font-size:21px;background:#d5f2ff}
 .month-tile.active .ice-icon{background:#ffffff3a}
@@ -148,8 +150,8 @@ button:focus-visible,input:focus-visible{outline:3px solid #39c7f1;outline-offse
 <section class="overview card">
  <div class="welcome"><div><span class="kicker">МОЙ ПУТЬ К БАЙКАЛУ</span><h2 id="greeting">Мой прогресс</h2></div><button class="outline" id="editProfile" type="button">✎ Имя</button></div>
  <div class="stats">
-  <div class="stat"><span class="tag">✦ Всего очков</span><b id="totalPoints">0</b> <small>/ 2 800</small><div class="micro"><i id="allPointsBar" style="width:0%"></i></div></div>
-  <div class="stat"><span class="tag">♙ Новых НП</span><b id="totalNp">0</b> <small>/ 15</small><div class="micro"><i id="allNpBar" style="width:0%"></i></div></div>
+  <div class="stat"><span class="tag">✦ Очки за <span id="pointsMonthName">октябрь</span></span><b id="totalPoints">0</b> <small id="allPointsGoal">/ 300</small><div class="micro"><i id="allPointsBar" style="width:0%"></i></div><span class="stat-remaining" id="allPointsRemain">Осталось 300 очков</span></div>
+  <div class="stat"><span class="tag">♙ Новых НП за <span id="npMonthName">октябрь</span></span><b id="totalNp">0</b> <small id="allNpGoal">/ 2</small><div class="micro"><i id="allNpBar" style="width:0%"></i></div><span class="stat-remaining" id="allNpRemain">Осталось 2 НП</span></div>
  </div>
 </section>
 
@@ -157,6 +159,7 @@ button:focus-visible,input:focus-visible{outline:3px solid #39c7f1;outline-offse
 
 <h2 class="section-title">❄️ Маршрут к Байкалу</h2>
 <div class="route" id="route" aria-label="Этапы промоушена"></div>
+<p class="route-hint">Нажмите на месяц, чтобы увидеть его очки, новых НП и сколько осталось до цели.</p>
 <section class="card motivation" aria-live="polite"><div class="motivation-icon" id="motivationIcon">❄️</div><div><strong id="motivationTitle">Путь к Байкалу</strong><p id="motivationText">Каждый шаг приближает к цели!</p></div></section><section class="selected card" id="monthPanel">
  <div class="selected-top"><div><span class="kicker">ЭТАП <span id="stageNum">1</span> ИЗ 4</span><h2 id="focusMonth">Октябрь</h2><div class="dates" id="focusYear">2026</div></div><span class="status" id="stageStatus">В процессе</span></div>
  <div class="meters">
@@ -221,15 +224,20 @@ const today=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+
 function dateRu(s){if(!/^\d{4}-\d\d-\d\d$/.test(s||""))return "";const d=new Date(s+"T12:00:00");return isNaN(d)?"":d.toLocaleDateString("ru-RU",{day:"numeric",month:"short",year:"numeric"})}
 let toastTimer;
 function toast(message){const t=$("toast");t.textContent=message;t.style.display="block";clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.display="none",3200)}
+function initialMonth(){
+ const now=today(),current=months.findIndex((m,i)=>{const w=monthWindow(i);return now>=w.start&&now<=w.end});
+ return current>=0?current:(now<monthWindow(0).start?0:3);
+}
 function render(){
- const now=today();const current=months.findIndex((m,i)=>{const w=monthWindow(i);return now>=w.start&&now<=w.end});data.selected=current>=0?current:(now<monthWindow(0).start?0:3);
  $("greeting").textContent=data.profile?"Вперёд, "+data.profile.split(/\s+/)[0]+"!":"Мой прогресс";
- let ap=0,an=0;
- for(let i=0;i<4;i++){ap+=sum(i);an+=npCount(i)}
- $("totalPoints").textContent=fmt(ap);$("totalNp").textContent=fmt(an);
- $("allPointsBar").style.width=pct(ap,2800)+"%";$("allNpBar").style.width=pct(an,15)+"%";
- $("route").innerHTML=months.map((m,i)=>{const done=sum(i)>=m.points&&npCount(i)>=m.np;return '<div class="month-tile'+(i===data.selected?' active':'')+'" aria-label="'+m.name+', '+fmt(m.points)+' очков, '+m.np+' НП"><span class="ice-icon">'+m.ico+'</span><span class="month-name">'+m.name+'</span><span class="month-target">✦ '+fmt(m.points)+' оч.</span><span class="month-np">♙ '+m.np+' НП '+(done?'✓':'')+'</span><span class="mini-track"><i style="width:'+pct((pct(sum(i),m.points)+pct(npCount(i),m.np))/2,100)+'%"></i></span></div>'}).join("");
  const i=data.selected,m=months[i],mp=data.months[i],p=sum(i),n=npCount(i);
+ $("pointsMonthName").textContent=m.gen;$("npMonthName").textContent=m.gen;
+ $("totalPoints").textContent=fmt(p);$("allPointsGoal").textContent="/ "+fmt(m.points);
+ $("totalNp").textContent=fmt(n);$("allNpGoal").textContent="/ "+m.np;
+ $("allPointsBar").style.width=pct(p,m.points)+"%";$("allNpBar").style.width=pct(n,m.np)+"%";
+ $("allPointsRemain").textContent=p>=m.points?"Цель выполнена ✓":"Осталось "+fmt(Math.round((m.points-p)*100)/100)+" очков";
+ $("allNpRemain").textContent=n>=m.np?"Цель выполнена ✓":"Осталось "+(m.np-n)+" НП";
+ $("route").innerHTML=months.map((m,i)=>{const done=sum(i)>=m.points&&npCount(i)>=m.np;return '<button type="button" class="month-tile'+(i===data.selected?' active':'')+'" data-month="'+i+'" aria-pressed="'+(i===data.selected)+'" aria-label="'+m.name+', '+fmt(sum(i))+' из '+fmt(m.points)+' очков, новых НП '+npCount(i)+' из '+m.np+'"><span class="ice-icon">'+m.ico+'</span><span class="month-name">'+m.name+'</span><span class="month-target">✦ '+fmt(m.points)+' оч.</span><span class="month-np">♙ '+m.np+' НП '+(done?'✓':'')+'</span><span class="mini-track"><i style="width:'+pct((pct(sum(i),m.points)+pct(npCount(i),m.np))/2,100)+'%"></i></span></button>'}).join("");
  $("stageNum").textContent=String(i+1);$("focusMonth").textContent=m.name;$("focusYear").textContent=m.year;
  $("pointsCurrent").textContent=fmt(p);$("pointsGoal").textContent="/ "+fmt(m.points);
  $("npCurrent").textContent=fmt(n);$("npGoal").textContent="/ "+m.np;
@@ -261,6 +269,13 @@ function render(){
  $("npList").innerHTML=npItems.length?npItems.map(x=>'<div class="log-item"><div class="details"><b>'+esc(x.name)+'</b><small>'+esc(dateRu(x.date))+'</small></div><button class="trash" type="button" data-delete="partners" data-id="'+esc(x.id)+'" title="Удалить партнёра" aria-label="Удалить запись НП">×</button></div>').join(""):'<div class="empty">Здесь будут новые НП ♙</div>';
 }
 function id(){return String(Date.now())+"-"+Math.random().toString(36).slice(2,10)}
+$("route").addEventListener("click",e=>{
+ const b=e.target.closest("[data-month]");
+ if(!b)return;
+ const month=Number(b.dataset.month);
+ if(!Number.isInteger(month)||month<0||month>=months.length)return;
+ data.selected=month;render();
+});
 
 
 $("pointsForm").addEventListener("submit",e=>{e.preventDefault();const input=$("addPoints");if(!isOpen(data.selected)){toast("Этот месяц закрыт для внесения результатов");return}const amount=Number(input.value.trim().replace(",","."));if(!Number.isFinite(amount)||amount<=0||amount>1000000){toast("Введи положительное количество очков");return}
@@ -283,7 +298,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
 function report(){
 let lines=["❄️ ЗИМНИЙ БАЙКАЛ — МОЙ ТРЕКЕР",data.profile?"Участник: "+data.profile:"", "Отчёт по промо 2026–2027",""];
 months.forEach((m,i)=>{let p=sum(i),n=npCount(i);lines.push(m.name+": "+fmt(p)+" / "+fmt(m.points)+" очков; НП "+n+" / "+m.np+(p>=m.points&&n>=m.np?" ✅":""))});
-lines.push("");lines.push("ВСЕГО: "+fmt(months.reduce((a,m,i)=>a+sum(i),0))+" / 2 800 очков; "+months.reduce((a,m,i)=>a+npCount(i),0)+" / 15 НП");lines.push("Шаг за шагом — к зимнему Байкалу!");return lines.filter((x,i)=>i!==1||x).join("\n")
+lines.push("");lines.push("СУММА ЗА 4 МЕСЯЦА: "+fmt(months.reduce((a,m,i)=>a+sum(i),0))+" / 2 800 очков; "+months.reduce((a,m,i)=>a+npCount(i),0)+" / 15 НП");lines.push("Шаг за шагом — к зимнему Байкалу!");return lines.filter((x,i)=>i!==1||x).join("\n")
 }
 async function copyReport(){const str=report();try{await navigator.clipboard.writeText(str);toast("Отчёт скопирован")}catch(e){window.prompt("Скопируй отчёт:",str)}}
 $("copyReport").addEventListener("click",copyReport);
@@ -294,6 +309,7 @@ $("exportData").addEventListener("click",()=>{const content=JSON.stringify({app:
 $("importBtn").addEventListener("click",()=>$("importData").click());
 $("importData").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>3000000)throw Error("Слишком большой файл");const obj=JSON.parse(await file.text());if(obj.app!=="zimniy-baikal"||!Array.isArray(obj.months)||obj.months.length!==4)throw Error("Это не копия трекера Байкал");if(!confirm("Загрузить записи из выбранного файла? Текущие записи будут заменены."))return;const m=obj.months.map(v=>({points:Array.isArray(v.points)?v.points.filter(x=>x&&typeof x.amount==="number"&&x.amount>0).map(x=>({id:String(x.id||id()),amount:x.amount,date:String(x.date||""),note:String(x.note||"").slice(0,100)})):[],partners:Array.isArray(v.partners)?v.partners.filter(x=>x&&typeof x.name==="string").map(x=>({id:String(x.id||id()),name:x.name.slice(0,100),date:String(x.date||"")})):[]}));data={profile:String(obj.profile||"").slice(0,80),selected:Math.max(0,Math.min(3,Number(obj.selected)||0)),months:m};save();render();toast("Данные восстановлены ✨")}catch(error){toast("Не удалось восстановить: "+error.message)}finally{e.target.value=""}});
 $("pointDate").value=today();$("npDate").value=today();
+data.selected=initialMonth();
 render();
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 })();
