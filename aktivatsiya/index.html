@@ -189,6 +189,53 @@ input:focus-visible,button:focus-visible,select:focus-visible{outline-color:#ca7
  .gift .product{width:180px;height:268px;top:23px;right:-12px;opacity:1}
 }
 
+
+/* Мотивирующая панель в стиле утверждённого референса: круг слева, 3 месяца справа */
+.progress-panel{background:linear-gradient(130deg,#fffafd 0%,#fef0f8 100%)!important}
+.progress-layout{grid-template-columns:minmax(0,0.95fr) minmax(0,1.7fr);gap:20px}
+.progress-circle{width:min(100%,282px)}
+.progress-stage{border:0;background:transparent;box-shadow:none;padding:11px 7px;border-radius:10px}
+.progress-stage.active{background:#f8e7f1;border:0}
+.progress-stage.done .progress-stage-bar .progress-stage-fill{background:linear-gradient(90deg,#5f8c41,#7fb154)}
+.progress-stage.done .progress-stage-percent{color:#4c8137}
+.progress-stage-bar{height:9px;margin-top:7px}
+.progress-stage-sub{color:#98798a;font-size:11px;line-height:1.45;margin-top:5px}
+.progress-stage-top{color:#682846}
+.progress-spotlight{margin-top:14px;margin-bottom:0;padding:9px 12px;background:#f6e6f2;border:0}
+.progress-spotlight strong{font-size:12px;margin-top:0}
+.progress-explain{font-size:10px;margin:10px 5px 0}
+.tracker-shortcuts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.tracker-shortcut{width:100%;min-height:54px;font-size:12px;border-radius:15px}
+.backup-card{box-shadow:none!important;border:0!important;background:transparent!important;padding:6px 14px!important;margin-top:6px!important}
+.backup-card details{border:0}
+.gift .product{object-fit:contain;object-position:center bottom;filter:drop-shadow(0 11px 13px #270b2340)}
+@media(max-width:620px){
+ .progress-layout{grid-template-columns:137px minmax(0,1fr);gap:6px;align-items:center}
+ .progress-circle{width:141px}
+ .progress-center strong{font-size:22px}
+ .progress-center span{font-size:8px;margin-top:0}
+ .progress-center small{font-size:8px;margin-top:3px}
+ .progress-legend{font-size:8px;gap:4px;text-align:center;line-height:1.25}
+ .progress-stage{padding:9px 7px}
+ .progress-stage-top{font-size:10px;gap:4px}
+ .progress-stage-sub{font-size:9px}
+ .progress-stage-percent{font-size:10px}
+ .progress-stage-bar{height:7px}
+ .progress-spotlight{margin-top:10px;padding:8px}
+ .progress-spotlight strong{font-size:10px}
+ .tracker-shortcuts{gap:8px;margin-top:14px}
+ .tracker-shortcut{font-size:11px;padding:11px 7px}
+ .progress-panel .heading{margin-bottom:8px}
+ .progress-panel .progress-state{font-size:10px;padding:6px 9px}
+}
+@media(max-width:375px){
+ .progress-layout{grid-template-columns:113px minmax(0,1fr)}
+ .progress-circle{width:118px}
+ .progress-center strong{font-size:20px}
+ .progress-stage-sub{font-size:8px}
+ .progress-stage-top{font-size:9px}
+}
+
 </style>
 </head>
 <body>
@@ -250,17 +297,17 @@ input:focus-visible,button:focus-visible,select:focus-visible{outline-color:#ca7
  </div>
  <p class="sub" style="margin-top:13px">Личный PPV включает очки ваших личных привилегированных клиентов (MPCV).<br>Регистрация клиентов: <a href="https://www.prk.herbalife.ru/" target="_blank" rel="noopener noreferrer" style="color:#a07848;font-weight:800">www.prk.herbalife.ru ↗</a> · В каждом месяце нужно минимум 5 новых клиентов.</p>
 </section>
-<section class="card">
+<section class="card" id="historySection">
  <div class="heading"><h2>История месяца</h2><span class="chip">Всё под контролем</span></div>
  <div class="records"><div><h3>✦ Очки объёма</h3><div id="pointLog"></div></div><div><h3>♡ Новые клиенты</h3><div id="clientLog"></div></div></div>
 </section>
 <div class="gift" id="gift">
  <div class="gift-content"><div class="eyebrow">Твоя награда · Финальная цель</div><h2>Супер-блендер<br><em>в подарок!</em> 🎁</h2><p id="giftText">Пройди три месяца квалификации — и приблизься к подарку.</p><div class="tiny">Подарок предоставляется по официальным условиям программы после подтверждения квалификации.</div></div>
- <picture><source type="image/avif" srcset="./superblender-real.avif"><img class="product" src="./superblender-vector.svg" width="280" height="435" loading="lazy" decoding="async" alt="Реалистичный супер-блендер с прозрачной чашей, чёрным основанием, панелью управления и аксессуарами"></picture>
+ <picture><source type="image/avif" srcset="./superblender-new.avif"><img class="product" src="./superblender-vector.svg" width="280" height="435" loading="lazy" decoding="async" alt="Реалистичный супер-блендер с прозрачной чашей и чёрным основанием"></picture>
 </div>
 
 <section class="card progress-panel" aria-labelledby="progressHeading">
- <div class="heading"><div><div class="progress-kicker">ТВОЙ ПРОГРЕСС</div><h2 id="progressHeading">На пути к супер-блендеру</h2></div><span class="progress-state" id="progressState">Начало пути ✨</span></div>
+ <div class="heading"><div><div class="progress-kicker">МОЯ МОТИВАЦИЯ</div><h2 id="progressHeading">Моя активация</h2></div><span class="progress-state" id="progressState">Начало пути ✨</span></div>
  <div class="progress-layout">
   <div class="progress-circle-wrap">
    <div class="progress-circle" role="progressbar" id="mainProgress" aria-label="Общий прогресс трёх месяцев" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -276,18 +323,16 @@ input:focus-visible,button:focus-visible,select:focus-visible{outline-color:#ca7
    <div class="progress-legend"><span><i class="legend-rose"></i> Все 3 месяца</span><span><i class="legend-lavender"></i> Выбранный месяц</span></div>
   </div>
   <div class="progress-breakdown">
-   <div class="progress-spotlight"><span>Каждый результат приближает цель</span><strong id="progressMotivation">Первый шаг к подарку начинается сегодня!</strong></div>
    <div class="progress-timeline" id="progressTimeline" aria-label="Выполнение каждого месяца"></div>
-   <p class="progress-explain">Прогресс рассчитывается по очкам объёма, личному PPV и новым клиентам. У каждого месяца свои цели. Данные обновляются автоматически.</p>
+   <div class="progress-spotlight"><strong id="progressMotivation">Первый шаг к подарку начинается сегодня!</strong></div>
+   <p class="progress-explain">Очки PPV, общий объём и новые клиенты заполняют шкалы автоматически. Каждый месяц учитывается отдельно.</p>
   </div>
  </div>
+ <div class="tracker-shortcuts"><button type="button" class="btn gold tracker-shortcut" id="jumpAdd">＋ Добавить результат</button><button type="button" class="btn ghost tracker-shortcut" id="jumpHistory">▤ История записей</button></div>
 </section>
-<section class="card">
- <div class="heading"><h2>Мой отчёт</h2><span class="chip">Делись прогрессом</span></div>
- <p class="sub">Отправь наставнику результаты. В отчёт попадут только количества, без имён твоих клиентов.</p>
- <div class="share-buttons"><button class="btn gold" id="share" type="button">↗ Отправить отчёт</button><button class="btn ghost" id="copy" type="button">▣ Скопировать</button></div>
+<section class="card backup-card">
  <details class="details"><summary>Резервная копия и перенос на другой телефон</summary>
-  <p class="sub" style="margin-top:10px">Записи автоматически сохраняются в этом браузере. Для другого телефона или после очистки браузера сначала скачай копию и затем загрузи её.</p>
+  <p class="sub" style="margin-top:10px">Результаты сохраняются на этом устройстве. Для переноса на другой телефон скачай копию и загрузи её.</p>
   <div class="backup"><button class="btn ghost" type="button" id="export">↓ Скачать мои данные</button><button class="btn ghost" type="button" id="importBtn">↑ Загрузить мои данные</button><input type="file" id="importFile" accept=".json,application/json" hidden></div>
  </details>
 </section>
@@ -367,9 +412,11 @@ function updateProgressUI(){
  $("progressMotivation").textContent=overall>=100?"Ты прошла весь путь! Отправь отчёт для подтверждения подарка.":overall>=75?"Финиш близко! Осталось совсем немного до мечты.":overall>=50?"Больше половины пути позади. Не сбавляй темп!":overall>=25?"Прогресс уже виден — продолжай двигаться к цели!":overall>0?"Смотри, как растёт результат с каждым действием!":"Твой первый заказ и новый клиент запустят движение к цели.";
  $("progressTimeline").innerHTML=[0,1,2].map(function(i){
   var percent=monthProgress(i),active=i===data.selected,status=done(i)?" done":"";
-  return '<button class="progress-stage'+(active?" active":"")+status+'" type="button" data-progress-month="'+i+'" aria-label="'+prettyMonth(i)+', '+formatProgress(percent)+'"><div class="progress-stage-top"><span>'+(i+1)+'-й месяц · '+prettyMonth(i)+'</span><span class="progress-stage-percent">'+formatProgress(percent)+'</span></div><div class="progress-stage-bar"><i class="progress-stage-fill" style="width:'+percent+'%"></i></div></button>'
+  return '<button class="progress-stage'+(active?" active":"")+status+'" type="button" data-progress-month="'+i+'" aria-label="'+prettyMonth(i)+', '+formatProgress(percent)+'"><div class="progress-stage-top"><span>'+prettyMonth(i)+'</span><span class="progress-stage-percent">'+formatProgress(percent)+(done(i)?' ✓':'')+'</span></div><div class="progress-stage-sub">'+fmt(total(i))+' / '+fmt(maxTotal[i])+' оч. · PPV '+fmt(ppv(i))+' / 500 · '+clients(i)+' / 5 кл.</div><div class="progress-stage-bar"><i class="progress-stage-fill" style="width:'+percent+'%"></i></div></button>'
  }).join("");
 }
+$("jumpAdd").addEventListener("click",function(){ $("inputSection").scrollIntoView({behavior:"smooth",block:"start"}); });
+$("jumpHistory").addEventListener("click",function(){ $("historySection").scrollIntoView({behavior:"smooth",block:"start"}); });
 $("progressTimeline").addEventListener("click",function(e){
  var b=e.target.closest("[data-progress-month]");if(!b)return;
  data.selected=Number(b.dataset.progressMonth);save();render();
@@ -506,8 +553,6 @@ function report(){
  lines.push("");lines.push("Выполнено этапов: "+[0,1,2].filter(done).length+"/3");lines.push("Общий прогресс: "+formatProgress(overallProgress()));lines.push([0,1,2].every(done)?"🎁 Квалификационные показатели выполнены — жду подтверждения!":"Шаг за шагом к супер-блендеру!");return lines.join("\n")
 }
 function fallbackCopy(s){var ta=document.createElement("textarea");ta.value=s;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}
-$("copy").addEventListener("click",async function(){try{if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(report());else fallbackCopy(report());toast("Отчёт скопирован")}catch(e){window.prompt("Скопируй отчёт:",report())}});
-$("share").addEventListener("click",async function(){var text=report();if(navigator.share){try{await navigator.share({title:"Моя Активация",text:text});return}catch(e){if(e.name==="AbortError")return}}window.location.href="https://wa.me/?text="+encodeURIComponent(text)});
 $("export").addEventListener("click",function(){var str=JSON.stringify({app:"my-aktivatsiya",version:1,exported:today(),data:data},null,2);var u=URL.createObjectURL(new Blob([str],{type:"application/json"}));var a=document.createElement("a");a.href=u;a.download="aktivatsiya-backup-"+today()+".json";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},3000);toast("Копия скачана")});
 $("importBtn").addEventListener("click",function(){$("importFile").click()});
 $("importFile").addEventListener("change",async function(e){
