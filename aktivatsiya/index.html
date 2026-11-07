@@ -78,7 +78,7 @@ input::placeholder{color:#aca9a8}
 .record{padding:9px 10px;border:1px solid #e9e6e1;border-radius:10px;background:#fdfbf9;display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;gap:8px}
 .record b{display:block;font-size:11px}.record small{color:#9d958d;font-size:10px}
 .record button{width:30px;height:30px;border:1px solid #e8deda;color:#a16b62;background:white;border-radius:9px;flex:none}
-.empty{padding:14px;border-radius:11px;border:1px dashed #ded3c7;color:#9b9186;text-align:center;font-size:11px}
+.record-actions{display:flex;gap:5px;flex:none}.record-actions button{min-width:30px}.empty{padding:14px;border-radius:11px;border:1px dashed #ded3c7;color:#9b9186;text-align:center;font-size:11px}
 .gift{margin-top:17px;min-height:235px;position:relative;overflow:hidden;color:#fff;border-radius:24px;background:radial-gradient(circle at 85% 35%,#6e6a73 0,transparent 40%),linear-gradient(125deg,#22324a,#17253a 70%);display:flex;align-items:center;padding:25px clamp(20px,5vw,42px)}
 .gift:before{content:"";position:absolute;right:-110px;top:-110px;width:350px;height:350px;border-radius:50%;border:1px solid #eacb9966;box-shadow:0 0 0 50px #fff1,0 0 0 100px #fff1}
 .gift-content{position:relative;z-index:2;max-width:65%}
@@ -138,19 +138,20 @@ input::placeholder{color:#aca9a8}
  <p class="sub" id="stageRule" style="margin:13px 1px 0"></p>
 </section>
 <section class="card" id="inputSection">
- <div class="heading"><h2>Внести результат</h2><span class="chip" id="editChip">Только текущий месяц</span></div>
+ <div class="heading"><h2>Внести результат</h2><span class="chip" id="editChip">Прошлые месяцы доступны</span></div>
  <div class="forms">
   <form class="entry" id="pointsForm">
    <h3>✦ Добавить очки</h3><p class="hint">Личный PPV входит в общий объём. Прочие очки увеличивают только общий объём.</p>
    <label><span>Тип очков</span><select id="pointType"><option value="ppv">Личный выкуп — PPV</option><option value="other">Другой объём — VP</option></select></label>
    <label><span>Количество очков</span><input id="amount" type="number" inputmode="decimal" min=".01" max="100000" step=".01" placeholder="Например, 120" required></label>
+   <label><span>Дата начисления очков</span><input id="pointDate" type="date" required></label>
    <label><span>Заметка (по желанию)</span><input id="pointNote" maxlength="90" placeholder="Например, заказ клиента"></label>
    <button class="btn" type="submit">+ Добавить очки</button>
   </form>
   <form class="entry" id="clientsForm">
    <h3>♡ Новый клиент</h3><p class="hint">Клиент должен быть зарегистрирован на сайте программы развития клубов.</p>
    <label><span>Имя нового клиента</span><input id="clientName" maxlength="90" placeholder="Имя и фамилия" required></label>
-   <label><span>Дата регистрации</span><input id="clientDate" type="date" disabled></label>
+   <label><span>Дата регистрации</span><input id="clientDate" type="date" required></label>
    <button class="btn gold" type="submit">+ Добавить клиента</button>
   </form>
  </div>
@@ -192,7 +193,7 @@ input::placeholder{color:#aca9a8}
 </section>
 <footer class="footer"><div style="font:600 20px/1.3 'Playfair Display',Georgia,serif;color:#a17d55;margin-bottom:7px">Большие цели начинаются с маленьких шагов.</div>
 Моя Активация · 2026–2027 · Личный трекер, не официальный кабинет Herbalife.<br>
-Результаты и право на подарок проверяются организаторами программы.</footer>
+Результаты и право на подарок проверяются организаторами программы.<br><span style="display:inline-block;margin-top:12px;font-size:12px;font-weight:800;color:#806342">Разработчик: Сахаяна Скрябина</span><br><a href="https://wa.me/79142609616" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:7px;border:1px solid #d8c7b5;border-radius:100px;padding:9px 15px;text-decoration:none;font-weight:800;font-size:12px;color:#876d4e;background:#fff">✉ Написать в WhatsApp · +7 914 260-96-16</a></footer>
 </main><div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
 (function(){
@@ -211,7 +212,12 @@ function monthDate(i){return new Date(2026,6+data.cohort+i,1)}
 function monthId(i){var d=monthDate(i);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")}
 function thisMonth(){return today().slice(0,7)}
 function isOpen(i){return monthId(i)===thisMonth()}
-function stageState(i){return isOpen(i)?"live":monthId(i)>thisMonth()?"future":"closed"}
+function isEditable(i){return monthId(i)<=thisMonth()}
+function stageState(i){return isOpen(i)?"live":monthId(i)>thisMonth()?"future":"past"}
+function dateBounds(i){var d=monthDate(i),last=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();return {start:monthId(i)+"-01",end:monthId(i)+"-"+String(last).padStart(2,"0")}}
+function stageMaxDate(i){var b=dateBounds(i);return b.end<=today()?b.end:today()}
+function defaultStageDate(i){var b=dateBounds(i),end=stageMaxDate(i);return end>=b.start?end:b.start}
+function validStageDate(s,i){var b=dateBounds(i);return /^\d{4}-\d{2}-\d{2}$/.test(s||"")&&s>=b.start&&s<=stageMaxDate(i)&&!isNaN(Date.parse(s+"T12:00:00"))}
 function prettyMonth(i){var d=monthDate(i);return labels[d.getMonth()]+" "+d.getFullYear()}
 function fmt(n){return new Intl.NumberFormat("ru-RU",{maximumFractionDigits:2}).format(Math.round(n*100)/100)}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
@@ -228,14 +234,14 @@ function render(){
  var dcount=[0,1,2].filter(done).length;
  $("statStages").textContent=dcount+" / 3";$("statClients").textContent=clients(0)+clients(1)+clients(2)+" / 15";$("statPoints").textContent=fmt(total(0)+total(1)+total(2));
  $("monthCards").innerHTML=[0,1,2].map(function(i){
- var state=stageState(i),badge=done(i)?"✓ Выполнено":state==="live"?"● Сейчас":state==="future"?"Скоро":"Месяц завершён";
+ var state=stageState(i),badge=done(i)?"✓ Выполнено":state==="live"?"● Сейчас":state==="future"?"Скоро":"↺ Можно заполнить";
  var percent=(pct(ppv(i),500)+pct(total(i),maxTotal[i])+pct(clients(i),5))/3;
  return '<button type="button" class="month'+(i===data.selected?' active':'')+'" data-month="'+i+'" aria-pressed="'+(i===data.selected)+'"><div class="top"><span class="num">0'+(i+1)+'</span><span class="chip '+(done(i)?"live":state==="live"?"live":"locked")+'">'+badge+'</span></div><div class="month-name">'+prettyMonth(i)+'</div><div class="targets">'+fmt(total(i))+' / '+fmt(maxTotal[i])+' очков<br>'+fmt(ppv(i))+' / 500 PPV<br>'+clients(i)+' / 5 клиентов</div><div class="bar"><i style="width:'+percent+'%"></i></div></button>'
  }).join("");
  var i=data.selected,t=total(i),p=ppv(i),c=clients(i),state=stageState(i),complete=done(i);
  $("stageTitle").textContent=["Первый месяц","Второй месяц","Третий месяц"][i];
  $("stageDate").textContent=prettyMonth(i)+" · "+(i+1)+"-й этап из 3";
- $("stageChip").textContent=complete?"✓ Выполнено":state==="live"?"● В процессе":state==="future"?"Впереди":"Срок завершён";
+ $("stageChip").textContent=complete?"✓ Выполнено":state==="live"?"● В процессе":state==="future"?"Впереди":"Можно заполнить";
  $("stageChip").className="chip "+(complete||state==="live"?"live":"locked");
  ["ppv","total","client"].forEach(function(k){
  var n=k==="ppv"?p:k==="total"?t:c;var goal=k==="ppv"?500:k==="total"?maxTotal[i]:5;
@@ -245,7 +251,7 @@ function render(){
  var title="",desc="",emoji="✨";
  var leftTotal=Math.max(0,maxTotal[i]-t),leftPpv=Math.max(0,500-p),leftC=Math.max(0,5-c);
  if(complete){title="Браво! Этот месяц выполнен!";desc="Все три показателя достигнуты. Ты заслуженно можешь гордиться собой.";emoji="🏆"}
- else if(state==="closed"){title="Месяц завершён";desc="Сохраняем историю без переноса на следующий месяц.";emoji="📖"}
+ else if(state==="past"){title="Прошлый месяц открыт для заполнения";desc="Добавь реальные результаты за "+prettyMonth(i)+". Можно исправлять или удалять старые записи.";emoji="✍️"}
  else if(state==="future"){title="Готовься к новому этапу";desc="Впереди "+fmt(maxTotal[i])+" очков, минимум 500 PPV и 5 новых клиентов.";emoji="🗓️"}
  else if(t===0&&c===0){title="Начни сегодня — и удиви себя завтра";desc="Первый заказ и первая регистрация откроют дорогу к супер-блендеру.";emoji="✨"}
  else if(leftC===0){title="Все пять клиентов уже с тобой!";desc="Отличная работа. Осталось "+fmt(leftTotal)+" очков объёма и "+fmt(leftPpv)+" PPV.";emoji="🤍"}
@@ -253,16 +259,16 @@ function render(){
  else if(pct(t,maxTotal[i])>=50||c>=3){title="Ты уже на полпути!";desc="Осталось "+fmt(leftTotal)+" очков, "+fmt(leftPpv)+" PPV и "+leftC+" клиентов. Продолжай!";emoji="🌟"}
  else{title="Отличное начало!";desc="Каждая запись — это реальный шаг. Осталось "+fmt(leftTotal)+" очков и "+leftC+" клиентов.";emoji="👏"}
  $("motTitle").textContent=title;$("motText").textContent=desc;$("motEmoji").textContent=emoji;
- var allowed=state==="live"&&!!data.name&&!!data.status;
- ["pointsForm","clientsForm"].forEach(function(id){$(id).querySelectorAll("input:not(#clientDate),select,button").forEach(function(el){el.disabled=!allowed})});
- $("clientDate").value=today();
+ var allowed=isEditable(i)&&!!data.name&&!!data.status;
+ ["pointsForm","clientsForm"].forEach(function(id){$(id).querySelectorAll("input,select,button").forEach(function(el){el.disabled=!allowed})});
+ ["pointDate","clientDate"].forEach(function(id){var field=$(id),bounds=dateBounds(i);field.min=bounds.start;field.max=stageMaxDate(i);field.value=defaultStageDate(i);field.disabled=!allowed;});
  $("pointType").querySelector('option[value="other"]').disabled=i===0;
  if(i===0)$("pointType").value="ppv";
- $("editChip").textContent=allowed?"Можно заполнить":state==="future"?"Месяц ещё не начался":state==="closed"?"Месяц закрыт":"Сначала заполни профиль";
+ $("editChip").textContent=allowed?"Можно заполнить":state==="future"?"Месяц ещё не начался":state==="past"?"Прошлый месяц можно заполнить":"Сначала заполни профиль";
  var entries=[].concat(data.stages[i].points).reverse();
- $("pointLog").innerHTML=entries.length?entries.map(function(v){return '<div class="record"><div><b>'+esc(v.type==="ppv"?"PPV":"Объём")+' · +'+fmt(+v.amount)+'</b><small>'+esc(v.date||"")+(v.note?" · "+esc(v.note):"")+'</small></div>'+(isOpen(i)?'<button type="button" data-rm-point="'+esc(v.id)+'" title="Удалить запись">×</button>':"")+'</div>'}).join(""):'<div class="empty">Пока нет записей ✦</div>';
+ $("pointLog").innerHTML=entries.length?entries.map(function(v){return '<div class="record"><div><b>'+esc(v.type==="ppv"?"PPV":"Объём")+' · +'+fmt(+v.amount)+'</b><small>'+esc(v.date||"")+(v.note?" · "+esc(v.note):"")+'</small></div>'+(isEditable(i)?'<div class="record-actions"><button type="button" data-edit-point="'+esc(v.id)+'" title="Изменить запись">✎</button><button type="button" data-rm-point="'+esc(v.id)+'" title="Удалить запись">×</button></div>':"")+'</div>'}).join(""):'<div class="empty">Пока нет записей ✦</div>';
  var people=[].concat(data.stages[i].clients).reverse();
- $("clientLog").innerHTML=people.length?people.map(function(v){return '<div class="record"><div><b>'+esc(v.name)+'</b><small>'+esc(v.date||"")+'</small></div>'+(isOpen(i)?'<button type="button" data-rm-client="'+esc(v.id)+'" title="Удалить запись">×</button>':"")+'</div>'}).join(""):'<div class="empty">Здесь появятся новые клиенты ♡</div>';
+ $("clientLog").innerHTML=people.length?people.map(function(v){return '<div class="record"><div><b>'+esc(v.name)+'</b><small>'+esc(v.date||"")+'</small></div>'+(isEditable(i)?'<div class="record-actions"><button type="button" data-edit-client="'+esc(v.id)+'" title="Изменить запись">✎</button><button type="button" data-rm-client="'+esc(v.id)+'" title="Удалить запись">×</button></div>':"")+'</div>'}).join(""):'<div class="empty">Здесь появятся новые клиенты ♡</div>';
  var all=[0,1,2].every(done);
  $("giftText").textContent=all?"Три этапа выполнены! Поздравляем! Отправь отчёт наставнику для подтверждения квалификации и подарка.":"Твой маршрут: "+dcount+" из 3 месяцев выполнено. Продолжай — каждый шаг приближает подарок.";
 }
@@ -281,30 +287,68 @@ $("saveProfile").addEventListener("click",function(){
 });
 $("monthCards").addEventListener("click",function(e){var el=e.target.closest("[data-month]");if(!el)return;data.selected=Number(el.dataset.month);save();render();$("stageSection").scrollIntoView({behavior:"smooth",block:"start"})});
 $("pointsForm").addEventListener("submit",function(e){
- e.preventDefault();var i=data.selected;if(!isOpen(i)||!data.name||!data.status){toast("Заполнение доступно только в текущем месяце после сохранения профиля");return}
+ e.preventDefault();var i=data.selected;if(!isEditable(i)||!data.name||!data.status){toast("Выбери прошедший или текущий месяц и сохрани профиль");return}
  var v=Number($("amount").value);var type=$("pointType").value;
  if(!Number.isFinite(v)||v<=0||v>100000){toast("Укажи положительное количество очков");return}
  if(type==="other"&&i===0){toast("В первом месяце учитывается только личный PPV");return}
+ var entryDate=$("pointDate").value;
+ if(!validStageDate(entryDate,i)){toast("Укажи дату в пределах выбранного месяца, не позже сегодня");return}
  var before=done(i);
- data.stages[i].points.push({id:gid(),amount:Math.round(v*100)/100,type:type,date:today(),note:$("pointNote").value.trim().slice(0,90)});
+ data.stages[i].points.push({id:gid(),amount:Math.round(v*100)/100,type:type,date:entryDate,note:$("pointNote").value.trim().slice(0,90)});
  save();render();$("amount").value="";$("pointNote").value="";
  toast(!before&&done(i)?"Ура! Месячный этап выполнен! 🏆":"Очки добавлены. Так держать! ✨")
 });
 $("clientsForm").addEventListener("submit",function(e){
- e.preventDefault();var i=data.selected;if(!isOpen(i)||!data.name||!data.status){toast("Заполнение доступно только в текущем месяце после сохранения профиля");return}
+ e.preventDefault();var i=data.selected;if(!isEditable(i)||!data.name||!data.status){toast("Выбери прошедший или текущий месяц и сохрани профиль");return}
  var name=$("clientName").value.trim().replace(/\s+/g," ");if(name.length<2){toast("Введите имя и фамилию клиента");return}
  var duplicates=data.stages.some(function(s){return s.clients.some(function(c){return c.name.trim().toLowerCase()===name.toLowerCase()})});
  if(duplicates){toast("Этот клиент уже записан в квалификационном периоде");return}
- var before=done(i);data.stages[i].clients.push({id:gid(),name:name.slice(0,90),date:today()});
+ var entryDate=$("clientDate").value;
+ if(!validStageDate(entryDate,i)){toast("Укажи дату регистрации в выбранном месяце, не позже сегодня");return}
+ var before=done(i);data.stages[i].clients.push({id:gid(),name:name.slice(0,90),date:entryDate});
  save();render();$("clientName").value="";toast(!before&&done(i)?"Месяц выполнен! 🏆":"Новый клиент добавлен! Продолжай 👏🏻")
 });
 function rm(e,kind,attr){
- var el=e.target.closest("["+attr+"]");if(!el||!isOpen(data.selected))return;
+ var el=e.target.closest("["+attr+"]");if(!el||!isEditable(data.selected))return;
  if(!confirm("Удалить эту запись?"))return;var id=el.getAttribute(attr);
  data.stages[data.selected][kind]=data.stages[data.selected][kind].filter(function(p){return p.id!==id});save();render();toast("Запись удалена")
 }
-$("pointLog").addEventListener("click",function(e){rm(e,"points","data-rm-point")});
-$("clientLog").addEventListener("click",function(e){rm(e,"clients","data-rm-client")});
+function editEntry(e,kind,attr){
+ var el=e.target.closest("["+attr+"]"),i=data.selected;
+ if(!el||!isEditable(i))return;
+ var item=data.stages[i][kind].find(function(v){return String(v.id)===el.getAttribute(attr)});
+ if(!item)return;
+ if(kind==="points"){
+  var amount=prompt("Исправь количество очков за "+prettyMonth(i)+":",String(item.amount));
+  if(amount===null)return;
+  amount=Number(amount.trim().replace(",","."));
+  if(!Number.isFinite(amount)||amount<=0||amount>100000){toast("Неверное количество очков");return}
+  var type=i===0?"ppv":prompt("Тип очков — PPV или VP:",item.type==="ppv"?"PPV":"VP");
+  if(type===null)return;
+  type=type.trim().toUpperCase();
+  if(!["PPV","VP"].includes(type)){toast("Укажи тип PPV или VP");return}
+  var date=prompt("Дата начисления (ГГГГ-ММ-ДД):",validStageDate(item.date,i)?item.date:defaultStageDate(i));
+  if(date===null)return;
+  if(!validStageDate(date,i)){toast("Дата должна относиться к "+prettyMonth(i)+" и быть не позже сегодня");return}
+  var note=prompt("Заметка (можно оставить пустой):",item.note||"");
+  if(note===null)return;
+  item.amount=Math.round(amount*100)/100;item.type=type==="PPV"?"ppv":"other";item.date=date;item.note=note.trim().slice(0,90);
+ }else{
+  var name=prompt("Исправь имя клиента:",item.name);
+  if(name===null)return;
+  name=name.trim().replace(/\s+/g," ");
+  if(name.length<2){toast("Имя слишком короткое");return}
+  var duplicate=data.stages.some(function(s){return s.clients.some(function(v){return v!==item&&v.name.trim().toLowerCase()===name.toLowerCase()})});
+  if(duplicate){toast("Этот клиент уже указан в периоде");return}
+  var date=prompt("Дата регистрации (ГГГГ-ММ-ДД):",validStageDate(item.date,i)?item.date:defaultStageDate(i));
+  if(date===null)return;
+  if(!validStageDate(date,i)){toast("Дата должна относиться к "+prettyMonth(i)+" и быть не позже сегодня");return}
+  item.name=name.slice(0,90);item.date=date;
+ }
+ save();render();toast("Исправления сохранены ✓")
+}
+$("pointLog").addEventListener("click",function(e){if(e.target.closest("[data-edit-point]"))editEntry(e,"points","data-edit-point");else rm(e,"points","data-rm-point")});
+$("clientLog").addEventListener("click",function(e){if(e.target.closest("[data-edit-client]"))editEntry(e,"clients","data-edit-client");else rm(e,"clients","data-rm-client")});
 function report(){
  var lines=["✨ МОЯ АКТИВАЦИЯ • ПРОДЛЕНИЕ",data.name||"Участник не указан","Статус: "+(data.status?data.status+"%":"не указан"),"Период: "+prettyMonth(0)+" — "+prettyMonth(2),""];
  [0,1,2].forEach(function(i){lines.push("📍 "+prettyMonth(i)+": "+fmt(total(i))+"/"+maxTotal[i]+" очков; PPV "+fmt(ppv(i))+"/500; новые клиенты "+clients(i)+"/5"+(done(i)?" ✅":""))});
