@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1b293e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Моя Активация">
+<title>МОЯ АКТИВАЦИЯ · Трекер к Супер-блендеру</title>
+<meta name="description" content="Личный трекер программы Активация — продление: очки PPV, общий объём, 5 новых клиентов ежемесячно и путь к супер-блендеру.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#17263b;--navy:#223752;--gold:#ae8250;--lightgold:#dfc19b;--cream:#faf7f2;--ivory:#fffdfa;--line:#e8e1d7;--muted:#7b7f88;--blue:#718aaa;--shadow:0 16px 35px #1e284018}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 15% 2%,#ece7e1 0,transparent 40%),linear-gradient(160deg,#f7f4ef 0%,#fff 54%,#f5eee6 100%);color:var(--ink);font:14px/1.55 "Manrope",-apple-system,BlinkMacSystemFont,Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}button:disabled,input:disabled,select:disabled{cursor:not-allowed;opacity:.48}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #d5ad75;outline-offset:3px}
+.wrap{width:min(100% - 28px,960px);margin:auto;padding:20px 0 max(50px,env(safe-area-inset-bottom))}
+.hero{position:relative;overflow:hidden;min-height:284px;padding:30px clamp(22px,5vw,54px);border-radius:30px;background:linear-gradient(125deg,#17263b,#33465d 64%,#6a6370);color:#fff;box-shadow:0 20px 45px #17263b28}
+.hero:before{content:"";position:absolute;right:-100px;top:-165px;border:1px solid #e8c89851;border-radius:50%;width:495px;height:495px;box-shadow:0 0 0 64px #dfc19b13,0 0 0 125px #dfc19b09}
+.hero:after{content:"";position:absolute;width:220px;height:220px;right:65px;bottom:-166px;filter:blur(58px);background:#e4b67c7c}
+.eyebrow{position:relative;z-index:1;letter-spacing:.18em;font-size:10px;color:#e4cfb1;font-weight:800;text-transform:uppercase}
+.hero h1{position:relative;z-index:1;font:600 clamp(47px,10vw,86px)/1.1 "Playfair Display",Georgia,serif;letter-spacing:-.055em;margin:20px 0 9px}
+.hero h1 em{font-style:normal;color:#e3c59e}
+.hero p{position:relative;z-index:1;font-size:14px;max-width:450px;color:#e6e8eb;margin:7px 0 20px}
+.hero-tags{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px}.hero-tags span{border:1px solid #fff3;color:#f1e9de;border-radius:99px;padding:7px 12px;font-size:11px;font-weight:750;background:#ffffff13}
+.hero-draw{position:absolute;right:18px;top:36px;width:min(37%,290px);height:240px;opacity:.9;z-index:0;filter:drop-shadow(0 15px 15px #0004)}
+.card{background:#fffefa;border:1px solid #eee8df;border-radius:22px;box-shadow:var(--shadow)}
+section.card{margin-top:14px;padding:22px}.heading{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:13px}
+h2{font:600 clamp(23px,4.8vw,31px)/1.2 "Playfair Display",Georgia,serif;letter-spacing:-.025em;margin:0}
+h3{font-size:16px;font-weight:800;margin:0 0 9px}p{margin:0 0 9px}.sub{font-size:12px;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:5px;background:#f4f0eb;border:1px solid #eee3d6;border-radius:999px;padding:6px 11px;color:#7e664d;font-size:10px;font-weight:800;letter-spacing:.025em}
+.chip.live{background:#ecf5ed;color:#357653;border-color:#cee8d3}.chip.locked{background:#f7f5f2;color:#8b8380}
+.profile{display:grid;grid-template-columns:1.3fr 1fr 1.3fr auto;gap:11px;align-items:end}
+.field{display:block;min-width:0}.field>span{display:block;font-size:10px;letter-spacing:.055em;text-transform:uppercase;color:#8a817a;font-weight:800;margin:0 0 6px}
+input,select{width:100%;min-width:0;min-height:46px;border:1px solid #e5dcd2;background:#fff;color:var(--ink);padding:11px 13px;border-radius:12px;outline-offset:2px}
+input::placeholder{color:#aca9a8}
+.btn{border:0;border-radius:12px;background:var(--navy);color:white;min-height:45px;padding:12px 17px;font-weight:850;font-size:12px;display:inline-flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 8px 19px #182b412c}
+.btn.gold{background:linear-gradient(125deg,#b88c57,#947045)}.btn.ghost{background:#f7f4f0;color:#35485e;box-shadow:none;border:1px solid #e4ddd3}.btn:active{transform:translateY(1px)}
+.notice{font-size:11px;color:#9e7544;background:#fbf5ed;border:1px solid #f0e0cb;padding:10px 12px;margin-top:13px;border-radius:12px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.metric{padding:15px;border-radius:16px;background:linear-gradient(145deg,#f7f4ef,#fff);border:1px solid #eee7dd}
+.metric small{display:block;color:#857f79;font-size:10px;text-transform:uppercase;font-weight:850;letter-spacing:.075em}
+.metric strong{display:block;font:700 31px/1.3 "Manrope",Arial,sans-serif;letter-spacing:-.06em;color:var(--navy)}
+.metric .under{color:#a08465;font-size:10px;font-weight:750}
+.section-label{display:flex;align-items:center;gap:11px;text-transform:uppercase;letter-spacing:.17em;font-size:10px;font-weight:850;color:var(--gold);margin:23px 0 9px}
+.section-label:after{content:"";height:1px;flex:1;background:#e9dfd2}
+.months{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.month{cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:9px;padding:17px;border-radius:19px;border:1px solid #e8e0d6;background:#fffefa;min-height:192px;color:var(--ink);transition:all .18s}
+.month.active{background:linear-gradient(150deg,#253852,#344b66);color:#fff;border-color:#334962;box-shadow:0 13px 27px #22375240}
+.month .top{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.num{font:700 28px/1 "Playfair Display",Georgia,serif;color:#b18b5c}.month.active .num{color:#ebca9b}
+.month-name{font-size:18px;line-height:1.2;font-weight:850;letter-spacing:-.045em}
+.month .targets{font-size:11px;color:#7e8187;line-height:1.6}.month.active .targets{color:#e0e4e7}
+.month .bar,.bar{height:7px;overflow:hidden;background:#ebe4da;border-radius:999px}.month.active .bar{background:#ffffff30}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#bf9560,#e8cb9e);border-radius:inherit;transition:width .4s}
+.month .bar{margin-top:auto}
+.stage-info{display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap}
+.stage-info .date{font-weight:750;color:#8b837a;font-size:11px}
+.stage-info .note{font-size:12px;color:#777e88}
+.targets-board{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.target-box{border:1px solid #eae3da;background:#f9f7f3;border-radius:15px;padding:13px;min-width:0}
+.target-box small{display:block;color:#827e7a;font-size:10px;font-weight:750}
+.target-box b{display:block;letter-spacing:-.055em;font-size:clamp(19px,4.5vw,28px);line-height:1.35}
+.target-box b span{font-size:11px;color:#99928c;letter-spacing:0}
+.target-box .bar{margin:9px 0 6px}.target-box .remaining{font-size:10px;color:#92764f;min-height:17px}
+.motivation{display:flex;gap:13px;align-items:center;border:1px solid #eedfc8;border-radius:17px;padding:14px;background:linear-gradient(120deg,#f8f0e5,#fff9f0);margin-top:14px}
+.motivation .emoji{font-size:27px;display:grid;place-items:center;flex:none;width:47px;height:47px;border:1px solid #e9d8bd;border-radius:15px;background:#fff}
+.motivation b{font-size:14px;color:#7e5e3f}.motivation p{margin:3px 0 0;font-size:11px;color:#8c765d}
+.forms{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.entry{border:1px solid #e9e2d9;background:#fdfbf8;padding:16px;border-radius:17px}
+.entry h3{font-size:15px}.entry .hint{font-size:11px;color:#87827f;min-height:36px}
+.entry label{display:block;margin-top:9px}.entry label>span{display:block;font-size:11px;font-weight:750;color:#696c72;margin-bottom:5px}
+.entry .btn{width:100%;margin-top:13px}
+.entry .horizontal{display:flex;gap:7px}.entry .horizontal>*{flex:1;min-width:0}
+.records{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.record{padding:9px 10px;border:1px solid #e9e6e1;border-radius:10px;background:#fdfbf9;display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;gap:8px}
+.record b{display:block;font-size:11px}.record small{color:#9d958d;font-size:10px}
+.record button{width:30px;height:30px;border:1px solid #e8deda;color:#a16b62;background:white;border-radius:9px;flex:none}
+.empty{padding:14px;border-radius:11px;border:1px dashed #ded3c7;color:#9b9186;text-align:center;font-size:11px}
+.gift{margin-top:17px;min-height:235px;position:relative;overflow:hidden;color:#fff;border-radius:24px;background:radial-gradient(circle at 85% 35%,#6e6a73 0,transparent 40%),linear-gradient(125deg,#22324a,#17253a 70%);display:flex;align-items:center;padding:25px clamp(20px,5vw,42px)}
+.gift:before{content:"";position:absolute;right:-110px;top:-110px;width:350px;height:350px;border-radius:50%;border:1px solid #eacb9966;box-shadow:0 0 0 50px #fff1,0 0 0 100px #fff1}
+.gift-content{position:relative;z-index:2;max-width:65%}
+.gift .eyebrow{color:#d8b684}.gift h2{color:#fff;font-size:clamp(27px,6vw,49px);margin:9px 0}.gift em{font-style:normal;color:#e7c99d}
+.gift p{font-size:12px;color:#e7e7eb}
+.gift .tiny{font-size:10px;color:#d7c1a5;margin-top:13px}
+.gift .product{position:absolute;right:7%;top:17px;width:190px;height:200px;filter:drop-shadow(0 12px 12px #0006)}
+.share-buttons{display:flex;flex-wrap:wrap;gap:8px}
+.details{border-top:1px solid #eee4da;margin-top:14px;padding-top:14px}
+.details summary{font-weight:750;font-size:12px;color:#716b65;cursor:pointer}
+.backup{display:flex;flex-wrap:wrap;gap:9px;margin:13px 0}
+.footer{text-align:center;color:#89847f;font-size:10px;padding:24px 5px}.footer a{color:#9a754e}
+.toast{position:fixed;z-index:999;bottom:calc(22px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:#223752;color:white;max-width:calc(100vw - 28px);border:1px solid #d9ba8b77;border-radius:13px;padding:12px 18px;box-shadow:0 14px 25px #17263b4c;font-size:12px;font-weight:750;display:none;text-align:center}
+.hidden{display:none!important}
+@media(max-width:720px){.hero-draw{right:-32px;opacity:.35}.hero p{max-width:92%}.profile{grid-template-columns:1fr 1fr}.profile .field:first-child{grid-column:1/-1}.profile .btn{grid-column:1/-1}.summary{gap:6px}.metric{padding:12px}.metric strong{font-size:26px}.months{gap:7px}.month{min-height:165px;padding:12px 9px}.month-name{font-size:14px}.month .targets{font-size:10px}.num{font-size:24px}.target-box{padding:10px}.gift .product{right:0;opacity:.75}.gift-content{max-width:75%}}
+@media(max-width:480px){.wrap{width:min(100% - 18px,960px);padding-top:9px}.hero{border-radius:23px;padding:29px 20px;min-height:280px}.hero h1{font-size:57px;margin-top:18px}.hero-tags span{padding:6px 9px;font-size:9px}section.card{padding:17px 13px}.profile{grid-template-columns:1fr}.profile .field:first-child,.profile .btn{grid-column:auto}.summary .metric strong{font-size:22px}.metric small{font-size:9px}.month{min-height:177px}.month-name{font-size:13px;overflow-wrap:anywhere}.targets-board{gap:6px}.target-box{padding:10px 7px}.target-box b{font-size:20px}.target-box small{font-size:9px}.target-box .remaining{font-size:9px}.forms,.records{grid-template-columns:1fr}.entry .hint{min-height:0}.gift{padding:21px 17px;min-height:235px}.gift-content{max-width:77%}.gift .product{width:140px;height:178px;right:-19px;top:25px;opacity:.53}.gift p{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="hero">
+ <div class="eyebrow">Личный трекер · Программа 2026–2027</div>
+ <h1>Моя<br><em>Активация.</em></h1>
+ <p>Три месяца. Три шага к цели. Твой супер-блендер начинается с первого действия.</p>
+ <div class="hero-tags"><span>3 месяца</span><span>15 новых клиентов</span><span>Супер-блендер 🎁</span></div>
+ <svg class="hero-draw" viewBox="0 0 260 260" aria-hidden="true"><circle cx="135" cy="128" r="108" fill="none" stroke="#e6c28e" stroke-opacity=".38"/><circle cx="135" cy="128" r="89" fill="none" stroke="#e6c28e" stroke-opacity=".5"/><path d="M135 44 L155 95 L211 99 L167 134 L183 191 L135 158 L87 191 L103 134 L59 99 L115 95 Z" fill="#cba572" fill-opacity=".18" stroke="#e4c69c" stroke-opacity=".6"/><path d="M135 61 V190 M65 126 H205" stroke="#e6c28e" stroke-width="2" stroke-opacity=".2"/></svg>
+</header>
+<section class="card">
+ <div class="heading"><h2>Твой маршрут</h2><span class="chip">Начни с себя</span></div>
+ <div class="profile">
+  <label class="field"><span>Имя и фамилия</span><input id="who" maxlength="80" placeholder="Как тебя зовут?" autocomplete="name"></label>
+  <label class="field"><span>Твой статус</span><select id="status"><option value="">Выбери статус</option><option value="25">НП · 25%</option><option value="35">Старший консультант · 35%</option><option value="42">Квалифицированный продюсер · 42%</option><option disabled>Супервайзор · 50% (не участвует)</option></select></label>
+  <label class="field"><span>Период квалификации</span><select id="period">
+   <option value="0">Июль — сентябрь 2026</option><option value="1">Август — октябрь 2026</option><option value="2">Сентябрь — ноябрь 2026</option><option value="3">Октябрь — декабрь 2026</option><option value="4">Ноябрь 2026 — январь 2027</option><option value="5">Декабрь 2026 — февраль 2027</option>
+  </select></label>
+  <button class="btn gold" type="button" id="saveProfile">Сохранить ✦</button>
+ </div>
+ <div class="notice">Программа открыта независимым партнёрам <b>до статуса Супервайзор.</b> Статус 50% не участвует. Если изменишь период после внесения результатов, трекер предложит начать новый маршрут — сначала сохрани резервную копию.</div>
+ <div class="summary">
+  <div class="metric"><small>Этапы</small><strong id="statStages">0 / 3</strong><div class="under">месяца выполнено</div></div>
+  <div class="metric"><small>Новые клиенты</small><strong id="statClients">0 / 15</strong><div class="under">по 5 ежемесячно</div></div>
+  <div class="metric"><small>Очки объёма</small><strong id="statPoints">0</strong><div class="under">из 3 000 суммарно</div></div>
+ </div>
+</section>
+<div class="section-label">01 / Три этапа</div>
+<div class="months" id="monthCards"></div>
+<section class="card" id="stageSection">
+ <div class="heading"><h2 id="stageTitle">Первый месяц</h2><span class="chip" id="stageChip">Впереди</span></div>
+ <div class="stage-info"><span class="date" id="stageDate"></span><span class="note">Каждый месяц считается отдельно — без переноса.</span></div>
+ <div class="targets-board">
+  <div class="target-box"><small>Личный PPV</small><b id="ppvValue">0 <span>/ 500</span></b><div class="bar"><i id="ppvBar"></i></div><div class="remaining" id="ppvRemain">Осталось 500</div></div>
+  <div class="target-box"><small>Общий объём</small><b id="totalValue">0 <span>/ 500</span></b><div class="bar"><i id="totalBar"></i></div><div class="remaining" id="totalRemain">Осталось 500</div></div>
+  <div class="target-box"><small>Новые клиенты</small><b id="clientValue">0 <span>/ 5</span></b><div class="bar"><i id="clientBar"></i></div><div class="remaining" id="clientRemain">Осталось 5</div></div>
+ </div>
+ <div class="motivation"><div class="emoji" id="motEmoji">✨</div><div><b id="motTitle">Каждый шаг важен</b><p id="motText">Начни с первого действия!</p></div></div>
+ <p class="sub" id="stageRule" style="margin:13px 1px 0"></p>
+</section>
+<section class="card" id="inputSection">
+ <div class="heading"><h2>Внести результат</h2><span class="chip" id="editChip">Только текущий месяц</span></div>
+ <div class="forms">
+  <form class="entry" id="pointsForm">
+   <h3>✦ Добавить очки</h3><p class="hint">Личный PPV входит в общий объём. Прочие очки увеличивают только общий объём.</p>
+   <label><span>Тип очков</span><select id="pointType"><option value="ppv">Личный выкуп — PPV</option><option value="other">Другой объём — VP</option></select></label>
+   <label><span>Количество очков</span><input id="amount" type="number" inputmode="decimal" min=".01" max="100000" step=".01" placeholder="Например, 120" required></label>
+   <label><span>Заметка (по желанию)</span><input id="pointNote" maxlength="90" placeholder="Например, заказ клиента"></label>
+   <button class="btn" type="submit">+ Добавить очки</button>
+  </form>
+  <form class="entry" id="clientsForm">
+   <h3>♡ Новый клиент</h3><p class="hint">Клиент должен быть зарегистрирован на сайте программы развития клубов.</p>
+   <label><span>Имя нового клиента</span><input id="clientName" maxlength="90" placeholder="Имя и фамилия" required></label>
+   <label><span>Дата регистрации</span><input id="clientDate" type="date" disabled></label>
+   <button class="btn gold" type="submit">+ Добавить клиента</button>
+  </form>
+ </div>
+ <p class="sub" style="margin-top:13px">Регистрация клиентов: <a href="https://www.prk.herbalife.ru/" target="_blank" rel="noopener noreferrer" style="color:#a07848;font-weight:800">www.prk.herbalife.ru ↗</a> · В каждом месяце нужно минимум 5 новых клиентов.</p>
+</section>
+<section class="card">
+ <div class="heading"><h2>История месяца</h2><span class="chip">Всё под контролем</span></div>
+ <div class="records"><div><h3>✦ Очки объёма</h3><div id="pointLog"></div></div><div><h3>♡ Новые клиенты</h3><div id="clientLog"></div></div></div>
+</section>
+<div class="gift" id="gift">
+ <div class="gift-content"><div class="eyebrow">Твоя награда · Финальная цель</div><h2>Супер-блендер<br><em>в подарок!</em> 🎁</h2><p id="giftText">Пройди три месяца квалификации — и приблизься к подарку.</p><div class="tiny">Подарок предоставляется по официальным условиям программы после подтверждения квалификации.</div></div>
+ <svg class="product" viewBox="0 0 240 250" aria-label="Иллюстрация профессионального супер-блендера с высокой чашей и квадратным блоком управления" role="img">
+  <ellipse cx="131" cy="240" rx="78" ry="8" fill="#040911" fill-opacity=".42"/>
+  <rect x="79" y="16" width="107" height="13" rx="5" fill="#22232a" stroke="#888991" stroke-width="2"/>
+  <rect x="87" y="10" width="89" height="8" rx="4" fill="#41464e"/><rect x="124" y="4" width="19" height="9" rx="3" fill="#40434a"/>
+  <path d="M91 30 L178 30 L168 139 Q129 154 99 139 Z" fill="#e0edf0" fill-opacity=".56" stroke="#b8c9d0" stroke-width="3"/>
+  <path d="M177 45 Q215 40 211 69 L207 114 Q205 129 175 117" fill="none" stroke="#d5e4e8" stroke-width="10"/><path d="M178 45 Q208 41 205 68 L201 111 Q198 123 176 115" fill="none" stroke="#5e6570" stroke-width="3"/>
+  <path d="M101 37 L114 137 M160 35 L153 138" stroke="#fff" stroke-opacity=".45" stroke-width="5"/>
+  <path d="M116 132 L128 119 L140 132 L151 117" fill="none" stroke="#737a7c" stroke-width="4"/>
+  <path d="M104 143 L164 143 L171 154 L97 154 Z" fill="#1b1d24" stroke="#575b61" stroke-width="2"/>
+  <path d="M87 152 L177 152 L193 227 Q194 234 186 234 L76 234 Q68 234 71 225 Z" fill="#1b1e27" stroke="#62646c" stroke-width="3"/>
+  <rect x="89" y="174" width="83" height="47" rx="6" fill="#11171f" stroke="#595b60" stroke-width="1.7"/>
+  <rect x="98" y="180" width="20" height="11" rx="2" fill="#334b47"/><path d="M102 186 L114 186" stroke="#7ac7a8" stroke-width="1.5"/>
+  <circle cx="133" cy="198" r="16" fill="#0d0e11" stroke="#c3c8ca" stroke-width="2"/><circle cx="133" cy="198" r="10" fill="#262931" stroke="#757a84" stroke-width="1"/><path d="M133 187 V195" stroke="#fff" stroke-width="2"/>
+  <rect x="154" y="183" width="11" height="7" rx="2" fill="#454b52"/><rect x="154" y="196" width="11" height="7" rx="2" fill="#454b52"/>
+  <rect x="93" y="228" width="12" height="10" rx="3" fill="#13151b"/><rect x="159" y="228" width="12" height="10" rx="3" fill="#13151b"/>
+  <path d="M23 208 L78 221" stroke="#11131b" stroke-width="13" stroke-linecap="round"/><path d="M63 208 L69 237" stroke="#2a2b31" stroke-width="9" stroke-linecap="round"/>
+  <path d="M27 192 L45 190 L48 207 L26 208 Z" fill="#f1e9df"/>
+ </svg>
+</div>
+<section class="card">
+ <div class="heading"><h2>Мой отчёт</h2><span class="chip">Делись прогрессом</span></div>
+ <p class="sub">Отправь наставнику результаты. В отчёт попадут только количества, без имён твоих клиентов.</p>
+ <div class="share-buttons"><button class="btn gold" id="share" type="button">↗ Отправить отчёт</button><button class="btn ghost" id="copy" type="button">▣ Скопировать</button></div>
+ <details class="details"><summary>Резервная копия и перенос на другой телефон</summary>
+  <p class="sub" style="margin-top:10px">Записи автоматически сохраняются в этом браузере. Для другого телефона или после очистки браузера сначала скачай копию и затем загрузи её.</p>
+  <div class="backup"><button class="btn ghost" type="button" id="export">↓ Скачать мои данные</button><button class="btn ghost" type="button" id="importBtn">↑ Загрузить мои данные</button><input type="file" id="importFile" accept=".json,application/json" hidden></div>
+ </details>
+</section>
+<footer class="footer"><div style="font:600 20px/1.3 'Playfair Display',Georgia,serif;color:#a17d55;margin-bottom:7px">Большие цели начинаются с маленьких шагов.</div>
+Моя Активация · 2026–2027 · Личный трекер, не официальный кабинет Herbalife.<br>
+Результаты и право на подарок проверяются организаторами программы.</footer>
+</main><div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+"use strict";
+var STORE="my-aktivatsiya-herbalife-v1";
+var $=function(id){return document.getElementById(id)};
+var labels=["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
+var maxTotal=[500,1000,1500], maxPpv=[500,500,500];
+var initialCohort=Math.max(0,Math.min(5, (new Date().getFullYear()-2026)*12+new Date().getMonth()-6));
+var blankStage=function(){return {points:[],clients:[]}};
+var data={name:"",status:"",cohort:initialCohort,selected:0,stages:[blankStage(),blankStage(),blankStage()]};
+try{var raw=JSON.parse(localStorage.getItem(STORE)||"null");if(raw&&Array.isArray(raw.stages)&&raw.stages.length===3){data.name=typeof raw.name==="string"?raw.name.slice(0,80):"";data.status=["25","35","42"].includes(raw.status)?raw.status:"";data.cohort=Number.isInteger(raw.cohort)?Math.max(0,Math.min(5,raw.cohort)):initialCohort;data.selected=Number.isInteger(raw.selected)?Math.max(0,Math.min(2,raw.selected)):0;data.stages=raw.stages.map(function(s){return {points:Array.isArray(s.points)?s.points.filter(function(p){return p&&Number.isFinite(+p.amount)&&+p.amount>0&&["ppv","other"].includes(p.type)}):[],clients:Array.isArray(s.clients)?s.clients.filter(function(c){return c&&typeof c.name==="string"}):[]}})}}catch(e){}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(data))}catch(e){toast("Не удалось сохранить данные: проверь память телефона")}}
+function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function monthDate(i){return new Date(2026,6+data.cohort+i,1)}
+function monthId(i){var d=monthDate(i);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")}
+function thisMonth(){return today().slice(0,7)}
+function isOpen(i){return monthId(i)===thisMonth()}
+function stageState(i){return isOpen(i)?"live":monthId(i)>thisMonth()?"future":"closed"}
+function prettyMonth(i){var d=monthDate(i);return labels[d.getMonth()]+" "+d.getFullYear()}
+function fmt(n){return new Intl.NumberFormat("ru-RU",{maximumFractionDigits:2}).format(Math.round(n*100)/100)}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function total(i){return data.stages[i].points.reduce(function(a,p){return a+(+p.amount||0)},0)}
+function ppv(i){return data.stages[i].points.reduce(function(a,p){return a+(p.type==="ppv"?(+p.amount||0):0)},0)}
+function clients(i){return data.stages[i].clients.length}
+function done(i){return total(i)+.0001>=maxTotal[i]&&ppv(i)+.0001>=maxPpv[i]&&clients(i)>=5}
+function pct(n,max){return Math.min(100,Math.max(0,n/max*100))}
+function remain(n,max,unit){return n>=max?"Цель выполнена ✓":"Осталось "+fmt(Math.max(0,max-n))+" "+unit}
+function gid(){return String(Date.now())+"-"+Math.random().toString(36).slice(2,10)}
+var toastTimer;function toast(s){var el=$("toast");el.textContent=s;el.style.display="block";clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.style.display="none"},3300)}
+function render(){
+ $("who").value=data.name;$("status").value=data.status;$("period").value=String(data.cohort);
+ var dcount=[0,1,2].filter(done).length;
+ $("statStages").textContent=dcount+" / 3";$("statClients").textContent=clients(0)+clients(1)+clients(2)+" / 15";$("statPoints").textContent=fmt(total(0)+total(1)+total(2));
+ $("monthCards").innerHTML=[0,1,2].map(function(i){
+ var state=stageState(i),badge=done(i)?"✓ Выполнено":state==="live"?"● Сейчас":state==="future"?"Скоро":"Месяц завершён";
+ var percent=(pct(ppv(i),500)+pct(total(i),maxTotal[i])+pct(clients(i),5))/3;
+ return '<button type="button" class="month'+(i===data.selected?' active':'')+'" data-month="'+i+'" aria-pressed="'+(i===data.selected)+'"><div class="top"><span class="num">0'+(i+1)+'</span><span class="chip '+(done(i)?"live":state==="live"?"live":"locked")+'">'+badge+'</span></div><div class="month-name">'+prettyMonth(i)+'</div><div class="targets">'+fmt(total(i))+' / '+fmt(maxTotal[i])+' очков<br>'+fmt(ppv(i))+' / 500 PPV<br>'+clients(i)+' / 5 клиентов</div><div class="bar"><i style="width:'+percent+'%"></i></div></button>'
+ }).join("");
+ var i=data.selected,t=total(i),p=ppv(i),c=clients(i),state=stageState(i),complete=done(i);
+ $("stageTitle").textContent=["Первый месяц","Второй месяц","Третий месяц"][i];
+ $("stageDate").textContent=prettyMonth(i)+" · "+(i+1)+"-й этап из 3";
+ $("stageChip").textContent=complete?"✓ Выполнено":state==="live"?"● В процессе":state==="future"?"Впереди":"Срок завершён";
+ $("stageChip").className="chip "+(complete||state==="live"?"live":"locked");
+ ["ppv","total","client"].forEach(function(k){
+ var n=k==="ppv"?p:k==="total"?t:c;var goal=k==="ppv"?500:k==="total"?maxTotal[i]:5;
+ $(k+"Value").innerHTML=fmt(n)+' <span>/ '+fmt(goal)+'</span>';$(k+"Bar").style.width=pct(n,goal)+"%";$(k+"Remain").textContent=remain(n,goal,k==="client"?"клиентов":"очков")
+ });
+ $("stageRule").textContent=i===0?"1-й месяц: 500 очков личного выкупленного объёма (PPV) и минимум 5 новых клиентов.":(i===1?"2-й месяц: 1 000 очков общего объёма, из них не менее 500 PPV, и минимум 5 новых клиентов.":"3-й месяц: 1 500 очков общего объёма, из них не менее 500 PPV, и минимум 5 новых клиентов.")+" Личный PPV входит в общий объём.";
+ var title="",desc="",emoji="✨";
+ var leftTotal=Math.max(0,maxTotal[i]-t),leftPpv=Math.max(0,500-p),leftC=Math.max(0,5-c);
+ if(complete){title="Браво! Этот месяц выполнен!";desc="Все три показателя достигнуты. Ты заслуженно можешь гордиться собой.";emoji="🏆"}
+ else if(state==="closed"){title="Месяц завершён";desc="Сохраняем историю без переноса на следующий месяц.";emoji="📖"}
+ else if(state==="future"){title="Готовься к новому этапу";desc="Впереди "+fmt(maxTotal[i])+" очков, минимум 500 PPV и 5 новых клиентов.";emoji="🗓️"}
+ else if(t===0&&c===0){title="Начни сегодня — и удиви себя завтра";desc="Первый заказ и первая регистрация откроют дорогу к супер-блендеру.";emoji="✨"}
+ else if(leftC===0){title="Все пять клиентов уже с тобой!";desc="Отличная работа. Осталось "+fmt(leftTotal)+" очков объёма и "+fmt(leftPpv)+" PPV.";emoji="🤍"}
+ else if(leftPpv===0&&leftTotal===0){title="Очки собраны! Остался финальный штрих";desc="Зарегистрируй ещё "+leftC+" новых клиентов.";emoji="🥇"}
+ else if(pct(t,maxTotal[i])>=50||c>=3){title="Ты уже на полпути!";desc="Осталось "+fmt(leftTotal)+" очков, "+fmt(leftPpv)+" PPV и "+leftC+" клиентов. Продолжай!";emoji="🌟"}
+ else{title="Отличное начало!";desc="Каждая запись — это реальный шаг. Осталось "+fmt(leftTotal)+" очков и "+leftC+" клиентов.";emoji="👏"}
+ $("motTitle").textContent=title;$("motText").textContent=desc;$("motEmoji").textContent=emoji;
+ var allowed=state==="live"&&!!data.name&&!!data.status;
+ ["pointsForm","clientsForm"].forEach(function(id){$(id).querySelectorAll("input:not(#clientDate),select,button").forEach(function(el){el.disabled=!allowed})});
+ $("clientDate").value=today();
+ $("pointType").querySelector('option[value="other"]').disabled=i===0;
+ if(i===0)$("pointType").value="ppv";
+ $("editChip").textContent=allowed?"Можно заполнить":state==="future"?"Месяц ещё не начался":state==="closed"?"Месяц закрыт":"Сначала заполни профиль";
+ var entries=[].concat(data.stages[i].points).reverse();
+ $("pointLog").innerHTML=entries.length?entries.map(function(v){return '<div class="record"><div><b>'+esc(v.type==="ppv"?"PPV":"Объём")+' · +'+fmt(+v.amount)+'</b><small>'+esc(v.date||"")+(v.note?" · "+esc(v.note):"")+'</small></div>'+(isOpen(i)?'<button type="button" data-rm-point="'+esc(v.id)+'" title="Удалить запись">×</button>':"")+'</div>'}).join(""):'<div class="empty">Пока нет записей ✦</div>';
+ var people=[].concat(data.stages[i].clients).reverse();
+ $("clientLog").innerHTML=people.length?people.map(function(v){return '<div class="record"><div><b>'+esc(v.name)+'</b><small>'+esc(v.date||"")+'</small></div>'+(isOpen(i)?'<button type="button" data-rm-client="'+esc(v.id)+'" title="Удалить запись">×</button>':"")+'</div>'}).join(""):'<div class="empty">Здесь появятся новые клиенты ♡</div>';
+ var all=[0,1,2].every(done);
+ $("giftText").textContent=all?"Три этапа выполнены! Поздравляем! Отправь отчёт наставнику для подтверждения квалификации и подарка.":"Твой маршрут: "+dcount+" из 3 месяцев выполнено. Продолжай — каждый шаг приближает подарок.";
+}
+function cohortChanged(next){
+ if(next===data.cohort)return true;
+ var hasRecords=data.stages.some(function(s){return s.points.length||s.clients.length});
+ if(hasRecords&&!confirm("Внимание! Смена периода начнёт новый трекер и очистит текущие записи. Сначала скачай резервную копию. Продолжить?"))return false;
+ data.cohort=next;data.selected=0;data.stages=[blankStage(),blankStage(),blankStage()];return true
+}
+$("saveProfile").addEventListener("click",function(){
+ var name=$("who").value.trim().replace(/\s+/g," ");var status=$("status").value;var period=Number($("period").value);
+ if(name.length<2){toast("Введи своё имя и фамилию");$("who").focus();return}
+ if(!["25","35","42"].includes(status)){toast("Выбери статус до 50%");$("status").focus();return}
+ if(!cohortChanged(period)){$("period").value=String(data.cohort);return}
+ data.name=name.slice(0,80);data.status=status;var active=[0,1,2].findIndex(isOpen);data.selected=active>=0?active:Math.min(2,Math.max(0,data.selected));save();render();toast("Маршрут сохранён. У тебя всё получится! ✨");
+});
+$("monthCards").addEventListener("click",function(e){var el=e.target.closest("[data-month]");if(!el)return;data.selected=Number(el.dataset.month);save();render();$("stageSection").scrollIntoView({behavior:"smooth",block:"start"})});
+$("pointsForm").addEventListener("submit",function(e){
+ e.preventDefault();var i=data.selected;if(!isOpen(i)||!data.name||!data.status){toast("Заполнение доступно только в текущем месяце после сохранения профиля");return}
+ var v=Number($("amount").value);var type=$("pointType").value;
+ if(!Number.isFinite(v)||v<=0||v>100000){toast("Укажи положительное количество очков");return}
+ if(type==="other"&&i===0){toast("В первом месяце учитывается только личный PPV");return}
+ var before=done(i);
+ data.stages[i].points.push({id:gid(),amount:Math.round(v*100)/100,type:type,date:today(),note:$("pointNote").value.trim().slice(0,90)});
+ save();render();$("amount").value="";$("pointNote").value="";
+ toast(!before&&done(i)?"Ура! Месячный этап выполнен! 🏆":"Очки добавлены. Так держать! ✨")
+});
+$("clientsForm").addEventListener("submit",function(e){
+ e.preventDefault();var i=data.selected;if(!isOpen(i)||!data.name||!data.status){toast("Заполнение доступно только в текущем месяце после сохранения профиля");return}
+ var name=$("clientName").value.trim().replace(/\s+/g," ");if(name.length<2){toast("Введите имя и фамилию клиента");return}
+ var duplicates=data.stages.some(function(s){return s.clients.some(function(c){return c.name.trim().toLowerCase()===name.toLowerCase()})});
+ if(duplicates){toast("Этот клиент уже записан в квалификационном периоде");return}
+ var before=done(i);data.stages[i].clients.push({id:gid(),name:name.slice(0,90),date:today()});
+ save();render();$("clientName").value="";toast(!before&&done(i)?"Месяц выполнен! 🏆":"Новый клиент добавлен! Продолжай 👏🏻")
+});
+function rm(e,kind,attr){
+ var el=e.target.closest("["+attr+"]");if(!el||!isOpen(data.selected))return;
+ if(!confirm("Удалить эту запись?"))return;var id=el.getAttribute(attr);
+ data.stages[data.selected][kind]=data.stages[data.selected][kind].filter(function(p){return p.id!==id});save();render();toast("Запись удалена")
+}
+$("pointLog").addEventListener("click",function(e){rm(e,"points","data-rm-point")});
+$("clientLog").addEventListener("click",function(e){rm(e,"clients","data-rm-client")});
+function report(){
+ var lines=["✨ МОЯ АКТИВАЦИЯ • ПРОДЛЕНИЕ",data.name||"Участник не указан","Статус: "+(data.status?data.status+"%":"не указан"),"Период: "+prettyMonth(0)+" — "+prettyMonth(2),""];
+ [0,1,2].forEach(function(i){lines.push("📍 "+prettyMonth(i)+": "+fmt(total(i))+"/"+maxTotal[i]+" очков; PPV "+fmt(ppv(i))+"/500; новые клиенты "+clients(i)+"/5"+(done(i)?" ✅":""))});
+ lines.push("");lines.push("Выполнено этапов: "+[0,1,2].filter(done).length+"/3");lines.push([0,1,2].every(done)?"🎁 Квалификационные показатели выполнены — жду подтверждения!":"Шаг за шагом к супер-блендеру!");return lines.join("\n")
+}
+function fallbackCopy(s){var ta=document.createElement("textarea");ta.value=s;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}
+$("copy").addEventListener("click",async function(){try{if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(report());else fallbackCopy(report());toast("Отчёт скопирован")}catch(e){window.prompt("Скопируй отчёт:",report())}});
+$("share").addEventListener("click",async function(){var text=report();if(navigator.share){try{await navigator.share({title:"Моя Активация",text:text});return}catch(e){if(e.name==="AbortError")return}}window.location.href="https://wa.me/?text="+encodeURIComponent(text)});
+$("export").addEventListener("click",function(){var str=JSON.stringify({app:"my-aktivatsiya",version:1,exported:today(),data:data},null,2);var u=URL.createObjectURL(new Blob([str],{type:"application/json"}));var a=document.createElement("a");a.href=u;a.download="aktivatsiya-backup-"+today()+".json";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},3000);toast("Копия скачана")});
+$("importBtn").addEventListener("click",function(){$("importFile").click()});
+$("importFile").addEventListener("change",async function(e){
+ var f=e.target.files&&e.target.files[0];if(!f)return;
+ try{var o=JSON.parse(await f.text()),v=o.app==="my-aktivatsiya"?o.data:null;
+ if(!v||!Array.isArray(v.stages)||v.stages.length!==3||!Number.isInteger(v.cohort)||v.cohort<0||v.cohort>5||!v.stages.every(function(s){return Array.isArray(s.points)&&Array.isArray(s.clients)}))throw Error("Файл не подходит");
+ if(!confirm("Заменить текущий трекер данными из резервной копии?"))return;
+ data={name:String(v.name||"").slice(0,80),status:["25","35","42"].includes(v.status)?v.status:"",cohort:v.cohort,selected:0,stages:v.stages.map(function(s){return {points:s.points.filter(function(p){return p&&+p.amount>0&&["ppv","other"].includes(p.type)}),clients:s.clients.filter(function(c){return c&&typeof c.name==="string"})}})};
+ save();render();toast("Данные восстановлены ✓")
+ }catch(err){toast("Не получилось открыть копию: проверь файл")}finally{e.target.value=""}
+});
+var active=[0,1,2].findIndex(isOpen);if(active>=0)data.selected=active;render();
+})();
+</script>
+</body></html>
