@@ -179,6 +179,16 @@ input:focus-visible,button:focus-visible,select:focus-visible{outline-color:#ca7
  .gift .product{width:174px;height:218px;right:-13px;top:50px;z-index:1}
 }
 
+
+/* Фото нового Super Blender — не вырезка из старой афиши и не схематичный SVG */
+.gift picture{display:contents}
+.gift .product{object-fit:contain;object-position:center bottom;image-rendering:auto;filter:drop-shadow(0 10px 13px #260c2150)}
+@media(max-width:480px){
+ .gift{min-height:322px}
+ .gift-content{max-width:59%}
+ .gift .product{width:180px;height:268px;top:23px;right:-12px;opacity:1}
+}
+
 </style>
 </head>
 <body>
@@ -246,7 +256,7 @@ input:focus-visible,button:focus-visible,select:focus-visible{outline-color:#ca7
 </section>
 <div class="gift" id="gift">
  <div class="gift-content"><div class="eyebrow">Твоя награда · Финальная цель</div><h2>Супер-блендер<br><em>в подарок!</em> 🎁</h2><p id="giftText">Пройди три месяца квалификации — и приблизься к подарку.</p><div class="tiny">Подарок предоставляется по официальным условиям программы после подтверждения квалификации.</div></div>
- <img class="product" src="./superblender-vector.svg" width="250" height="300" loading="lazy" decoding="async" alt="Чёткая векторная иллюстрация супер-блендера с высокой чашей, чёрной панелью управления и аксессуарами">
+ <picture><source type="image/avif" srcset="./superblender-real.avif"><img class="product" src="./superblender-vector.svg" width="280" height="435" loading="lazy" decoding="async" alt="Реалистичный супер-блендер с прозрачной чашей, чёрным основанием, панелью управления и аксессуарами"></picture>
 </div>
 
 <section class="card progress-panel" aria-labelledby="progressHeading">
