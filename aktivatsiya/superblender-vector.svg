@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 675" role="img" aria-labelledby="title desc">
+<title id="title">Супер-блендер</title>
+<desc id="desc">Детализированная чёткая иллюстрация профессионального чёрного супер-блендера с высокой прозрачной чашей, массивным основанием и панелью управления, с аксессуарами.</desc>
+<defs>
+ <linearGradient id="pitcher" x1="0" y1=".07" x2="1" y2=".12"><stop stop-color="#a3b8c3" stop-opacity=".87"/><stop offset=".12" stop-color="#faffff" stop-opacity=".72"/><stop offset=".29" stop-color="#c7d7dc" stop-opacity=".5"/><stop offset=".56" stop-color="#eaf7fb" stop-opacity=".16"/><stop offset=".78" stop-color="#899ba7" stop-opacity=".7"/><stop offset="1" stop-color="#ecfbff" stop-opacity=".85"/></linearGradient>
+ <linearGradient id="glassLine" x1="0" y1="0" x2="1" y2=".1"><stop stop-color="#66717d"/><stop offset=".3" stop-color="#f4ffff"/><stop offset=".71" stop-color="#72838e"/><stop offset="1" stop-color="#effbff"/></linearGradient>
+ <linearGradient id="lid" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#747780"/><stop offset=".2" stop-color="#1b2027"/><stop offset=".51" stop-color="#101216"/><stop offset=".8" stop-color="#53565f"/><stop offset="1" stop-color="#090a0d"/></linearGradient>
+ <linearGradient id="base" x1="0" y1="0" x2="1" y2=".19"><stop stop-color="#434651"/><stop offset=".11" stop-color="#1d2028"/><stop offset=".37" stop-color="#07090e"/><stop offset=".67" stop-color="#292b32"/><stop offset=".88" stop-color="#080a0f"/><stop offset="1" stop-color="#4c515a"/></linearGradient>
+ <linearGradient id="front" x1="0" y1="0" x2="1" y2=".2"><stop stop-color="#1e232c"/><stop offset=".20" stop-color="#080b0e"/><stop offset=".55" stop-color="#272b34"/><stop offset=".85" stop-color="#0d0e14"/><stop offset="1" stop-color="#262935"/></linearGradient>
+ <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#68727e"/><stop offset=".20" stop-color="#f4f6f8"/><stop offset=".41" stop-color="#9ca5aa"/><stop offset=".65" stop-color="#303741"/><stop offset=".85" stop-color="#dde3e6"/><stop offset="1" stop-color="#555f6d"/></linearGradient>
+ <linearGradient id="handle" x1="0" y1=".2" x2="1" y2=".8"><stop stop-color="#2a2c35"/><stop offset=".23" stop-color="#d1dae0"/><stop offset=".51" stop-color="#f6ffff"/><stop offset=".78" stop-color="#7f8894"/><stop offset="1" stop-color="#151a20"/></linearGradient>
+ <linearGradient id="tamper" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#171923"/><stop offset=".42" stop-color="#4e5461"/><stop offset=".58" stop-color="#141721"/><stop offset="1" stop-color="#0b0d13"/></linearGradient>
+ <radialGradient id="screen"><stop stop-color="#293e36"/><stop offset=".8" stop-color="#152821"/><stop offset="1" stop-color="#09110f"/></radialGradient>
+ <filter id="shadow" x="-45%" y="-45%" width="190%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+ <filter id="smallshadow" x="-20%" y="-30%" width="150%" height="170%"><feGaussianBlur stdDeviation="5"/></filter>
+ <clipPath id="jugclip"><path d="M146 117 L370 117 353 363 Q259 379 168 363 Z"/></clipPath>
+</defs>
+<!-- soft floor shadow -->
+<ellipse cx="276" cy="624" rx="203" ry="29" fill="#200f20" opacity=".22" filter="url(#shadow)"/>
+<!-- jar black lid and removable measuring cap -->
+<path d="M226 41 Q262 33 302 41 L313 65 212 65Z" fill="url(#lid)" stroke="#555963" stroke-width="4"/>
+<rect x="223" y="29" width="95" height="18" rx="8" fill="#25272e" stroke="#666a71" stroke-width="3"/>
+<ellipse cx="270" cy="29" rx="42" ry="8" fill="#434750"/>
+<path d="M126 76 Q131 65 152 63 L369 63 Q389 66 395 77 L390 92 Q370 106 355 105 L154 105 Q132 103 125 92 Z" fill="url(#lid)" stroke="#747782" stroke-width="4"/>
+<path d="M138 91 Q262 107 386 91" stroke="#9d9fa6" stroke-opacity=".62" stroke-width="6" fill="none"/>
+<path d="M146 101 L372 101 373 115 145 115 Z" fill="#11141a" stroke="#565b63" stroke-width="3"/>
+<!-- jar and realistic glass -->
+<path d="M146 117 L370 117 353 363 Q259 379 168 363 Z" fill="url(#pitcher)" stroke="url(#glassLine)" stroke-width="8" stroke-linejoin="round"/>
+<path d="M164 137 Q173 256 185 349" fill="none" stroke="#fff" stroke-opacity=".72" stroke-width="9"/>
+<path d="M194 133 L199 355" fill="none" stroke="#eaf4fa" stroke-opacity=".35" stroke-width="3"/>
+<path d="M334 137 Q332 262 329 352" fill="none" stroke="#f6ffff" stroke-opacity=".66" stroke-width="8"/>
+<path d="M353 144 Q348 237 344 320" fill="none" stroke="#545d6a" stroke-opacity=".28" stroke-width="4"/>
+<path d="M178 354 Q260 372 349 354" fill="none" stroke="#667783" stroke-width="5" opacity=".62"/>
+<!-- jug side ribs -->
+<path d="M180 139 Q214 149 242 149 L237 361 Q212 357 187 346Z" fill="#ecffff" opacity=".12"/>
+<path d="M270 148 Q305 151 336 136 L332 356 273 365Z" fill="#1c2934" opacity=".07"/>
+<!-- handle right loop thick -->
+<path d="M370 160 C419 141 452 154 453 195 L444 315 Q440 338 412 339 L360 336" fill="none" stroke="#2f323a" stroke-width="31" stroke-linejoin="round" stroke-linecap="round" opacity=".92"/>
+<path d="M370 160 C419 141 452 154 453 195 L444 315 Q440 338 412 339 L360 336" fill="none" stroke="url(#handle)" stroke-width="19" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M376 167 C413 154 441 168 439 197 L432 312 Q429 323 408 326" fill="none" stroke="#fff" stroke-width="4" opacity=".58"/>
+<!-- measurement graduations -->
+<g stroke="#5b6973" stroke-opacity=".55" stroke-width="2.5">
+ <path d="M301 180h35 M314 206h22 M301 230h35 M314 254h22 M301 278h35 M314 301h22 M301 324h35"/>
+</g>
+<g font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#4e5b64" opacity=".62" text-anchor="end">
+<text x="296" y="183">2000</text><text x="296" y="233">1500</text><text x="296" y="281">1000</text><text x="296" y="328">500</text>
+</g>
+<!-- blades inside jar -->
+<path d="M232 357 L270 326 281 355 320 332 308 368 264 354 237 376" fill="#33383e" opacity=".83"/>
+<path d="M234 349 L268 330 L271 357 314 342" stroke="url(#metal)" stroke-width="7" fill="none" stroke-linejoin="round"/>
+<circle cx="268" cy="355" r="9" fill="url(#metal)" stroke="#323a42" stroke-width="3"/>
+<!-- matte jar base -->
+<path d="M172 367 L352 367 360 387 163 387Z" fill="#292d36" stroke="#737782" stroke-width="3"/>
+<path d="M175 377 L350 377" stroke="#80848d" stroke-width="5" opacity=".57"/>
+<path d="M190 388 L331 388 343 405 176 405Z" fill="url(#lid)" stroke="#777c85" stroke-width="3"/>
+<!-- powerful square base -->
+<path d="M158 400 Q259 388 354 400 L385 449 399 574 Q404 595 384 605 L138 605 Q116 600 119 577 L134 446Z" fill="url(#base)" stroke="#4d505c" stroke-width="4"/>
+<path d="M136 449 L383 449 390 573 Q392 592 379 597 L142 597 Q130 588 132 576Z" fill="url(#front)" stroke="#51555d" stroke-width="3"/>
+<path d="M137 449 L153 455 154 580 145 596 Q126 589 132 575Z" fill="#545864" opacity=".3"/>
+<path d="M370 452 L385 447 394 579 Q394 591 381 595 L372 583Z" fill="#fff" opacity=".07"/>
+<path d="M158 411 Q259 403 354 411" fill="none" stroke="#b0b5b8" stroke-width="3" opacity=".25"/>
+<!-- control panel -->
+<rect x="155" y="456" width="211" height="130" rx="16" fill="#020305" stroke="#666872" stroke-width="6"/>
+<rect x="164" y="466" width="193" height="110" rx="10" fill="#151920" stroke="#40444e" stroke-width="3"/>
+<!-- green screen and control labels -->
+<rect x="174" y="474" width="59" height="29" rx="4" fill="#0b1110" stroke="#6c726f" stroke-width="2"/>
+<rect x="180" y="479" width="47" height="19" rx="2" fill="url(#screen)"/>
+<path d="M185 486h20 M185 492h32" stroke="#83bc9d" stroke-width="2" opacity=".8"/>
+<g fill="#555b64" stroke="#a3abb0" stroke-width="1.7">
+<rect x="177" y="514" width="25" height="15" rx="3"/><rect x="208" y="514" width="25" height="15" rx="3"/>
+<rect x="177" y="536" width="25" height="15" rx="3"/><rect x="208" y="536" width="25" height="15" rx="3"/>
+<rect x="312" y="478" width="29" height="14" rx="3"/><rect x="312" y="500" width="29" height="14" rx="3"/>
+<rect x="312" y="522" width="29" height="14" rx="3"/>
+</g>
+<g fill="#dbe2e6" font-family="Arial,sans-serif" font-size="7" text-anchor="middle" opacity=".86">
+<text x="190" y="524">TIME</text><text x="221" y="524">PULSE</text>
+<text x="190" y="546">LOW</text><text x="221" y="546">HIGH</text>
+<text x="326" y="487">1</text><text x="326" y="509">2</text><text x="326" y="531">3</text>
+</g>
+<!-- central speed dial metallic -->
+<circle cx="268" cy="513" r="43" fill="#080a0e" stroke="#929ca3" stroke-width="5"/>
+<circle cx="268" cy="513" r="34" fill="url(#metal)" stroke="#22252b" stroke-width="4"/>
+<circle cx="268" cy="513" r="26" fill="#151920" stroke="#2d323b" stroke-width="4"/>
+<path d="M268 493V507" stroke="#e7f3f3" stroke-width="5" stroke-linecap="round"/>
+<g fill="#cbd2d8" font-family="Arial,sans-serif" font-size="11" font-weight="bold" letter-spacing=".4"><text x="235" y="568">SUPER BLENDER</text></g>
+<!-- body feet -->
+<path d="M151 604 H191 V621 Q191 627 182 627 H160Q151 627 151 621Z" fill="#090a0d" stroke="#35363b" stroke-width="3"/>
+<path d="M328 604 H367 V621 Q366 627 357 627H337Q328 627 328 621Z" fill="#090a0d" stroke="#35363b" stroke-width="3"/>
+<!-- white scoop accessory -->
+<ellipse cx="84" cy="568" rx="52" ry="13" fill="#200e20" opacity=".12" filter="url(#smallshadow)"/>
+<path d="M26 528 Q58 524 86 532 L96 570 Q94 581 75 583 L42 575Q30 568 26 528Z" fill="#f3f1ee" stroke="#c5bbc2" stroke-width="3"/>
+<ellipse cx="56" cy="528" rx="31" ry="10" fill="#fffcf8" stroke="#d5cbd0" stroke-width="3"/>
+<path d="M79 558 L118 579" stroke="#e0d7d7" stroke-width="6" fill="none"/>
+<!-- long black tamper lying nearby -->
+<g transform="translate(25 600) rotate(-12 100 13)">
+<rect x="26" y="9" width="170" height="25" rx="11" fill="url(#tamper)" stroke="#343944" stroke-width="3"/>
+<rect x="12" y="0" width="43" height="40" rx="7" fill="#11151c" stroke="#59606a" stroke-width="4"/>
+<rect x="185" y="13" width="35" height="19" rx="6" fill="#151921" stroke="#4b5260" stroke-width="2"/>
+<path d="M59 14H174" stroke="#a7acb6" stroke-width="2" opacity=".33"/>
+</g>
+</svg>
