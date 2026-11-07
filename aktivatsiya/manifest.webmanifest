@@ -1,0 +1,19 @@
+{
+  "name": "Активация — трекер",
+  "short_name": "Активация",
+  "description": "Личный трекер программы «Активация»: квалификация, PPV, новые клиенты и супер-блендер.",
+  "lang": "ru",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#651332",
+  "theme_color": "#651332",
+  "icons": [
+    {
+      "src": "./icon-activation-2026.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
