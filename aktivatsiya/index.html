@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1b293e">
+<meta name="theme-color" content="#792b57">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Моя Активация">
 <title>МОЯ АКТИВАЦИЯ · Трекер к Супер-блендеру</title>
@@ -96,16 +96,47 @@ input::placeholder{color:#aca9a8}
 @media(max-width:720px){.hero-draw{right:-32px;opacity:.35}.hero p{max-width:92%}.profile{grid-template-columns:1fr 1fr}.profile .field:first-child{grid-column:1/-1}.profile .btn{grid-column:1/-1}.summary{gap:6px}.metric{padding:12px}.metric strong{font-size:26px}.months{gap:7px}.month{min-height:165px;padding:12px 9px}.month-name{font-size:14px}.month .targets{font-size:10px}.num{font-size:24px}.target-box{padding:10px}.gift .product{right:0;opacity:.75}.gift-content{max-width:75%}}
 @media(max-width:480px){.wrap{width:min(100% - 18px,960px);padding-top:9px}.hero{border-radius:23px;padding:29px 20px;min-height:280px}.hero h1{font-size:57px;margin-top:18px}.hero-tags span{padding:6px 9px;font-size:9px}section.card{padding:17px 13px}.profile{grid-template-columns:1fr}.profile .field:first-child,.profile .btn{grid-column:auto}.summary .metric strong{font-size:22px}.metric small{font-size:9px}.month{min-height:177px}.month-name{font-size:13px;overflow-wrap:anywhere}.targets-board{gap:6px}.target-box{padding:10px 7px}.target-box b{font-size:20px}.target-box small{font-size:9px}.target-box .remaining{font-size:9px}.forms,.records{grid-template-columns:1fr}.entry .hint{min-height:0}.gift{padding:21px 17px;min-height:235px}.gift-content{max-width:77%}.gift .product{width:140px;height:178px;right:-19px;top:25px;opacity:.53}.gift p{font-size:11px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+:root{--ink:#59213f;--navy:#6a2b50;--gold:#b66083;--lightgold:#eec0d7;--cream:#fff5fa;--ivory:#fffaff;--line:#eddce8;--muted:#8c7084;--blue:#9d72a2;--shadow:0 13px 34px #73395815}
+html{background:#fff6fa}body{background:radial-gradient(ellipse at 0 0,#ecd9fa 0,transparent 40%),radial-gradient(ellipse at 100% 41%,#ffdeebaa 0,transparent 45%),linear-gradient(160deg,#fff8fc,#fdf0f7 55%,#f9e5f3);color:var(--ink)}
+.hero{background:linear-gradient(112deg,#672341 0%,#84385e 54%,#bb7096 100%);box-shadow:0 20px 45px #67234132;border:0}
+.hero:before,.hero:after,.gift:before,.section-label:after,.hero-draw{display:none!important}
+.hero .eyebrow,.gift .eyebrow{color:#ffd5e8}.hero h1 em{color:#ffe6ef}.hero p{color:#fff0f6}.hero-tags span{background:#ffffff24;border:0;color:#fff1f7}
+.card{background:#fffdfef0;border:1px solid #f1ddea;box-shadow:0 15px 38px #75355314}section.card{backdrop-filter:blur(8px)}
+h2,.section-title{color:#672744}.sub,.stage-info .note{color:#896d81}
+.chip{color:#8d4669;background:#fbedf4;border:0}.chip:empty{display:none}.chip.live{background:#f7ddec;color:#8a3561;border:0}.chip.locked{background:#f3eaf4;color:#9f7694;border:0}
+input,select{border:1px solid #edd4e3;background:#fff;color:#582742}input:focus,select:focus{border-color:#bd77a2}
+input:focus-visible,button:focus-visible,select:focus-visible{outline-color:#ca78a4}
+.btn{background:linear-gradient(110deg,#782c53,#9d4870);box-shadow:0 8px 19px #853a6426}.btn.gold{background:linear-gradient(110deg,#973a64,#b35f85)}.btn.ghost{background:#fbf1f8;color:#713253;border:1px solid #efdbeb;box-shadow:none}
+.notice{color:#965c7c;background:#fff0f6;border-color:#f4d9e9}
+.metric{background:linear-gradient(140deg,#f7ebf8,#fff7fb);border:1px solid #efdaea}.metric strong{color:#792d56}.metric .under{color:#a76d8a}
+.section-label{color:#b2638b;letter-spacing:.12em}
+.month{background:linear-gradient(145deg,#fffaff,#fcf0f7);border-color:#eedde8;box-shadow:0 9px 21px #853a6412}.month.active{background:linear-gradient(145deg,#732749,#a3527b);color:#fff;border-color:transparent;box-shadow:0 12px 28px #7e315a4c}.month.active .chip{background:#ffffff26;color:#ffe9f5}.month-name{letter-spacing:-.025em}.month .targets{color:#9a7d91}.month.active .targets{color:#ffecf4}.num{color:#b66187}.month.active .num{color:#ffd5e8}
+.bar,.month .bar{background:#eddce6}.month.active .bar{background:#ffffff47}.bar i{background:linear-gradient(90deg,#a94f80,#e4a5c9)}
+.stage-info .date,.target-box small{color:#9d758b}.target-box{background:linear-gradient(145deg,#fff7fb,#f7ecf7);border-color:#ecd8e6}.target-box b{color:#6c284f}.target-box .remaining{color:#9f6486}
+.motivation{background:linear-gradient(115deg,#f8e9f7,#ffe9ed);border:0;box-shadow:0 8px 21px #b05e7a19}.motivation .emoji{background:#fff8fc;border:0}.motivation b{color:#833a62}.motivation p{color:#936884}
+.entry{background:linear-gradient(145deg,#fffafd,#fff3fa);border-color:#f0dce9}.entry h3{color:#713050}.entry label>span{color:#84576e}
+.record{background:#fff7fb;border:1px solid #f3e1ec}.record button{color:#aa608b;border-color:#efdce7;background:#fff}.empty{border:1px dashed #e8cbdc;color:#b1869e}
+.gift{background:linear-gradient(112deg,#632041 0%,#8e426a 65%,#c680a7 100%);box-shadow:0 15px 35px #7430562f}.gift h2{color:#fff}.gift em{color:#ffe0f0}.gift p{color:#ffedf6}.gift .tiny{color:#f5d6e7}
+.gift .product{position:absolute;width:230px;height:230px;object-fit:contain;right:2%;top:4px;opacity:1;filter:drop-shadow(0 18px 19px #2c061c7b)}.gift-content{max-width:65%}
+.details{border-top:0;padding-top:15px}
+.footer{padding:28px 5px 18px;color:#946981}.footer .poem-footer{font:600 clamp(20px,4vw,26px)/1.3 "Playfair Display",Georgia,serif;color:#873759;margin-bottom:13px}.legal-note{font-size:10px;color:#9a8090}
+.developer{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:5px 8px;margin-top:14px;font-size:12px;color:#763052;font-weight:600}.developer strong{font-weight:800}.wa-contact{display:inline-flex;align-items:center;gap:5px;margin-left:7px;color:#268e67}
+.wa-contact a{font-size:12px;font-weight:800;color:#763052;text-decoration:none;border:0!important;padding:0!important;background:transparent!important}.wa-contact a:hover{text-decoration:underline}
+.toast{background:#742a51;color:#fff;border:0}
+@media(max-width:720px){.gift .product{width:190px;height:210px;right:-3px;top:14px}.gift-content{max-width:68%}}
+@media(max-width:480px){.wrap{width:min(100% - 18px,960px)}.hero{min-height:260px;padding:28px 21px}.hero h1{font-size:clamp(47px,12.5vw,61px)}.hero p{font-size:12px}.card{box-shadow:0 10px 25px #7b345512}.month{min-height:170px}.gift{min-height:220px}.gift-content{max-width:78%}.gift .product{width:148px;height:170px;top:30px;right:-14px;opacity:.92}.developer{gap:5px}.wa-contact{margin-left:3px}}
+
 </style>
 </head>
 <body>
 <main class="wrap">
 <header class="hero">
  <div class="eyebrow">Личный трекер · Программа 2026–2027</div>
- <h1>Моя<br><em>Активация.</em></h1>
+ <h1>Моя<br><em>Активация</em></h1>
  <p>Три месяца. Три шага к цели. Твой супер-блендер начинается с первого действия.</p>
  <div class="hero-tags"><span>3 месяца</span><span>15 новых клиентов</span><span>Супер-блендер 🎁</span></div>
- <svg class="hero-draw" viewBox="0 0 260 260" aria-hidden="true"><circle cx="135" cy="128" r="108" fill="none" stroke="#e6c28e" stroke-opacity=".38"/><circle cx="135" cy="128" r="89" fill="none" stroke="#e6c28e" stroke-opacity=".5"/><path d="M135 44 L155 95 L211 99 L167 134 L183 191 L135 158 L87 191 L103 134 L59 99 L115 95 Z" fill="#cba572" fill-opacity=".18" stroke="#e4c69c" stroke-opacity=".6"/><path d="M135 61 V190 M65 126 H205" stroke="#e6c28e" stroke-width="2" stroke-opacity=".2"/></svg>
+ 
 </header>
 <section class="card">
  <div class="heading"><h2>Твой маршрут</h2><span class="chip">Начни с себя</span></div>
@@ -163,24 +194,7 @@ input::placeholder{color:#aca9a8}
 </section>
 <div class="gift" id="gift">
  <div class="gift-content"><div class="eyebrow">Твоя награда · Финальная цель</div><h2>Супер-блендер<br><em>в подарок!</em> 🎁</h2><p id="giftText">Пройди три месяца квалификации — и приблизься к подарку.</p><div class="tiny">Подарок предоставляется по официальным условиям программы после подтверждения квалификации.</div></div>
- <svg class="product" viewBox="0 0 240 250" aria-label="Иллюстрация профессионального супер-блендера с высокой чашей и квадратным блоком управления" role="img">
-  <ellipse cx="131" cy="240" rx="78" ry="8" fill="#040911" fill-opacity=".42"/>
-  <rect x="79" y="16" width="107" height="13" rx="5" fill="#22232a" stroke="#888991" stroke-width="2"/>
-  <rect x="87" y="10" width="89" height="8" rx="4" fill="#41464e"/><rect x="124" y="4" width="19" height="9" rx="3" fill="#40434a"/>
-  <path d="M91 30 L178 30 L168 139 Q129 154 99 139 Z" fill="#e0edf0" fill-opacity=".56" stroke="#b8c9d0" stroke-width="3"/>
-  <path d="M177 45 Q215 40 211 69 L207 114 Q205 129 175 117" fill="none" stroke="#d5e4e8" stroke-width="10"/><path d="M178 45 Q208 41 205 68 L201 111 Q198 123 176 115" fill="none" stroke="#5e6570" stroke-width="3"/>
-  <path d="M101 37 L114 137 M160 35 L153 138" stroke="#fff" stroke-opacity=".45" stroke-width="5"/>
-  <path d="M116 132 L128 119 L140 132 L151 117" fill="none" stroke="#737a7c" stroke-width="4"/>
-  <path d="M104 143 L164 143 L171 154 L97 154 Z" fill="#1b1d24" stroke="#575b61" stroke-width="2"/>
-  <path d="M87 152 L177 152 L193 227 Q194 234 186 234 L76 234 Q68 234 71 225 Z" fill="#1b1e27" stroke="#62646c" stroke-width="3"/>
-  <rect x="89" y="174" width="83" height="47" rx="6" fill="#11171f" stroke="#595b60" stroke-width="1.7"/>
-  <rect x="98" y="180" width="20" height="11" rx="2" fill="#334b47"/><path d="M102 186 L114 186" stroke="#7ac7a8" stroke-width="1.5"/>
-  <circle cx="133" cy="198" r="16" fill="#0d0e11" stroke="#c3c8ca" stroke-width="2"/><circle cx="133" cy="198" r="10" fill="#262931" stroke="#757a84" stroke-width="1"/><path d="M133 187 V195" stroke="#fff" stroke-width="2"/>
-  <rect x="154" y="183" width="11" height="7" rx="2" fill="#454b52"/><rect x="154" y="196" width="11" height="7" rx="2" fill="#454b52"/>
-  <rect x="93" y="228" width="12" height="10" rx="3" fill="#13151b"/><rect x="159" y="228" width="12" height="10" rx="3" fill="#13151b"/>
-  <path d="M23 208 L78 221" stroke="#11131b" stroke-width="13" stroke-linecap="round"/><path d="M63 208 L69 237" stroke="#2a2b31" stroke-width="9" stroke-linecap="round"/>
-  <path d="M27 192 L45 190 L48 207 L26 208 Z" fill="#f1e9df"/>
- </svg>
+ <img class="product" src="./superblender-photo.svg" width="200" height="220" loading="lazy" alt="Фото настоящего супер-блендера с оригинальной афиши Herbalife">
 </div>
 <section class="card">
  <div class="heading"><h2>Мой отчёт</h2><span class="chip">Делись прогрессом</span></div>
@@ -191,9 +205,13 @@ input::placeholder{color:#aca9a8}
   <div class="backup"><button class="btn ghost" type="button" id="export">↓ Скачать мои данные</button><button class="btn ghost" type="button" id="importBtn">↑ Загрузить мои данные</button><input type="file" id="importFile" accept=".json,application/json" hidden></div>
  </details>
 </section>
-<footer class="footer"><div style="font:600 20px/1.3 'Playfair Display',Georgia,serif;color:#a17d55;margin-bottom:7px">Большие цели начинаются с маленьких шагов.</div>
-Моя Активация · 2026–2027 · Личный трекер, не официальный кабинет Herbalife.<br>
-Результаты и право на подарок проверяются организаторами программы.<br><span style="display:inline-block;margin-top:12px;font-size:12px;font-weight:800;color:#806342">Разработчик: Сахаяна Скрябина</span><br><a href="https://wa.me/79142609616" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:7px;border:1px solid #d8c7b5;border-radius:100px;padding:9px 15px;text-decoration:none;font-weight:800;font-size:12px;color:#876d4e;background:#fff">✉ Написать в WhatsApp · +7 914 260-96-16</a></footer>
+<footer class="footer">
+ <div class="poem-footer">Большие цели начинаются с маленьких шагов.</div>
+ <div class="legal-note">Моя Активация 2026–2027 · Личный трекер, не официальный кабинет Herbalife.<br>Результаты и право на подарок проверяются организаторами программы.</div>
+ <div class="developer">Разработчик: <strong>Сахаяна Скрябина</strong><span class="wa-contact">
+ <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="WhatsApp"><path d="M20.2 11.5a8.2 8.2 0 0 1-11.8 7.4L3.3 20.7l1.5-5A8.2 8.2 0 1 1 20.2 11.5Z"/><path d="M8.4 7.8c-.4 0-.9.6-.9 1.5 0 2.4 3.3 5.7 5.7 6.2.9.2 1.8-.6 1.8-1.1l-2.1-1.1-1.1 1c-1.4-.7-2.4-1.7-3-3.1l.9-1.1Z"/></svg>
+ <a href="https://wa.me/79142609616" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp: +7 914 260-96-16">+7 914 260-96-16</a></span></div>
+</footer>
 </main><div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
 (function(){
@@ -234,14 +252,14 @@ function render(){
  var dcount=[0,1,2].filter(done).length;
  $("statStages").textContent=dcount+" / 3";$("statClients").textContent=clients(0)+clients(1)+clients(2)+" / 15";$("statPoints").textContent=fmt(total(0)+total(1)+total(2));
  $("monthCards").innerHTML=[0,1,2].map(function(i){
- var state=stageState(i),badge=done(i)?"✓ Выполнено":state==="live"?"● Сейчас":state==="future"?"Скоро":"↺ Можно заполнить";
+ var state=stageState(i),badge=done(i)?"✓ Выполнено":state==="live"?"Сейчас":state==="future"?"Впереди":"";
  var percent=(pct(ppv(i),500)+pct(total(i),maxTotal[i])+pct(clients(i),5))/3;
  return '<button type="button" class="month'+(i===data.selected?' active':'')+'" data-month="'+i+'" aria-pressed="'+(i===data.selected)+'"><div class="top"><span class="num">0'+(i+1)+'</span><span class="chip '+(done(i)?"live":state==="live"?"live":"locked")+'">'+badge+'</span></div><div class="month-name">'+prettyMonth(i)+'</div><div class="targets">'+fmt(total(i))+' / '+fmt(maxTotal[i])+' очков<br>'+fmt(ppv(i))+' / 500 PPV<br>'+clients(i)+' / 5 клиентов</div><div class="bar"><i style="width:'+percent+'%"></i></div></button>'
  }).join("");
  var i=data.selected,t=total(i),p=ppv(i),c=clients(i),state=stageState(i),complete=done(i);
  $("stageTitle").textContent=["Первый месяц","Второй месяц","Третий месяц"][i];
  $("stageDate").textContent=prettyMonth(i)+" · "+(i+1)+"-й этап из 3";
- $("stageChip").textContent=complete?"✓ Выполнено":state==="live"?"● В процессе":state==="future"?"Впереди":"Можно заполнить";
+ $("stageChip").textContent=complete?"✓ Выполнено":state==="live"?"● В процессе":state==="future"?"Впереди":"Архив";
  $("stageChip").className="chip "+(complete||state==="live"?"live":"locked");
  ["ppv","total","client"].forEach(function(k){
  var n=k==="ppv"?p:k==="total"?t:c;var goal=k==="ppv"?500:k==="total"?maxTotal[i]:5;
@@ -251,7 +269,7 @@ function render(){
  var title="",desc="",emoji="✨";
  var leftTotal=Math.max(0,maxTotal[i]-t),leftPpv=Math.max(0,500-p),leftC=Math.max(0,5-c);
  if(complete){title="Браво! Этот месяц выполнен!";desc="Все три показателя достигнуты. Ты заслуженно можешь гордиться собой.";emoji="🏆"}
- else if(state==="past"){title="Прошлый месяц открыт для заполнения";desc="Добавь реальные результаты за "+prettyMonth(i)+". Можно исправлять или удалять старые записи.";emoji="✍️"}
+ else if(state==="past"){title="Заполни результаты за "+prettyMonth(i);desc="Внеси очки и новых клиентов за этот месяц — увидишь весь путь к подарку.";emoji="💗"}
  else if(state==="future"){title="Готовься к новому этапу";desc="Впереди "+fmt(maxTotal[i])+" очков, минимум 500 PPV и 5 новых клиентов.";emoji="🗓️"}
  else if(t===0&&c===0){title="Начни сегодня — и удиви себя завтра";desc="Первый заказ и первая регистрация откроют дорогу к супер-блендеру.";emoji="✨"}
  else if(leftC===0){title="Все пять клиентов уже с тобой!";desc="Отличная работа. Осталось "+fmt(leftTotal)+" очков объёма и "+fmt(leftPpv)+" PPV.";emoji="🤍"}
@@ -264,7 +282,7 @@ function render(){
  ["pointDate","clientDate"].forEach(function(id){var field=$(id),bounds=dateBounds(i);field.min=bounds.start;field.max=stageMaxDate(i);field.value=defaultStageDate(i);field.disabled=!allowed;});
  $("pointType").querySelector('option[value="other"]').disabled=i===0;
  if(i===0)$("pointType").value="ppv";
- $("editChip").textContent=allowed?"Можно заполнить":state==="future"?"Месяц ещё не начался":state==="past"?"Прошлый месяц можно заполнить":"Сначала заполни профиль";
+ $("editChip").textContent=allowed?"":state==="future"?"Впереди":"Сначала укажи имя и статус";
  var entries=[].concat(data.stages[i].points).reverse();
  $("pointLog").innerHTML=entries.length?entries.map(function(v){return '<div class="record"><div><b>'+esc(v.type==="ppv"?"PPV":"Объём")+' · +'+fmt(+v.amount)+'</b><small>'+esc(v.date||"")+(v.note?" · "+esc(v.note):"")+'</small></div>'+(isEditable(i)?'<div class="record-actions"><button type="button" data-edit-point="'+esc(v.id)+'" title="Изменить запись">✎</button><button type="button" data-rm-point="'+esc(v.id)+'" title="Удалить запись">×</button></div>':"")+'</div>'}).join(""):'<div class="empty">Пока нет записей ✦</div>';
  var people=[].concat(data.stages[i].clients).reverse();
