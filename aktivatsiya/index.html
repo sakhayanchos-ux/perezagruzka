@@ -168,6 +168,17 @@ input:focus-visible,button:focus-visible,select:focus-visible{outline-color:#ca7
 @media(max-width:720px){.gift .product{width:205px;height:245px;right:-3px;top:8px}.gift-content{max-width:69%}}
 @media(max-width:480px){.gift{min-height:255px}.gift .product{width:175px;height:224px;right:-20px;top:16px;opacity:1}.gift-content{max-width:76%}.gift .tiny{font-size:9px}}
 
+
+/* Мобильный подарок: текст и новый блендер не перекрывают друг друга */
+@media(max-width:480px){
+ .gift{min-height:305px;padding:22px 17px}
+ .gift-content{position:relative;z-index:2;max-width:59%}
+ .gift h2{font-size:clamp(22px,6.2vw,28px);line-height:1.16}
+ .gift p{font-size:11px;line-height:1.4}
+ .gift .tiny{font-size:9px;line-height:1.4}
+ .gift .product{width:174px;height:218px;right:-13px;top:50px;z-index:1}
+}
+
 </style>
 </head>
 <body>
