@@ -118,6 +118,7 @@
   .action-btn:focus-visible{outline:3px solid #ec70a1;outline-offset:2px}
   .photos-panel{background:linear-gradient(135deg,#fff3ef,#ffe9f1);border:1px solid #f0c8cb;padding:14px;border-radius:18px;margin-top:18px}
   .photos-title{font-weight:800;color:var(--wine);margin-bottom:10px}
+  .photo-weight-hint{margin:10px 0 12px;color:#89546c;font-size:.79rem;line-height:1.45}
   .photo-inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
   .photo-field{display:block;min-width:0;margin-bottom:9px;font-size:.83rem;color:var(--wine);font-weight:700}
   .photo-field input[type=file],.photo-field textarea{display:block;width:100%;margin-top:6px;max-width:none;padding:9px;background:white;border-radius:10px}
@@ -273,6 +274,7 @@
           </div>
         </div>
       </div>
+      <p class="photo-weight-hint">⚖️ В коллаже автоматически появятся вес ДО, вес ПОСЛЕ и разница в килограммах из раздела «Участник».</p>
       <label class="photo-field">Ваш отзыв<textarea id="photoReview" placeholder="Напишите короткий отзыв (необязательно)" rows="3"></textarea></label>
       <div class="crop-editor" id="cropEditor" hidden>
         <div class="crop-title">✂️ Подгони фотографии по размеру</div>
@@ -302,7 +304,7 @@
           <button class="crop-edit-again" id="editCrop" type="button">✂️ Подправить кадры</button>
           <button type="button" class="photo-remove collage-remove" id="removeCollage" aria-label="Удалить коллаж и очистить обе фотографии" title="Удалить коллаж и обе фотографии">✕</button>
         </div>
-        <canvas class="collage-preview" id="collagePreview" width="1200" height="1300" aria-label="Предварительный просмотр коллажа до и после"></canvas>
+        <canvas class="collage-preview" id="collagePreview" width="1200" height="1450" aria-label="Предварительный просмотр коллажа до и после с весом и итогом марафона"></canvas>
       </div>
       <div class="action-buttons">
         <button class="action-btn main" id="sharePhotos" type="button" disabled>📲 Отправить коллаж Виктории</button>
@@ -771,6 +773,22 @@
       ctx.fillText(txt,x,y+i*lineHeight);
     }
   }
+  function collageWeightData(){
+    const parse=id=>{
+      const raw=String($(id)?.value||'').trim().replace(',','.');
+      if(!raw)return null;
+      const number=Number(raw);
+      return Number.isFinite(number)&&number>0?number:null;
+    };
+    const start=parse('pStartWeight'),end=parse('pEndWeight');
+    const fmt=n=>Number(n).toLocaleString('ru-RU',{maximumFractionDigits:2});
+    const delta=start!=null&&end!=null?Math.round((end-start)*100)/100:null;
+    return {
+      start:start==null?null:fmt(start)+' кг',
+      end:end==null?null:fmt(end)+' кг',
+      result:delta==null?null:(delta>0?'+':delta<0?'−':'')+fmt(Math.abs(delta))+' кг'
+    };
+  }
   function paintCollage(canvas,before,after){
     const c=canvas.getContext('2d');
     const W=canvas.width,H=canvas.height;
@@ -788,6 +806,7 @@
     const name=$('pName').value.trim();
     if(name){c.fillStyle='#752c49';c.font='31px Arial,sans-serif';c.fillText(name.slice(0,42),W/2,212)}
 
+    const weights=collageWeightData();
     const top=252,photoHeight=730,boxWidth=526,photoX=[57,617];
     for(let i=0;i<2;i++){
       const x=photoX[i];
@@ -797,20 +816,36 @@
       roundedPath(c,x+11,top+11,boxWidth-22,photoHeight-22,17);c.clip();
       paintPhoto(c,i===0?before:after,x+11,top+11,boxWidth-22,photoHeight-22,i);
       c.restore();
+      const photoWeight=i===0?weights.start:weights.end;
+      if(photoWeight){
+        c.fillStyle='rgba(255,250,247,.94)';
+        roundedPath(c,x+95,top+photoHeight-105,boxWidth-190,75,23);c.fill();
+        c.fillStyle='#8b204d';c.textAlign='center';c.font='bold 45px Arial,sans-serif';
+        c.fillText(photoWeight,x+boxWidth/2,top+photoHeight-55);
+      }
       c.strokeStyle='#d7a76f';c.lineWidth=3;
       roundedPath(c,x,top,boxWidth,photoHeight+66,24);c.stroke();
-      c.fillStyle='#a62b5b';c.font='bold 39px Arial,sans-serif';c.fillText(i===0?'ДО':'ПОСЛЕ',x+boxWidth/2,top+photoHeight+37);
+      c.fillStyle='#a62b5b';c.textAlign='center';c.font='bold 39px Arial,sans-serif';
+      c.fillText(i===0?'ДО':'ПОСЛЕ',x+boxWidth/2,top+photoHeight+37);
     }
+    c.fillStyle='rgba(255,251,249,.94)';
+    roundedPath(c,232,1065,W-464,120,29);c.fill();
+    c.strokeStyle='#d3a36d';c.lineWidth=3;
+    roundedPath(c,232,1065,W-464,120,29);c.stroke();
+    c.textAlign='center';c.fillStyle='#99506b';
+    c.font='bold 27px Arial,sans-serif';c.fillText('ИТОГ ЗА МАРАФОН',W/2,1108);
+    c.fillStyle='#a21c50';c.font=weights.result?'bold 59px Georgia,serif':'28px Arial,sans-serif';
+    c.fillText(weights.result||'Укажите вес ДО и ПОСЛЕ',W/2,1164);
     const review=$('photoReview').value.trim();
     if(review){
       c.textAlign='left';c.fillStyle='#78384f';c.font='29px Arial,sans-serif';
-      wrapCaption(c,'“'+review+'”',70,1100,W-140,43,3);
+      wrapCaption(c,'“'+review+'”',70,1240,W-140,43,3);
     }else{
       c.textAlign='center';c.fillStyle='#8e4967';c.font='30px Arial,sans-serif';
-      c.fillText('Каждый шаг — это движение к цели ✨',W/2,1118);
+      c.fillText('Каждый шаг — это движение к цели ✨',W/2,1270);
     }
     c.textAlign='center';c.fillStyle='#a42356';c.font='bold 27px Arial,sans-serif';
-    c.fillText('МАРАФОН СТРОЙНОСТИ · 2026',W/2,1247);
+    c.fillText('МАРАФОН СТРОЙНОСТИ · 2026',W/2,1394);
   }
   function canvasPng(canvas){
     return new Promise((resolve,reject)=>{
@@ -954,6 +989,8 @@
   $('afterPhoto').addEventListener('change',prepareCollage);
   $('photoReview').addEventListener('change',refreshCollageContent);
   $('pName').addEventListener('change',refreshCollageContent);
+  $('pStartWeight').addEventListener('change',refreshCollageContent);
+  $('pEndWeight').addEventListener('change',refreshCollageContent);
 
   load();
   bind();
