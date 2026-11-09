@@ -119,6 +119,12 @@
   .photos-panel{background:linear-gradient(135deg,#fff3ef,#ffe9f1);border:1px solid #f0c8cb;padding:14px;border-radius:18px;margin-top:18px}
   .photos-title{font-weight:800;color:var(--wine);margin-bottom:10px}
   .photo-weight-hint{margin:10px 0 12px;color:#89546c;font-size:.79rem;line-height:1.45}
+  .collage-weight-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:12px;margin:11px 0;background:#fffaf8;border:1px solid #e5b8c6;border-radius:14px}
+  .collage-weight-fields .photo-field{margin:0}
+  .collage-weight-fields input{width:100%;margin-top:5px;min-width:0;background:white;font-size:1rem;text-align:center;font-weight:750}
+  .photo-weight-status{grid-column:1/-1;font-weight:800;font-size:.86rem;text-align:center;color:#992552;margin-top:2px}
+  .photo-weight-status.warning{color:#ac4f5b}
+  .photo-weight-status strong{font-size:1.1rem;color:#a72254}
   .photo-inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
   .photo-field{display:block;min-width:0;margin-bottom:9px;font-size:.83rem;color:var(--wine);font-weight:700}
   .photo-field input[type=file],.photo-field textarea{display:block;width:100%;margin-top:6px;max-width:none;padding:9px;background:white;border-radius:10px}
@@ -274,7 +280,16 @@
           </div>
         </div>
       </div>
-      <p class="photo-weight-hint">⚖️ В коллаже автоматически появятся вес ДО, вес ПОСЛЕ и разница в килограммах из раздела «Участник».</p>
+      <p class="photo-weight-hint">⚖️ Укажите вес до и после марафона. Если вы уже заполняли их в разделе «Участник», значения появятся здесь автоматически.</p>
+      <div class="collage-weight-fields">
+        <label class="photo-field" for="photoWeightBefore">⚖️ Вес ДО, кг
+          <input id="photoWeightBefore" type="number" min="0.1" step="0.01" inputmode="decimal" placeholder="Например, 97" aria-label="Вес на фото ДО в килограммах">
+        </label>
+        <label class="photo-field" for="photoWeightAfter">⚖️ Вес ПОСЛЕ, кг
+          <input id="photoWeightAfter" type="number" min="0.1" step="0.01" inputmode="decimal" placeholder="Например, 95,6" aria-label="Вес на фото ПОСЛЕ в килограммах">
+        </label>
+        <div id="photoWeightStatus" class="photo-weight-status warning" role="status" aria-live="polite">Заполните оба значения для итога марафона</div>
+      </div>
       <label class="photo-field">Ваш отзыв<textarea id="photoReview" placeholder="Напишите короткий отзыв (необязательно)" rows="3"></textarea></label>
       <div class="crop-editor" id="cropEditor" hidden>
         <div class="crop-title">✂️ Подгони фотографии по размеру</div>
@@ -310,7 +325,7 @@
         <button class="action-btn main" id="sharePhotos" type="button" disabled>📲 Отправить коллаж Виктории</button>
         <button class="action-btn light" id="downloadCollage" type="button" disabled>📥 Скачать коллаж</button>
       </div>
-      <p class="share-hint" id="shareStatus" aria-live="polite">Выберите фото ДО и ПОСЛЕ. Коллаж появится автоматически. Кнопка «Отправить коллаж Виктории» открывает сразу её чат WhatsApp, как отправка звёзд. Коллаж сохраняется отдельным файлом: прикрепите его через «+» в чате и нажмите «Отправить». WhatsApp не разрешает сайту автоматически прикреплять фото. Фото не загружаются на сайт.</p>
+      <p class="share-hint" id="shareStatus" aria-live="polite">Выберите фото ДО и ПОСЛЕ, укажите оба значения веса и создайте коллаж. Кнопка «Отправить коллаж Виктории» открывает сразу её чат WhatsApp, как отправка звёзд. Коллаж сохраняется отдельным файлом: прикрепите его через «+» в чате и нажмите «Отправить». WhatsApp не разрешает сайту автоматически прикреплять фото. Фото не загружаются на сайт.</p>
     </div>
   </section>
 
@@ -411,6 +426,7 @@
       }catch(e){}
     }
     PROFILE_IDS.forEach(id=>{$(id).value=get(PROFILE_STORAGE[id]) || ''});
+    syncPhotoWeightInputs();
     EVENT_IDS.forEach(id=>{
       const el=$(id);
       if(el.type==='checkbox')el.checked=get(EVENT_STORAGE_PREFIX+id)==='true'||oldVip[id]===true;
@@ -789,6 +805,34 @@
       result:delta==null?null:(delta>0?'+':delta<0?'−':'')+fmt(Math.abs(delta))+' кг'
     };
   }
+  // Keep the photo-section fields and the participant profile weight fields in sync.
+  // The profile storage keys and all saved marathon stars remain unchanged.
+  function updatePhotoWeightStatus(){
+    const weights=collageWeightData();
+    const el=$('photoWeightStatus');
+    if(weights.start&&weights.end){
+      el.classList.remove('warning');
+      el.textContent='Итог за марафон: '+weights.result;
+    }else{
+      el.classList.add('warning');
+      el.textContent='Заполните вес ДО и ПОСЛЕ — тогда итог появится в коллаже';
+    }
+  }
+  function syncPhotoWeightInputs(){
+    $('photoWeightBefore').value=$('pStartWeight').value;
+    $('photoWeightAfter').value=$('pEndWeight').value;
+    updatePhotoWeightStatus();
+  }
+  function syncWeightFromPhoto(id){
+    $('pStartWeight'===id?'photoWeightBefore':'photoWeightAfter').value =
+      $(id).value;
+    updatePhotoWeightStatus();
+  }
+  function syncProfileFromPhoto(photoId,profileId){
+    $(profileId).value=$(photoId).value;
+    calc();
+    updatePhotoWeightStatus();
+  }
   function paintCollage(canvas,before,after){
     const c=canvas.getContext('2d');
     const W=canvas.width,H=canvas.height;
@@ -907,6 +951,16 @@
   }
   async function applyCrop(){
     if(!loadedPhotoImages[0]||!loadedPhotoImages[1])return;
+    const weight=collageWeightData();
+    if(!weight.start||!weight.end){
+      collageReady=null;
+      $('sharePhotos').disabled=true;
+      $('downloadCollage').disabled=true;
+      $('collageBox').hidden=true;
+      $('shareStatus').textContent='⚖️ Сначала укажите вес ДО и ПОСЛЕ в полях рядом с фотографиями — без них коллаж не будет готовым.';
+      $('photoWeightBefore').focus();
+      return;
+    }
     const version=++collageVersion;
     $('sharePhotos').disabled=true;
     $('downloadCollage').disabled=true;
@@ -989,8 +1043,14 @@
   $('afterPhoto').addEventListener('change',prepareCollage);
   $('photoReview').addEventListener('change',refreshCollageContent);
   $('pName').addEventListener('change',refreshCollageContent);
+  $('pStartWeight').addEventListener('input',()=>syncWeightFromPhoto('pStartWeight'));
+  $('pEndWeight').addEventListener('input',()=>syncWeightFromPhoto('pEndWeight'));
   $('pStartWeight').addEventListener('change',refreshCollageContent);
   $('pEndWeight').addEventListener('change',refreshCollageContent);
+  $('photoWeightBefore').addEventListener('input',()=>syncProfileFromPhoto('photoWeightBefore','pStartWeight'));
+  $('photoWeightAfter').addEventListener('input',()=>syncProfileFromPhoto('photoWeightAfter','pEndWeight'));
+  $('photoWeightBefore').addEventListener('change',refreshCollageContent);
+  $('photoWeightAfter').addEventListener('change',refreshCollageContent);
 
   load();
   bind();
