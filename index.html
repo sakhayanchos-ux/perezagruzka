@@ -290,7 +290,7 @@
         </label>
         <div id="photoWeightStatus" class="photo-weight-status warning" role="status" aria-live="polite">Заполните оба значения для итога марафона</div>
       </div>
-      <label class="photo-field">Ваш отзыв<textarea id="photoReview" placeholder="Напишите короткий отзыв (необязательно)" rows="3"></textarea></label>
+      <label class="photo-field" for="photoReview">Ваш отзыв <span aria-hidden="true">*</span><textarea id="photoReview" placeholder="Напишите ваш отзыв о марафоне: что изменилось и какие результаты получили" rows="3" required aria-required="true"></textarea></label>
       <div class="crop-editor" id="cropEditor" hidden>
         <div class="crop-title">✂️ Подгони фотографии по размеру</div>
         <p class="crop-help">Оба кадра одинаковые. Передвигай фото пальцем и увеличивай масштаб, чтобы голова и плечи оказались примерно на одной высоте. Пунктирные линии помогут сравнить.</p>
@@ -961,6 +961,15 @@
       $('photoWeightBefore').focus();
       return;
     }
+    if(!$('photoReview').value.trim()){
+      collageReady=null;
+      $('sharePhotos').disabled=true;
+      $('downloadCollage').disabled=true;
+      $('collageBox').hidden=true;
+      $('shareStatus').textContent='✍️ Напишите ваш отзыв о марафоне — он обязателен для создания коллажа.';
+      $('photoReview').focus();
+      return;
+    }
     const version=++collageVersion;
     $('sharePhotos').disabled=true;
     $('downloadCollage').disabled=true;
@@ -998,12 +1007,22 @@
     if(loadedPhotoImages[0]&&loadedPhotoImages[1]&&$('cropEditor').hidden)applyCrop();
   }
   function downloadCollage(){
+    if(!$('photoReview').value.trim()){
+      $('shareStatus').textContent='✍️ Для сохранения коллажа сначала напишите отзыв.';
+      $('photoReview').focus();
+      return;
+    }
     if(!collageReady)return;
     saveBlob(collageReady.blob,collageReady.filename);
     $('shareStatus').textContent='Коллаж скачан. Теперь его можно отправить Виктории в WhatsApp.';
   }
   function sharePhotos(){
     const status=$('shareStatus');
+    if(!$('photoReview').value.trim()){
+      status.textContent='✍️ Напишите отзыв о марафоне — он обязателен для отправки коллажа.';
+      $('photoReview').focus();
+      return;
+    }
     if(!collageReady){
       status.textContent='Сначала выберите обе фотографии и дождитесь готового коллажа.';
       return;
@@ -1013,7 +1032,7 @@
     const text='Здравствуйте, Виктория! Отправляю мой коллаж ДО / ПОСЛЕ.\n'
       +'Участник: '+report.name+'\n'
       +'Консультант: '+report.consultant
-      +(review?'\nМой отзыв: '+review:'')
+      +'\nМой отзыв: '+review
       +'\nМарафон «Перезагрузка».\n'
       +'Коллаж прикреплю отдельной фотографией.';
     // Use the exact same wa.me direct-chat mechanism as "Отправить звёзды Виктории".
@@ -1041,6 +1060,15 @@
   $('removeAfter').addEventListener('click',()=>removeSelectedPhoto('afterPhoto'));
   $('removeCollage').addEventListener('click',removeEntireCollage);
   $('afterPhoto').addEventListener('change',prepareCollage);
+  $('photoReview').addEventListener('input',()=>{
+    if(!$('photoReview').value.trim()){
+      collageReady=null;
+      $('collageBox').hidden=true;
+      $('sharePhotos').disabled=true;
+      $('downloadCollage').disabled=true;
+      $('shareStatus').textContent='✍️ Напишите ваш отзыв, чтобы завершить коллаж.';
+    }
+  });
   $('photoReview').addEventListener('change',refreshCollageContent);
   $('pName').addEventListener('change',refreshCollageContent);
   $('pStartWeight').addEventListener('input',()=>syncWeightFromPhoto('pStartWeight'));
