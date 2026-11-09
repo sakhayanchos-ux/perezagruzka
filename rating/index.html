@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#822143">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Рейтинг Перезагрузка">
+<title>Звёздный рейтинг · Перезагрузка</title>
+<meta name="description" content="Рейтинг участниц и участников марафона «Перезагрузка» по итоговым звёздам из отчётов.">
+<style>
+:root{--wine:#852446;--berry:#bc3364;--rose:#e66b98;--gold:#bc8c40;--ink:#52213b;--muted:#856477;--line:#f0d4d9;--paper:#fffaf8}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink);background:radial-gradient(ellipse at 0 0,#f7bccc 0,transparent 35%),radial-gradient(ellipse at 95% 38%,#fff0dd 0,transparent 37%),linear-gradient(160deg,#ffe4e8,#fff9f1 55%,#fbd6e2)}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #d86b95;outline-offset:2px}
+.wrap{width:min(100% - 26px,980px);margin:auto;padding:20px 0 44px}
+.hero{position:relative;overflow:hidden;text-align:center;color:#fff7ee;background:linear-gradient(115deg,#7b1740 0%,#b92a63 58%,#9a2854 100%);border:1px solid #eec39a;border-radius:28px;padding:28px 20px 24px;box-shadow:0 16px 33px #79234433}
+.hero:before{content:"✧";font-size:230px;line-height:1;position:absolute;top:-85px;right:-26px;opacity:.12;transform:rotate(20deg)}
+.hero>*{position:relative}
+.kicker{font-size:11px;letter-spacing:.21em;font-weight:800;color:#ffe5b2}
+.hero h1{margin:6px 0;font-family:Georgia,serif;font-size:clamp(32px,8vw,60px);line-height:1.03;letter-spacing:-.035em}
+.hero p{margin:9px auto 0;color:#ffe4ec;font-size:13px}
+.hero .star{font-size:35px;filter:drop-shadow(0 3px 5px #4d133b44)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:13px 0}
+.stat{border:1px solid #e9bdc8;border-radius:17px;background:#fffaf8d9;padding:14px 10px;text-align:center;box-shadow:0 5px 16px #5e244017}
+.stat b{font-family:Georgia,serif;display:block;color:var(--wine);font-size:clamp(23px,6vw,37px);line-height:1.2}
+.stat span{font-size:11px;color:#92697c;font-weight:750}
+.layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:13px;align-items:start}
+.card{background:#fffdfaf0;border:1px solid #eed0d3;border-radius:20px;box-shadow:0 6px 24px #7c345016;padding:18px 16px;margin-bottom:13px;min-width:0}
+.card h2{margin:0 0 7px;color:var(--wine);font:700 24px Georgia,serif}
+.description{font-size:13px;color:#916778;margin:3px 0 13px}
+.caption{font-size:11px;color:#92697c;margin:10px 0 0;line-height:1.45}
+textarea,input[type="text"],input[type="search"],input[type="number"]{width:100%;border-radius:12px;background:#fffaf8;border:1px solid #e5bfca;color:var(--ink);padding:11px 12px;min-width:0}
+textarea{min-height:190px;resize:vertical;font-size:13px;line-height:1.45}
+textarea::placeholder{color:#b19aa5}
+input::placeholder{color:#b19aa5}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.btn{border:1px solid #ca9daf;background:#fff8f8;color:var(--wine);border-radius:11px;font-weight:750;padding:10px 13px;font-size:13px;min-height:42px}
+.btn.primary{background:linear-gradient(130deg,#92254d,#c13a6e);color:white;border-color:#92254d}
+.btn.gold{background:#fff1d6;border-color:#e6c285;color:#85511a}
+.btn.ghost{background:#fff;border-color:#eed0d8}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.filebtn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center}
+.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:200px;width:100%}
+.filebtn:focus-within{outline:3px solid #d86b95;outline-offset:2px}
+.status{font-size:13px;border-radius:10px;padding:10px 12px;margin-top:12px;background:#f5eaf0;color:#7a3255}
+.status.success{background:#eaf7ef;color:#306f46}
+.status.error{background:#fff0ed;color:#a33335}
+.status[hidden]{display:none}
+.podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:13px 0 18px}
+.place{padding:12px 5px;border:1px solid #efcbd2;border-radius:15px;background:linear-gradient(160deg,#fff7f4,#fce8ed);min-width:0;text-align:center}
+.place:first-child{border-color:#e0b363;background:linear-gradient(145deg,#fff4d6,#fff9f5)}
+.place .medal{font-size:27px;line-height:1.1}
+.place .name{display:block;overflow-wrap:anywhere;color:var(--wine);font-weight:850;font-size:12px;margin:6px 0 3px;line-height:1.2}
+.place .points{font-family:Georgia,serif;color:#a72d57;font-size:20px;font-weight:800;line-height:1.25}
+.place .points small{font:700 11px Arial,sans-serif}
+.place.empty{opacity:.42}
+.search{margin:0 0 12px}
+.leader-list{display:grid;gap:8px}
+.participant{border:1px solid #f0d0d6;border-radius:14px;background:#fffcfa;padding:11px 12px}
+.participant-main{display:flex;align-items:center;gap:10px}
+.rank{width:37px;height:37px;display:grid;place-items:center;flex:none;border-radius:10px;font-size:20px;background:#f8e8ed;font-weight:900;color:#91234f}
+.participant:nth-child(1) .rank{background:#fff0ce}
+.pname{font-size:14px;font-weight:800;color:#6d2446;overflow-wrap:anywhere}
+.consultant{font-size:11px;color:#947083;display:block;overflow-wrap:anywhere}
+.score{margin-left:auto;white-space:nowrap;text-align:right;color:#ac295d;font-size:24px;font-family:Georgia,serif;font-weight:800}
+.score small{display:block;font:700 10px Arial,sans-serif;color:#bd6887}
+.row-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:8px;padding-top:8px;border-top:1px solid #f3e2e6}
+.tiny{border:1px solid #eed2db;background:#fff7f8;border-radius:8px;color:#8e4a65;padding:5px 9px;font-size:11px;font-weight:650}
+.empty-state{padding:24px 16px;text-align:center;border:1px dashed #e6bcc7;border-radius:14px;color:#916579;background:#fff7f9}
+.empty-state strong{display:block;margin-bottom:5px;color:#842e56}
+details{border:1px solid #ecd0d6;border-radius:13px;background:#fff8f6;padding:11px;margin-top:13px}
+details summary{cursor:pointer;font-size:13px;font-weight:800;color:#87274b}
+.manual-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.manual-grid .wide{grid-column:1/-1}
+.manual-grid label{font-size:12px;color:#8a5270;font-weight:750}
+.manual-grid label input{margin-top:4px}
+.footer{margin:15px auto;font-size:12px;color:#89536c;text-align:center}
+.footer a{color:#9b2957}
+.small-sep{height:1px;background:#f1d9df;margin:15px 0}
+@media(max-width:720px){.layout{grid-template-columns:1fr}.hero{border-radius:22px;padding:27px 10px 21px}.card{padding:16px 13px}.stat{padding:12px 5px}.podium{gap:6px}.place{padding:11px 4px}.score{font-size:22px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+ <header class="hero">
+  <div class="star">⭐</div>
+  <div class="kicker">МАРАФОН СТРОЙНОСТИ · 2026</div>
+  <h1>ЗВЁЗДНЫЙ<br>РЕЙТИНГ</h1>
+  <p>ПЕРЕЗАГРУЗКА · 19 октября — 8 ноября</p>
+ </header>
+ <div class="stats">
+  <div class="stat"><b id="count">0</b><span>участников</span></div>
+  <div class="stat"><b id="maxPoints">0</b><span>лидер ⭐</span></div>
+  <div class="stat"><b id="sumPoints">0</b><span>всего звёзд ⭐</span></div>
+ </div>
+ <div class="layout">
+  <section>
+   <div class="card">
+    <h2>📥 Добавить отчёты</h2>
+    <p class="description">Скопируйте сообщения «Отправить звёзды Виктории» из марафона. Можно вставить сразу несколько подряд.</p>
+    <label for="reports" class="description" style="display:block;font-weight:800;color:#8d3559">Отчёты участников</label>
+    <textarea id="reports" spellcheck="false" placeholder="⭐ ОТЧЁТ ПО ЗВЁЗДАМ · МАРАФОН СТРОЙНОСТИ&#10;Участник: Анна Иванова&#10;Консультант: Ольга Попова&#10;...&#10;ИТОГО: 135 ⭐&#10;&#10;⭐ ОТЧЁТ ...&#10;Участник: Мария ...&#10;ИТОГО: 174 ⭐"></textarea>
+    <div class="actions">
+     <button class="btn primary" id="addReports" type="button">✨ Обработать отчёты</button>
+     <label class="btn filebtn">📁 Загрузить CSV / TXT<input type="file" id="files" multiple accept=".csv,.txt,text/csv,text/plain"></label>
+     <button class="btn ghost" id="clearText" type="button">Очистить поле</button>
+    </div>
+    <div id="status" class="status" role="status" aria-live="polite" hidden></div>
+    <p class="caption">Приложение берёт только «ИТОГО» из каждого отчёта. Повторный отчёт того же человека заменяет старый результат, а не прибавляется к нему.</p>
+    <details>
+     <summary>＋ Добавить участника вручную</summary>
+     <form id="manualForm" class="manual-grid">
+      <label class="wide">Имя<input id="manualName" type="text" placeholder="Имя и фамилия" required maxlength="100"></label>
+      <label class="wide">Консультант<input id="manualCoach" type="text" placeholder="Необязательно" maxlength="100"></label>
+      <label>Всего звёзд<input id="manualPoints" type="number" min="0" max="1000000" step="1" required placeholder="125"></label>
+      <div style="display:flex;align-items:end"><button class="btn primary" type="submit">Добавить ⭐</button></div>
+     </form>
+    </details>
+   </div>
+   <div class="card">
+    <h2>💾 Сохранить рейтинг</h2>
+    <p class="description">Данные сохраняются только в этом браузере. Если открываете приложение с другого телефона, переносите сохранённую копию.</p>
+    <div class="actions">
+     <button class="btn" id="backup" type="button">📥 Скачать копию</button>
+     <label class="btn filebtn">📂 Загрузить копию<input type="file" id="restore" accept=".json,application/json"></label>
+     <button class="btn ghost" id="reset" type="button">Удалить весь рейтинг</button>
+    </div>
+   </div>
+  </section>
+  <section>
+   <div class="card">
+    <h2>🏆 Рейтинг марафона</h2>
+    <p class="description">Автоматически по убыванию итоговых звёзд. Одинаковый результат — одинаковое место.</p>
+    <div id="podium" class="podium"></div>
+    <input id="search" class="search" type="search" placeholder="🔍 Найти участника или консультанта">
+    <div id="leaderList" class="leader-list"></div>
+    <div class="small-sep"></div>
+    <div class="actions">
+     <button class="btn primary" id="savePng" type="button">🖼️ Скачать рейтинг PNG</button>
+     <button class="btn gold" id="copyRanking" type="button">📋 Скопировать рейтинг</button>
+     <button class="btn" id="shareRanking" type="button">📲 В WhatsApp</button>
+    </div>
+    <p class="caption">Публикуйте только с согласия участников, если в рейтинге указаны имена.</p>
+   </div>
+  </section>
+ </div>
+ <footer class="footer">⭐ Рейтинг «Перезагрузка» · Данные остаются на вашем устройстве<br>Разработчик: Сахаяна · <a href="../">Открыть трекер марафона</a></footer>
+</main>
+<script>
+(function(){
+'use strict';
+const STORAGE='perezagruzka-ranking-v1';
+const $=id=>document.getElementById(id);
+const format=n=>new Intl.NumberFormat('ru-RU',{maximumFractionDigits:2}).format(n);
+const clean=x=>String(x==null?'':x).replace(/\s+/g,' ').trim();
+const key=(name,coach)=>clean(name).toLocaleLowerCase('ru-RU').replace(/ё/g,'е')+'|'+clean(coach).toLocaleLowerCase('ru-RU').replace(/ё/g,'е');
+function number(raw){
+ let s=String(raw==null?'':raw).replace(/[\s\u00a0\u202f]/g,'').replace(/[^\d.,-]/g,'');
+ if(s.includes(',')&&s.includes('.')){if(s.lastIndexOf(',')>s.lastIndexOf('.'))s=s.replace(/\./g,'').replace(',','.');else s=s.replace(/,/g,'')}
+ else s=s.replace(',','.');
+ const n=Number(s);return Number.isFinite(n)&&n>=0&&n<=1000000?n:null;
+}
+function valid(item){
+ if(!item||!clean(item.name)||item.name==='Участник'||item.name.length>120)return null;
+ const total=number(item.total);
+ if(total===null)return null;
+ return {name:clean(item.name).slice(0,100),coach:clean(item.coach||'Не указан').slice(0,100),total,updatedAt:new Date().toISOString()};
+}
+function parseTextReport(source){
+ const lines=String(source||'').replace(/\r/g,'').replace(/\ufeff/g,'').split('\n');
+ const items=[];let current=null;let incomplete=0;
+ function finish(){
+  if(!current)return;
+  const item=valid(current);
+  if(item)items.push(item);else incomplete++;
+  current=null;
+ }
+ for(const orig of lines){
+  const line=orig.trim().replace(/^[>*\s]+/,'').replace(/\*/g,'');
+  const name=line.match(/^Участник\s*[:：]\s*(.+)/i);
+  if(name){finish();current={name:name[1].trim(),coach:'Не указан',total:null};continue}
+  if(!current)continue;
+  const coach=line.match(/^Консультант\s*[:：]\s*(.+)/i);
+  if(coach){current.coach=coach[1].trim();continue}
+  const total=line.match(/^ИТОГО\s*[:：]\s*([0-9 \u00a0\u202f.,]+)/i);
+  if(total){current.total=total[1];finish()}
+ }
+ finish();
+ return {items,incomplete};
+}
+function csvRows(text){
+ const rows=[];let row=[],cell='',quoted=false;
+ const input=String(text||'').replace(/^\ufeff/,'');
+ for(let i=0;i<input.length;i++){
+  const ch=input[i];
+  if(ch==='"'){
+   if(quoted&&input[i+1]==='"'){cell+='"';i++}else quoted=!quoted;
+  }else if(ch===';'&&!quoted){row.push(cell);cell=''}
+  else if((ch==='\r'||ch==='\n')&&!quoted){
+   if(ch==='\r'&&input[i+1]==='\n')i++;
+   row.push(cell);rows.push(row);row=[];cell='';
+  }else cell+=ch;
+ }
+ if(cell!==''||row.length){row.push(cell);rows.push(row)}
+ return rows;
+}
+function parseCsvReport(source){
+ const rows=csvRows(source);
+ let item={name:'',coach:'Не указан',total:null};
+ for(const row of rows){
+  const label=clean(row[0]).replace(/^\ufeff/,'').toLocaleLowerCase('ru-RU');
+  if(label==='участник')item.name=clean(row[1]);
+  if(label==='консультант')item.coach=clean(row[1]);
+  if(label==='итого')item.total=row[1];
+ }
+ const v=valid(item);return {items:v?[v]:[],incomplete:v?0:1};
+}
+function extract(source){
+ const s=String(source||'').trim();
+ if(!s)return {items:[],incomplete:0};
+ if((s.includes(';"')||s.includes('";')||s.includes('";"'))&&/ИТОГО/i.test(s)&&/Участник/i.test(s)){
+  const csv=parseCsvReport(s);
+  if(csv.items.length)return csv;
+ }
+ return parseTextReport(s);
+}
+function safe(s){return String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+let people=[];
+try{
+ const raw=JSON.parse(localStorage.getItem(STORAGE)||'[]');
+ if(Array.isArray(raw))people=raw.map(valid).filter(Boolean);
+}catch(err){console.warn('Не удалось прочитать рейтинг',err)}
+function persist(){
+ try{localStorage.setItem(STORAGE,JSON.stringify(people));return true}
+ catch(err){showStatus('Не удалось сохранить данные на устройстве. Скачайте резервную копию.','error');return false}
+}
+function showStatus(message,type){
+ const el=$('status');el.textContent=message;el.className='status'+(type?' '+type:'');el.hidden=false;
+}
+function merge(items){
+ let added=0,replaced=0;
+ for(const raw of items){
+  const item=valid(raw);if(!item)continue;
+  const id=key(item.name,item.coach);
+  const index=people.findIndex(p=>key(p.name,p.coach)===id);
+  if(index>=0){people[index]=item;replaced++}else{people.push(item);added++}
+ }
+ persist();render();
+ return {added,replaced};
+}
+function ordered(){
+ return [...people].sort((a,b)=>b.total-a.total||a.name.localeCompare(b.name,'ru'));
+}
+function ranks(){
+ const list=ordered();let place=0,previous=null;
+ return list.map((p,i)=>{if(previous===null||p.total!==previous)place=i+1;previous=p.total;return {...p,place}});
+}
+function render(){
+ const ranked=ranks();
+ $('count').textContent=format(people.length);
+ $('maxPoints').textContent=format(ranked[0]?.total||0);
+ $('sumPoints').textContent=format(people.reduce((a,p)=>a+p.total,0));
+ $('podium').innerHTML=[0,1,2].map(i=>{
+  const p=ranked[i];const medal=['🥇','🥈','🥉'][i];
+  return '<div class="place'+(!p?' empty':'')+'"><div class="medal">'+medal+'</div>'+
+   '<span class="name">'+(p?safe(p.name):'—')+'</span>'+
+   '<div class="points">'+(p?format(p.total):'0')+' <small>⭐</small></div></div>';
+ }).join('');
+ const q=$('search').value.trim().toLocaleLowerCase('ru-RU');
+ const filtered=ranked.filter(p=>!q||(p.name+' '+p.coach).toLocaleLowerCase('ru-RU').includes(q));
+ $('leaderList').innerHTML=filtered.length?filtered.map(p=>{
+  const index=people.findIndex(a=>key(a.name,a.coach)===key(p.name,p.coach));
+  const rankLabel=p.place===1?'🥇':p.place===2?'🥈':p.place===3?'🥉':String(p.place);
+  return '<div class="participant"><div class="participant-main">'+
+   '<span class="rank">'+rankLabel+'</span><div style="min-width:0"><div class="pname">'+safe(p.name)+'</div><span class="consultant">'+safe(p.coach)+'</span></div>'+
+   '<div class="score">'+format(p.total)+'<small>⭐ звёзд</small></div></div>'+
+   '<div class="row-actions"><button class="tiny" type="button" data-edit="'+index+'">✎ Исправить</button>'+
+   '<button class="tiny" type="button" data-remove="'+index+'">✕ Удалить</button></div></div>';
+ }).join(''):'<div class="empty-state"><strong>'+(people.length?'Ничего не найдено':'Пока нет участников')+'</strong>'+(people.length?'Попробуйте другое имя.':'Вставьте первый отчёт слева — рейтинг появится здесь автоматически.')+'</div>';
+}
+function rankingText(){
+ const ls=ranks();
+ return ['⭐ РЕЙТИНГ «ПЕРЕЗАГРУЗКА»','19.10 — 08.11.2026','',...ls.map(p=>{
+  const m=p.place===1?'🥇':p.place===2?'🥈':p.place===3?'🥉':String(p.place)+'.';
+  return m+' '+p.name+' — '+format(p.total)+' ⭐';
+ }),'', 'Участников: '+ls.length].join('\n');
+}
+function fileDownload(blob,filename){
+ const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;
+ document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);
+}
+function cut(ctx,text,max){
+ let s=String(text);while(s.length>1&&ctx.measureText(s).width>max)s=s.slice(0,-2)+'…';return s;
+}
+function drawPng(){
+ const ls=ranks();
+ if(!ls.length){showStatus('Пока нет участников для картинки.','error');return}
+ const shown=ls.slice(0,100),W=1080,rowH=88,H=300+shown.length*rowH+95;
+ const c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d');
+ const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#fff9f3');bg.addColorStop(1,'#f7cedc');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+ ctx.fillStyle='#87244a';ctx.fillRect(0,0,W,224);
+ ctx.fillStyle='#ffe5ad';ctx.textAlign='center';ctx.font='bold 25px Arial';ctx.fillText('⭐ МАРАФОН СТРОЙНОСТИ · 2026 ⭐',W/2,62);
+ ctx.fillStyle='#fff6ee';ctx.font='bold 65px Georgia';ctx.fillText('ПЕРЕЗАГРУЗКА',W/2,134);
+ ctx.font='bold 35px Arial';ctx.fillText('ЗВЁЗДНЫЙ РЕЙТИНГ',W/2,190);
+ shown.forEach((p,i)=>{
+  const y=254+i*rowH;ctx.fillStyle=i%2===0?'#fffdfb':'#fff4f5';ctx.fillRect(37,y,W-74,76);
+  ctx.fillStyle='#a44a6c';ctx.textAlign='left';ctx.font='bold 31px Arial';ctx.fillText(p.place===1?'🥇':p.place===2?'🥈':p.place===3?'🥉':p.place+'.',65,y+47);
+  ctx.font='bold 31px Arial';ctx.fillStyle='#692941';ctx.fillText(cut(ctx,p.name,610),140,y+46);
+  ctx.textAlign='right';ctx.fillStyle='#ad265b';ctx.font='bold 37px Georgia';ctx.fillText(format(p.total)+' ⭐',W-76,y+49);
+ });
+ ctx.textAlign='center';ctx.fillStyle='#873352';ctx.font='bold 24px Arial';ctx.fillText('Участников: '+ls.length+(ls.length>100?' · Показаны первые 100':''),W/2,H-45);
+ c.toBlob(blob=>{if(blob)fileDownload(blob,'reiting_perezagruzka.png');else showStatus('Не удалось сохранить картинку.','error')},'image/png');
+}
+$('addReports').onclick=()=>{
+ const parsed=extract($('reports').value);
+ if(!parsed.items.length){showStatus('Не нашла полный отчёт. Проверьте строки «Участник:» и «ИТОГО: … ⭐».','error');return}
+ const count=merge(parsed.items);
+ $('reports').value='';
+ showStatus('Готово! Добавлено: '+count.added+' · обновлено: '+count.replaced+(parsed.incomplete?' · неполных отчётов: '+parsed.incomplete:''),'success');
+};
+$('clearText').onclick=()=>{$('reports').value='';$('status').hidden=true};
+$('files').onchange=async e=>{
+ const files=[...e.target.files];if(!files.length)return;
+ let items=[],incomplete=0,failures=0;
+ for(const f of files){
+  if(f.size>2*1024*1024){failures++;continue}
+  try{const text=await f.text();let parsed=/\.csv$/i.test(f.name)?parseCsvReport(text):extract(text);items.push(...parsed.items);incomplete+=parsed.incomplete}
+  catch(err){failures++}
+ }
+ e.target.value='';
+ if(!items.length){showStatus('Не удалось распознать отчёты в файлах. Используйте CSV из трекера или текст отчёта.','error');return}
+ const res=merge(items);showStatus('Файлы обработаны: '+res.added+' новых, '+res.replaced+' обновлено'+(incomplete||failures?' · пропущено: '+(incomplete+failures):''),'success');
+};
+$('manualForm').onsubmit=e=>{
+ e.preventDefault();const total=number($('manualPoints').value);
+ if(!clean($('manualName').value)||total===null){showStatus('Проверьте имя и количество звёзд.','error');return}
+ const res=merge([{name:$('manualName').value,coach:$('manualCoach').value||'Не указан',total}]);
+ $('manualForm').reset();
+ showStatus(res.added?'Участник добавлен.':'Результат участника обновлён.','success');
+};
+$('search').oninput=render;
+$('leaderList').onclick=e=>{
+ const b=e.target.closest('button[data-edit],button[data-remove]');if(!b)return;
+ if(b.hasAttribute('data-remove')){
+  const idx=Number(b.dataset.remove);if(!people[idx])return;
+  if(!confirm('Удалить результат участника «'+people[idx].name+'»?'))return;
+  people.splice(idx,1);persist();render();showStatus('Участник удалён из рейтинга.','success');return;
+ }
+ const idx=Number(b.dataset.edit);if(!people[idx])return;
+ const p=people[idx],entered=prompt('Звёзды участника «'+p.name+'»:',String(p.total));
+ if(entered===null)return;const n=number(entered);
+ if(n===null){showStatus('Введите корректное число звёзд.','error');return}
+ p.total=n;p.updatedAt=new Date().toISOString();persist();render();showStatus('Звёзды исправлены.','success');
+};
+$('copyRanking').onclick=async()=>{
+ if(!people.length){showStatus('Сначала добавьте отчёты.','error');return}
+ try{await navigator.clipboard.writeText(rankingText());showStatus('Рейтинг скопирован! Можно вставить в WhatsApp.','success')}
+ catch(err){prompt('Скопируйте рейтинг:',rankingText())}
+};
+$('shareRanking').onclick=()=>{
+ if(!people.length){showStatus('Сначала добавьте отчёты.','error');return}
+ window.open('https://wa.me/?text='+encodeURIComponent(rankingText()),'_blank','noopener,noreferrer');
+};
+$('savePng').onclick=drawPng;
+$('backup').onclick=()=>fileDownload(new Blob([JSON.stringify({app:'perezagruzka-ranking',version:1,createdAt:new Date().toISOString(),people},null,2)],{type:'application/json'}),'reiting_perezagruzka_backup.json');
+$('restore').onchange=async e=>{
+ const f=e.target.files[0];e.target.value='';if(!f)return;
+ try{
+  if(f.size>2*1024*1024)throw Error('Слишком большой файл');
+  const obj=JSON.parse(await f.text());
+  if(obj.app!=='perezagruzka-ranking'||!Array.isArray(obj.people))throw Error('Это не резервная копия рейтинга.');
+  const restored=obj.people.map(valid).filter(Boolean);
+  if(!confirm('Восстановить '+restored.length+' участников из файла? Текущий рейтинг будет заменён.'))return;
+  people=restored;persist();render();showStatus('Рейтинг восстановлен из копии.','success');
+ }catch(err){showStatus('Не удалось восстановить: '+err.message,'error')}
+};
+$('reset').onclick=()=>{
+ if(!people.length)return;
+ if(!confirm('Удалить ВСЕХ участников рейтинга с этого устройства? Сначала скачайте резервную копию.'))return;
+ people=[];persist();render();showStatus('Рейтинг очищен.','success');
+};
+render();
+})();
+</script>
+</body>
+</html>
