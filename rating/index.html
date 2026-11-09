@@ -161,6 +161,7 @@ function number(raw){
  let s=String(raw==null?'':raw).replace(/[\s\u00a0\u202f]/g,'').replace(/[^\d.,-]/g,'');
  if(s.includes(',')&&s.includes('.')){if(s.lastIndexOf(',')>s.lastIndexOf('.'))s=s.replace(/\./g,'').replace(',','.');else s=s.replace(/,/g,'')}
  else s=s.replace(',','.');
+ if(!s||s==='-'||s==='.'||s===',')return null;
  const n=Number(s);return Number.isFinite(n)&&n>=0&&n<=1000000?n:null;
 }
 function valid(item){
@@ -264,7 +265,7 @@ function render(){
  $('maxPoints').textContent=format(ranked[0]?.total||0);
  $('sumPoints').textContent=format(people.reduce((a,p)=>a+p.total,0));
  $('podium').innerHTML=[0,1,2].map(i=>{
-  const p=ranked[i];const medal=['🥇','🥈','🥉'][i];
+  const p=ranked[i];const medal=p?(p.place===1?'🥇':p.place===2?'🥈':p.place===3?'🥉':String(p.place)):['🥇','🥈','🥉'][i];
   return '<div class="place'+(!p?' empty':'')+'"><div class="medal">'+medal+'</div>'+
    '<span class="name">'+(p?safe(p.name):'—')+'</span>'+
    '<div class="points">'+(p?format(p.total):'0')+' <small>⭐</small></div></div>';
