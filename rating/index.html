@@ -59,6 +59,13 @@ input::placeholder{color:#b19aa5}
 .place.empty{opacity:.42}
 .search{margin:0 0 12px}
 .leader-list{display:grid;gap:8px}
+.top15-card{border:1.5px solid #e5b76b;background:linear-gradient(145deg,#fffcf5,#fff4e2 55%,#fff8f6)}
+.top15-list{display:grid;gap:6px;margin:13px 0}
+.top15-item{display:flex;align-items:center;gap:9px;background:#fffdf9;border:1px solid #f2dec5;border-radius:12px;padding:9px 10px;min-width:0}
+.top15-rank{flex:none;width:35px;font-size:18px;text-align:center;font-weight:900;color:#a45e33}
+.top15-name{flex:1;min-width:0;color:#752643;font-size:13px;font-weight:800;overflow-wrap:anywhere}
+.top15-score{flex:none;color:#b22758;font-weight:900;font-size:15px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.top15-hint{font-size:12px;color:#976b51;margin:3px 0 10px}
 .participant{border:1px solid #f0d0d6;border-radius:14px;background:#fffcfa;padding:11px 12px}
 .participant-main{display:flex;align-items:center;gap:10px}
 .rank{width:37px;height:37px;display:grid;place-items:center;flex:none;border-radius:10px;font-size:20px;background:#f8e8ed;font-weight:900;color:#91234f}
@@ -155,8 +162,19 @@ details.import-legacy textarea{margin-top:8px;min-height:175px}
    </div>
   </section>
   <section>
+   <div class="card top15-card">
+    <h2>🏆 ТОП-15 марафонистов</h2>
+    <p class="description">15 участников с наибольшим количеством звёзд. Обновляется автоматически при загрузке нового списка.</p>
+    <div class="top15-hint" id="top15Hint">Пока нет результатов</div>
+    <div class="top15-list" id="top15List"></div>
+    <div class="actions">
+     <button class="btn primary" id="saveTop15" type="button">🖼️ Скачать ТОП-15 PNG</button>
+     <button class="btn gold" id="copyTop15" type="button">📋 Скопировать ТОП-15</button>
+     <button class="btn" id="shareTop15" type="button">📲 ТОП-15 в WhatsApp</button>
+    </div>
+   </div>
    <div class="card">
-    <h2>🏆 Рейтинг марафона</h2>
+    <h2>🏆 Полный рейтинг марафона</h2>
     <p class="description">Автоматически по убыванию итоговых звёзд. Одинаковый результат — одинаковое место.</p>
     <div id="podium" class="podium"></div>
     <input id="search" class="search" type="search" placeholder="🔍 Найти участника или консультанта">
@@ -421,6 +439,12 @@ function render(){
  $('count').textContent=format(people.length);
  $('maxPoints').textContent=format(ranked[0]?.total||0);
  $('sumPoints').textContent=format(people.reduce((a,p)=>a+p.total,0));
+ const top15=ranked.slice(0,15);
+ $('top15Hint').textContent=top15.length?'Показано '+top15.length+' из '+ranked.length+' участников · по убыванию звёзд':'Добавьте список с очками, чтобы увидеть ТОП-15.';
+ $('top15List').innerHTML=top15.length?top15.map(p=>{
+  const label=p.place===1?'🥇':p.place===2?'🥈':p.place===3?'🥉':p.place+'.';
+  return '<div class="top15-item"><span class="top15-rank">'+label+'</span><span class="top15-name">'+safe(p.name)+'</span><span class="top15-score">'+format(p.total)+' ⭐</span></div>';
+ }).join(''):'<div class="empty-state">ТОП-15 пока пуст</div>';
  $('podium').innerHTML=[0,1,2].map(i=>{
   const p=ranked[i];const medal=p?(p.place===1?'🥇':p.place===2?'🥈':p.place===3?'🥉':String(p.place)):['🥇','🥈','🥉'][i];
   return '<div class="place'+(!p?' empty':'')+'"><div class="medal">'+medal+'</div>'+
@@ -439,12 +463,12 @@ function render(){
    '<button class="tiny" type="button" data-remove="'+index+'">✕ Удалить</button></div></div>';
  }).join(''):'<div class="empty-state"><strong>'+(people.length?'Ничего не найдено':'Пока нет участников')+'</strong>'+(people.length?'Попробуйте другое имя.':'Вставьте первый отчёт слева — рейтинг появится здесь автоматически.')+'</div>';
 }
-function rankingText(){
- const ls=ranks();
- return ['⭐ РЕЙТИНГ «ПЕРЕЗАГРУЗКА»','19.10 — 08.11.2026','',...ls.map(p=>{
+function rankingText(onlyTop15=false){
+ const ls=onlyTop15?ranks().slice(0,15):ranks();
+ return [onlyTop15?'🏆 ТОП-15 «ПЕРЕЗАГРУЗКА»':'⭐ РЕЙТИНГ «ПЕРЕЗАГРУЗКА»','19.10 — 08.11.2026','',...ls.map(p=>{
   const m=p.place===1?'🥇':p.place===2?'🥈':p.place===3?'🥉':String(p.place)+'.';
   return m+' '+p.name+' — '+format(p.total)+' ⭐';
- }),'', 'Участников: '+ls.length].join('\n');
+ }),'',onlyTop15?'В ТОП-15: '+ls.length:'Участников: '+ls.length].join('\n');
 }
 function fileDownload(blob,filename){
  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;
@@ -453,24 +477,24 @@ function fileDownload(blob,filename){
 function cut(ctx,text,max){
  let s=String(text);while(s.length>1&&ctx.measureText(s).width>max)s=s.slice(0,-2)+'…';return s;
 }
-function drawPng(){
+function drawPng(onlyTop15=false){
  const ls=ranks();
  if(!ls.length){showStatus('Пока нет участников для картинки.','error');return}
- const shown=ls.slice(0,100),W=1080,rowH=88,H=300+shown.length*rowH+95;
+ const shown=ls.slice(0,onlyTop15?15:100),W=1080,rowH=88,H=300+shown.length*rowH+95;
  const c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d');
  const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#fff9f3');bg.addColorStop(1,'#f7cedc');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
  ctx.fillStyle='#87244a';ctx.fillRect(0,0,W,224);
  ctx.fillStyle='#ffe5ad';ctx.textAlign='center';ctx.font='bold 25px Arial';ctx.fillText('⭐ МАРАФОН СТРОЙНОСТИ · 2026 ⭐',W/2,62);
  ctx.fillStyle='#fff6ee';ctx.font='bold 65px Georgia';ctx.fillText('ПЕРЕЗАГРУЗКА',W/2,134);
- ctx.font='bold 35px Arial';ctx.fillText('ЗВЁЗДНЫЙ РЕЙТИНГ',W/2,190);
+ ctx.font='bold 35px Arial';ctx.fillText(onlyTop15?'ТОП-15 МАРАФОНИСТОВ':'ЗВЁЗДНЫЙ РЕЙТИНГ',W/2,190);
  shown.forEach((p,i)=>{
   const y=254+i*rowH;ctx.fillStyle=i%2===0?'#fffdfb':'#fff4f5';ctx.fillRect(37,y,W-74,76);
   ctx.fillStyle='#a44a6c';ctx.textAlign='left';ctx.font='bold 31px Arial';ctx.fillText(p.place===1?'🥇':p.place===2?'🥈':p.place===3?'🥉':p.place+'.',65,y+47);
   ctx.font='bold 31px Arial';ctx.fillStyle='#692941';ctx.fillText(cut(ctx,p.name,610),140,y+46);
   ctx.textAlign='right';ctx.fillStyle='#ad265b';ctx.font='bold 37px Georgia';ctx.fillText(format(p.total)+' ⭐',W-76,y+49);
  });
- ctx.textAlign='center';ctx.fillStyle='#873352';ctx.font='bold 24px Arial';ctx.fillText('Участников: '+ls.length+(ls.length>100?' · Показаны первые 100':''),W/2,H-45);
- c.toBlob(blob=>{if(blob)fileDownload(blob,'reiting_perezagruzka.png');else showStatus('Не удалось сохранить картинку.','error')},'image/png');
+ ctx.textAlign='center';ctx.fillStyle='#873352';ctx.font='bold 24px Arial';ctx.fillText(onlyTop15?'ТОП-15 из '+ls.length+' участников':'Участников: '+ls.length+(ls.length>100?' · Показаны первые 100':''),W/2,H-45);
+ c.toBlob(blob=>{if(blob)fileDownload(blob,onlyTop15?'top15_perezagruzka.png':'reiting_perezagruzka.png');else showStatus('Не удалось сохранить картинку.','error')},'image/png');
 }
 $('addReports').onclick=()=>{
  const parsed=extract($('reports').value);
@@ -556,7 +580,17 @@ $('shareRanking').onclick=()=>{
  if(!people.length){showStatus('Сначала добавьте отчёты.','error');return}
  window.open('https://wa.me/?text='+encodeURIComponent(rankingText()),'_blank','noopener,noreferrer');
 };
-$('savePng').onclick=drawPng;
+$('savePng').onclick=()=>drawPng(false);
+$('saveTop15').onclick=()=>drawPng(true);
+$('copyTop15').onclick=async()=>{
+ if(!people.length){showStatus('Сначала добавьте список участников.','error');return}
+ try{await navigator.clipboard.writeText(rankingText(true));showStatus('ТОП-15 скопирован!','success')}
+ catch(err){prompt('Скопируйте ТОП-15:',rankingText(true))}
+};
+$('shareTop15').onclick=()=>{
+ if(!people.length){showStatus('Сначала добавьте список участников.','error');return}
+ window.open('https://wa.me/?text='+encodeURIComponent(rankingText(true)),'_blank','noopener,noreferrer');
+};
 $('backup').onclick=()=>fileDownload(new Blob([JSON.stringify({app:'perezagruzka-ranking',version:1,createdAt:new Date().toISOString(),people},null,2)],{type:'application/json'}),'reiting_perezagruzka_backup.json');
 $('restore').onchange=async e=>{
  const f=e.target.files[0];e.target.value='';if(!f)return;
