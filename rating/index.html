@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Рейтинг Перезагрузка">
 <title>Звёздный рейтинг · Перезагрузка</title>
-<meta name="description" content="Рейтинг участниц и участников марафона «Перезагрузка» по итоговым звёздам из отчётов.">
+<meta name="description" content="Автоматический рейтинг участниц марафона «Перезагрузка» из списков с очками, CSV, Excel и отчётов.">
 <style>
 :root{--wine:#852446;--berry:#bc3364;--rose:#e66b98;--gold:#bc8c40;--ink:#52213b;--muted:#856477;--line:#f0d4d9;--paper:#fffaf8}
 *{box-sizing:border-box}
@@ -80,6 +80,16 @@ details summary{cursor:pointer;font-size:13px;font-weight:800;color:#87274b}
 .footer{margin:15px auto;font-size:12px;color:#89536c;text-align:center}
 .footer a{color:#9b2957}
 .small-sep{height:1px;background:#f1d9df;margin:15px 0}
+.import-example{margin:11px 0;padding:11px 13px;background:#fff4ee;border:1px dashed #e5bbc5;border-radius:12px;font-size:13px;color:#874362;line-height:1.7}
+.import-example strong{color:#8b254f}
+.import-main{padding:15px;border-radius:17px;background:linear-gradient(125deg,#fff5f0,#fff9fa);border:1px solid #f0d3d4;margin:12px 0}
+.import-main textarea{background:white;min-height:168px}
+.import-option{display:flex;gap:8px;align-items:flex-start;font-size:12px;line-height:1.45;margin:10px 0;color:#82425d}
+.import-option input{accent-color:#ab2e63;margin-top:3px}
+.import-option strong{color:#782945}
+.import-tip{color:#915e71;font-size:11px;margin-top:8px}
+details.import-legacy{margin-top:11px;background:#fffbf9}
+details.import-legacy textarea{margin-top:8px;min-height:175px}
 @media(max-width:720px){.layout{grid-template-columns:1fr}.hero{border-radius:22px;padding:27px 10px 21px}.card{padding:16px 13px}.stat{padding:12px 5px}.podium{gap:6px}.place{padding:11px 4px}.score{font-size:22px}}
 </style>
 </head>
@@ -99,17 +109,31 @@ details summary{cursor:pointer;font-size:13px;font-weight:800;color:#87274b}
  <div class="layout">
   <section>
    <div class="card">
-    <h2>📥 Добавить отчёты</h2>
-    <p class="description">Скопируйте сообщения «Отправить звёзды Виктории» из марафона. Можно вставить сразу несколько подряд.</p>
-    <label for="reports" class="description" style="display:block;font-weight:800;color:#8d3559">Отчёты участников</label>
-    <textarea id="reports" spellcheck="false" placeholder="⭐ ОТЧЁТ ПО ЗВЁЗДАМ · МАРАФОН СТРОЙНОСТИ&#10;Участник: Анна Иванова&#10;Консультант: Ольга Попова&#10;...&#10;ИТОГО: 135 ⭐&#10;&#10;⭐ ОТЧЁТ ...&#10;Участник: Мария ...&#10;ИТОГО: 174 ⭐"></textarea>
-    <div class="actions">
-     <button class="btn primary" id="addReports" type="button">✨ Обработать отчёты</button>
-     <label class="btn filebtn">📁 Загрузить CSV / TXT<input type="file" id="files" multiple accept=".csv,.txt,text/csv,text/plain"></label>
-     <button class="btn ghost" id="clearText" type="button">Очистить поле</button>
+    <h2>📥 Загрузить список участниц</h2>
+    <p class="description">Вставьте список с именами и звёздами — приложение само построит рейтинг от большего результата к меньшему.</p>
+    <div class="import-main">
+      <label for="bulkList" class="description" style="display:block;font-weight:800;color:#8d3559">Список участниц и очки</label>
+      <textarea id="bulkList" spellcheck="false" placeholder="Анна Иванова — 125 ⭐&#10;Мария Петрова — 260 ⭐&#10;Ольга Попова — 175 ⭐&#10;&#10;Или вставьте скопированные столбцы из Excel: Имя | Очки"></textarea>
+      <label class="import-option" for="replaceAllList"><input id="replaceAllList" type="checkbox"><span><strong>Заменить текущий рейтинг этим списком</strong><span style="display:block">Отметьте, если это полный новый список. Без галочки новые результаты добавятся, а совпадающие имена обновятся.</span></span></label>
+      <div class="actions">
+        <button class="btn primary" id="addList" type="button">🏆 Собрать рейтинг из списка</button>
+        <label class="btn filebtn">📁 Загрузить список (Excel / CSV / TXT)<input id="listFiles" type="file" multiple accept=".xlsx,.csv,.tsv,.txt,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,text/plain"></label>
+        <button class="btn ghost" id="clearList" type="button">Очистить поле</button>
+      </div>
+      <p class="import-tip">Поддерживается список «Имя — 125», таблица с колонками «ФИО / Звёзды» и скопированные строки из Excel. Фотографии списков пока не распознаются.</p>
     </div>
     <div id="status" class="status" role="status" aria-live="polite" hidden></div>
-    <p class="caption">Приложение берёт только «ИТОГО» из каждого отчёта. Повторный отчёт того же человека заменяет старый результат, а не прибавляется к нему.</p>
+    <details class="import-legacy">
+      <summary>⭐ Добавить полные отчёты из трекера «Перезагрузка»</summary>
+      <p class="description" style="margin-top:10px">Можно вставить несколько отчётов с полями «Участник» и «ИТОГО».</p>
+      <textarea id="reports" spellcheck="false" placeholder="⭐ ОТЧЁТ ПО ЗВЁЗДАМ&#10;Участник: Анна Иванова&#10;Консультант: Ольга Попова&#10;...&#10;ИТОГО: 135 ⭐"></textarea>
+      <div class="actions">
+        <button class="btn primary" id="addReports" type="button">✨ Обработать отчёты</button>
+        <label class="btn filebtn">📁 Загрузить отчёты CSV / TXT<input type="file" id="files" multiple accept=".csv,.txt,text/csv,text/plain"></label>
+        <button class="btn ghost" id="clearText" type="button">Очистить поле</button>
+      </div>
+    </details>
+    <p class="caption">При обновлении участницы её звёзды заменяются новым значением, а не складываются со старыми. Рейтинг сохраняется на этом устройстве.</p>
     <details>
      <summary>＋ Добавить участника вручную</summary>
      <form id="manualForm" class="manual-grid">
@@ -228,6 +252,127 @@ function extract(source){
  }
  return parseTextReport(s);
 }
+
+// Import of ordinary participant lists (one name and star total per row).
+function listHeader(cell){
+ const s=clean(cell).toLocaleLowerCase('ru-RU').replace(/ё/g,'е').replace(/[^a-zа-я0-9]+/g,' ');
+ if(/^(?:фамилия.*имя|фио|ф и о|участник|участница|имя|name|participant)/.test(s))return 'name';
+ if(/^(?:итого|всего|звезд|звезды|звездочки|очки|баллы|балл|результат|total|points|stars|score)/.test(s))return 'total';
+ if(/^(?:консультант|наставник|пригласивший|coach|mentor)/.test(s))return 'coach';
+ if(/^(?:номер|место|№|п п|rank)/.test(s))return 'rank';
+ return '';
+}
+function delimitedRows(text,delimiter){
+ const rows=[],input=String(text||'').replace(/^\ufeff/,'');
+ let row=[],cell='',quoted=false;
+ for(let i=0;i<input.length;i++){
+  const ch=input[i];
+  if(ch==='"'){
+   if(quoted&&input[i+1]==='"'){cell+='"';i++}else quoted=!quoted;
+  }else if(ch===delimiter&&!quoted){row.push(cell);cell=''}
+  else if((ch==='\r'||ch==='\n')&&!quoted){
+   if(ch==='\r'&&input[i+1]==='\n')i++;
+   row.push(cell);rows.push(row);row=[];cell='';
+  }else cell+=ch;
+ }
+ if(row.length||cell){row.push(cell);rows.push(row)}
+ return rows;
+}
+function parseListRows(rows){
+ const goodRows=rows.filter(row=>Array.isArray(row)&&row.some(c=>clean(c)));
+ if(!goodRows.length)return {items:[],incomplete:0};
+ const head=goodRows[0].map(listHeader);
+ const hasHeader=head.includes('name')&&head.includes('total');
+ const cols={name:hasHeader?head.indexOf('name'):-1,total:hasHeader?head.indexOf('total'):-1,coach:hasHeader?head.indexOf('coach'):-1};
+ const items=[];let incomplete=0;
+ for(const row of goodRows.slice(hasHeader?1:0)){
+  let nameIndex=cols.name,pointsIndex=cols.total,coachIndex=cols.coach;
+  if(!hasHeader){
+   nameIndex=/^\d+[.)]?$/.test(clean(row[0]))&&row.length>2?1:0;
+   pointsIndex=-1;
+   for(let i=nameIndex+1;i<row.length;i++)if(number(row[i])!==null)pointsIndex=i;
+   coachIndex=row.findIndex((v,i)=>i!==nameIndex&&i!==pointsIndex&&i>nameIndex&&/[а-яa-z]/i.test(clean(v))&&number(v)===null);
+  }
+  const name=clean(row[nameIndex]).replace(/^\s*\d+[.)]\s*/, '');
+  const score=pointsIndex>=0?row[pointsIndex]:null;
+  if(!name||listHeader(name)||name.length>120||/^(?:итого|общий|сумма|место|рейтинг|дата|участников)\b/i.test(name))continue;
+  const item=valid({name,total:score,coach:coachIndex>=0?row[coachIndex]:'Не указан'});
+  if(item)items.push(item);
+  else incomplete++;
+ }
+ return {items,incomplete};
+}
+function parseSimpleListLine(raw){
+ const text=clean(String(raw).replace(/^\s*(?:(?:🥇|🥈|🥉|🏆|⭐|★|•|●|–|-)\s*)+/u,''))
+  .replace(/^\d+\s*[.)]\s*/, '')
+  .replace(/^\s*(?:🥇|🥈|🥉|⭐|★)\s*/u,'');
+ if(!text||/^(?:участники|рейтинг|список|фио|имя|очки|баллы|место|№)/i.test(text))return null;
+ // WhatsApp: "Иванова Анна — 150 ⭐", "Иванова Анна: 150", "Иванова Анна 150".
+ const match=text.match(/^(.+?)(?:\s*[—–:;|=\t,]\s*|\s+)(\d[\d \u00a0\u202f]*(?:[.,]\d+)?)\s*(?:⭐|★|зв[её]зд(?:очек|ы)?|балл(?:ов|а)?|очк(?:ов|а)?)?\s*$/iu);
+ if(!match)return null;
+ const name=clean(match[1]).replace(/^\d+\s*[.)]\s*/,'').replace(/^["«]|["»]$/g,'');
+ if(!name||/^\d+$/.test(name))return null;
+ return valid({name,total:match[2],coach:'Не указан'});
+}
+function parseList(source){
+ const s=String(source||'').replace(/^\ufeff/,'').trim();
+ if(!s)return {items:[],incomplete:0};
+ // Exact exported reports remain supported in addition to ordinary lists.
+ const report=extract(s);
+ if(report.items.length)return report;
+ const lines=s.replace(/\r/g,'').split('\n').filter(l=>clean(l));
+ let del=null;
+ if(s.includes('\t'))del='\t';
+ else if(s.includes(';'))del=';';
+ else if(/^\s*(?:фио|имя|участник|участница|name)\s*,/im.test(s)||
+   lines.some(l=>/^[^,\n]+,\s*\d+(?:[.,]\d+)?\s*(?:⭐|★)?$/.test(l.trim())))del=',';
+ if(del){
+  const grid=parseListRows(delimitedRows(s,del));
+  if(grid.items.length)return grid;
+ }
+ const entries=[];let incomplete=0;
+ for(const line of lines){
+  const parsed=parseSimpleListLine(line);
+  if(parsed)entries.push(parsed);
+  else if(!/^\s*(?:список|рейтинг|фамилия|фио|имя|участниц|всего|номер|место)/i.test(line)&&!/^[-=─\s]+$/.test(line))incomplete++;
+ }
+ return {items:entries,incomplete};
+}
+async function excelWorkbookRows(file){
+ if(!window.ExcelJS){
+  if(!window.excelLibraryPromise){
+   window.excelLibraryPromise=new Promise((resolve,reject)=>{
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js';
+    s.onload=()=>window.ExcelJS?resolve():reject(new Error('Библиотека Excel недоступна.'));
+    s.onerror=()=>reject(new Error('Не удалось загрузить чтение Excel. Сохраните файл как CSV.'));
+    document.head.appendChild(s);
+   }).catch(e=>{window.excelLibraryPromise=null;throw e});
+  }
+  await window.excelLibraryPromise;
+ }
+ const book=new window.ExcelJS.Workbook();
+ await book.xlsx.load(await file.arrayBuffer());
+ const all=[];
+ for(const sheet of book.worksheets){
+  const rows=[];
+  sheet.eachRow({includeEmpty:false},row=>{
+   const fields=row.values.slice(1).map(cell=>{
+    if(cell==null)return '';
+    if(typeof cell!=='object')return String(cell);
+    if(cell.result!=null)return String(cell.result);
+    if(cell.text!=null)return String(cell.text);
+    if(Array.isArray(cell.richText))return cell.richText.map(t=>t.text||'').join('');
+    return '';
+   });
+   if(fields.some(clean))rows.push(fields);
+  });
+  const parsed=parseListRows(rows.slice(0,3000));
+  all.push(...parsed.items);
+ }
+ return {items:all,incomplete:0};
+}
+
 function safe(s){return String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
 let people=[];
 try{
@@ -246,8 +391,18 @@ function merge(items){
  for(const raw of items){
   const item=valid(raw);if(!item)continue;
   const id=key(item.name,item.coach);
-  const index=people.findIndex(p=>key(p.name,p.coach)===id);
-  if(index>=0){people[index]=item;replaced++}else{people.push(item);added++}
+  let index=people.findIndex(p=>key(p.name,p.coach)===id);
+  // A plain list often has no consultant column. Match the same unique name
+  // only when one side has no consultant, so a new list won't double-count.
+  if(index<0){
+   const matches=people.map((p,i)=>({p,i})).filter(x=>key(x.p.name,'')===key(item.name,''));
+   if(matches.length===1&&(matches[0].p.coach==='Не указан'||item.coach==='Не указан'))index=matches[0].i;
+  }
+  if(index>=0){
+   const previous=people[index];
+   people[index]={...item,coach:item.coach==='Не указан'?previous.coach:item.coach};
+   replaced++;
+  }else{people.push(item);added++}
  }
  persist();render();
  return {added,replaced};
@@ -323,6 +478,40 @@ $('addReports').onclick=()=>{
  showStatus('Готово! Добавлено: '+count.added+' · обновлено: '+count.replaced+(parsed.incomplete?' · неполных отчётов: '+parsed.incomplete:''),'success');
 };
 $('clearText').onclick=()=>{$('reports').value='';$('status').hidden=true};
+$('clearList').onclick=()=>{$('bulkList').value='';$('status').hidden=true};
+function finishListImport(parsed){
+ if(!parsed.items.length){showStatus('Не нашла участников с очками. Укажите каждое имя и итог, например: Анна Иванова — 125 ⭐.','error');return}
+ const replacing=$('replaceAllList').checked;
+ if(replacing&&people.length){
+  if(!confirm('Заменить весь текущий рейтинг новым списком из '+parsed.items.length+' записей? Старые участники, которых нет в списке, исчезнут.'))return;
+ }
+ if(replacing){people=[];}
+ const summary=merge(parsed.items);
+ showStatus('Рейтинг готов! Участниц: '+people.length+' · добавлено: '+summary.added+' · обновлено: '+summary.replaced+
+ (parsed.incomplete?' · строк без подходящих очков: '+parsed.incomplete:'')+
+ (replacing?' · список заменён':''),'success');
+ $('bulkList').value='';
+}
+$('addList').onclick=()=>finishListImport(parseList($('bulkList').value));
+$('listFiles').onchange=async e=>{
+ const files=Array.from(e.target.files||[]);if(!files.length)return;
+ let items=[],incomplete=0,errors=[];
+ showStatus('Загружаю список…');
+ for(const file of files){
+  if(file.size>3*1024*1024){errors.push(file.name+': файл больше 3 МБ');continue}
+  try{
+   let parsed;
+   if(/\.xlsx$/i.test(file.name))parsed=await excelWorkbookRows(file);
+   else if(/\.(?:txt|csv|tsv)$/i.test(file.name))parsed=parseList(await file.text());
+   else{errors.push(file.name+': нужен .xlsx, .csv или .txt');continue}
+   items.push(...parsed.items);incomplete+=parsed.incomplete;
+  }catch(err){errors.push(file.name+': '+err.message)}
+ }
+ e.target.value='';
+ if(!items.length){showStatus('Не удалось прочитать участников из файла. '+(errors.join('; ')||'Проверьте столбцы «ФИО» и «Звёзды».') ,'error');return}
+ finishListImport({items,incomplete});
+ if(errors.length){$('status').textContent+=' · Не прочитано: '+errors.join('; ')}
+};
 $('files').onchange=async e=>{
  const files=[...e.target.files];if(!files.length)return;
  let items=[],incomplete=0,failures=0;
