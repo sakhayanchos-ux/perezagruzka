@@ -258,6 +258,7 @@ function listHeader(cell){
  const s=clean(cell).toLocaleLowerCase('ru-RU').replace(/ё/g,'е').replace(/[^a-zа-я0-9]+/g,' ');
  if(/^(?:фамилия.*имя|фио|ф и о|участник|участница|имя|name|participant)/.test(s))return 'name';
  if(/^(?:итого|всего|звезд|звезды|звездочки|очки|баллы|балл|результат|total|points|stars|score)/.test(s))return 'total';
+ if(/^(?:количество|кол во|общее|общий|сумма|сколько)\b/.test(s)&&/(?:звезд|очк|балл|результат)/.test(s))return 'total';
  if(/^(?:консультант|наставник|пригласивший|coach|mentor)/.test(s))return 'coach';
  if(/^(?:номер|место|№|п п|rank)/.test(s))return 'rank';
  return '';
@@ -324,6 +325,7 @@ function parseList(source){
  let del=null;
  if(s.includes('\t'))del='\t';
  else if(s.includes(';'))del=';';
+ else if(s.includes('|'))del='|';
  else if(/^\s*(?:фио|имя|участник|участница|name)\s*,/im.test(s)||
    lines.some(l=>/^[^,\n]*[^\d,\s]\s*,\s*\d+(?:[.,]\d+)?\s*(?:⭐|★)?$/.test(l.trim())))del=',';
  if(del){
