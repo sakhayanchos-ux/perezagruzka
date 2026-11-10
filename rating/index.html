@@ -308,9 +308,9 @@ function parseSimpleListLine(raw){
   .replace(/^\s*(?:🥇|🥈|🥉|⭐|★)\s*/u,'');
  if(!text||/^(?:участники|рейтинг|список|фио|имя|очки|баллы|место|№)/i.test(text))return null;
  // WhatsApp: "Иванова Анна — 150 ⭐", "Иванова Анна: 150", "Иванова Анна 150".
- const match=text.match(/^(.+?)(?:\s*[—–:;|=\t,]\s*|\s+)(\d[\d \u00a0\u202f]*(?:[.,]\d+)?)\s*(?:⭐|★|зв[её]зд(?:очек|ы)?|балл(?:ов|а)?|очк(?:ов|а)?)?\s*$/iu);
+ const match=text.match(/^(.+?)(?:\s*[—–:;|=\t,\-]\s*|\s+)(\d[\d \u00a0\u202f]*(?:[.,]\d+)?)\s*(?:⭐|★|зв[её]зд(?:очек|ы)?|балл(?:ов|а)?|очк(?:ов|а)?)?\s*$/iu);
  if(!match)return null;
- const name=clean(match[1]).replace(/^\d+\s*[.)]\s*/,'').replace(/^["«]|["»]$/g,'');
+ const name=clean(match[1]).replace(/^\d+\s*[.)]\s*/,'').replace(/[—–-]\s*$/,'').replace(/^["«]|["»]$/g,'');
  if(!name||/^\d+$/.test(name))return null;
  return valid({name,total:match[2],coach:'Не указан'});
 }
@@ -325,7 +325,7 @@ function parseList(source){
  if(s.includes('\t'))del='\t';
  else if(s.includes(';'))del=';';
  else if(/^\s*(?:фио|имя|участник|участница|name)\s*,/im.test(s)||
-   lines.some(l=>/^[^,\n]+,\s*\d+(?:[.,]\d+)?\s*(?:⭐|★)?$/.test(l.trim())))del=',';
+   lines.some(l=>/^[^,\n]*[^\d,\s]\s*,\s*\d+(?:[.,]\d+)?\s*(?:⭐|★)?$/.test(l.trim())))del=',';
  if(del){
   const grid=parseListRows(delimitedRows(s,del));
   if(grid.items.length)return grid;
