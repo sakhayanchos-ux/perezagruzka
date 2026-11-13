@@ -212,7 +212,8 @@ const blank=()=>({profile:"",selected:0,months:months.map(()=>({points:[],partne
 let data=blank();
 try{const raw=JSON.parse(localStorage.getItem(STORE)||"null");if(raw&&Array.isArray(raw.months)&&raw.months.length===4){data.profile=typeof raw.profile==="string"?raw.profile.slice(0,80):"";data.selected=Number.isInteger(raw.selected)?Math.max(0,Math.min(3,raw.selected)):0;data.months=raw.months.map(m=>({points:Array.isArray(m.points)?m.points.filter(v=>v&&typeof v.amount==="number"&&v.amount>0):[],partners:Array.isArray(m.partners)?m.partners.filter(v=>v&&typeof v.name==="string"):[]}));}}catch(e){console.warn("Не удалось прочитать данные",e)}
 const monthWindow=i=>({start:months[i].year+"-"+String(i===3?1:i+10).padStart(2,"0")+"-01",end:months[i].year+"-"+String(i===3?1:i+10).padStart(2,"0")+"-"+([31,30,31,31][i])});
-const isOpen=i=>{const d=today(),w=monthWindow(i);return d>=w.start&&d<=w.end};
+const isOpen=i=>{const d=today(),w=monthWindow(i);return i===0?d>=w.start:d>=w.start&&d<=w.end};
+const validEntryDate=(i,date)=>{const w=monthWindow(i);return date>=w.start&&date<=w.end&&(i===0||date===today())};
 const save=()=>{try{localStorage.setItem(STORE,JSON.stringify(data));}catch(e){toast("Не удалось сохранить данные. Проверь память браузера.")}};
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt=n=>new Intl.NumberFormat("ru-RU",{maximumFractionDigits:2}).format(n);
@@ -248,7 +249,7 @@ function render(){
  const lp=Math.max(0,Math.round((m.points-p)*100)/100),ln=Math.max(0,m.np-n);
  let title="",message="",emoji="❄️";
  if(complete){title="Ура! Этап выполнен!";message="Все очки набраны и все "+m.np+" НП подписаны. Ты справилась!";emoji="🏆"}
- else if(today()>monthWindow(i).end){title="Этап завершён";message="Срок месяца закончился. Результат сохранён: "+fmt(p)+" очков и "+n+" НП.";emoji="❄️"}
+ else if(today()>monthWindow(i).end){title="Результаты "+m.gen;message=i===0?"Добавь очки и НП за октябрь, выбрав даты октября.":"Срок месяца закончился. Результат сохранён: "+fmt(p)+" очков и "+n+" НП.";emoji="❄️"}
  else if(today()<monthWindow(i).start){title="Впереди "+m.name+"!";message="Цель: "+fmt(m.points)+" очков и "+m.np+" новых НП.";emoji="🏔️"}
  else if(lp===0){title="Молодец! Очки уже набраны!";message=ln===1?"Осталось подписать всего 1 нового НП!":"Теперь осталось подписать "+ln+" новых НП. Ты на верном пути!";emoji="🤝"}
  else if(ln===0){title="Отлично! Все НП подписаны!";message="Осталось "+fmt(lp)+" очков до выполнения этапа.";emoji="⭐"}
@@ -258,10 +259,11 @@ function render(){
  else{title="Хорошее начало!";message="Осталось "+fmt(lp)+" очков и "+ln+" новых НП. Каждый шаг важен!";emoji="✨"}
  $("motivationTitle").textContent=title;$("motivationText").textContent=message;$("motivationIcon").textContent=emoji;
 
- $("stageStatus").textContent=complete?"✓ Этап выполнен":isOpen(i)?"В процессе":today()<monthWindow(i).start?"Ещё не начался":"Срок завершён";
+ $("stageStatus").textContent=complete?"✓ Этап выполнен":i===0&&isOpen(i)?"Можно внести результаты октября":isOpen(i)?"В процессе":today()<monthWindow(i).start?"Ещё не начался":"Срок завершён";
  $("stageStatus").classList.toggle("done",complete);
  $("pointsForm").querySelectorAll?.("input,button").forEach(el=>el.disabled=!isOpen(i));
  $("npForm").querySelectorAll?.("input,button").forEach(el=>el.disabled=!isOpen(i));
+ ["pointDate","npDate"].forEach(id=>{const el=$(id),w=monthWindow(i);el.min=w.start;el.max=i===0?w.end:today();if(!validEntryDate(i,el.value))el.value=i===0?w.end:today()});
  $("logMonth").textContent=m.gen;
  const pointItems=[...mp.points].sort((a,b)=>String(b.date).localeCompare(String(a.date)));
  const npItems=[...mp.partners].sort((a,b)=>String(b.date).localeCompare(String(a.date)));
@@ -279,10 +281,10 @@ $("route").addEventListener("click",e=>{
 
 
 $("pointsForm").addEventListener("submit",e=>{e.preventDefault();const input=$("addPoints");if(!isOpen(data.selected)){toast("Этот месяц закрыт для внесения результатов");return}const amount=Number(input.value.trim().replace(",","."));if(!Number.isFinite(amount)||amount<=0||amount>1000000){toast("Введи положительное количество очков");return}
-const date=$("pointDate").value||today();if(date!==today()){toast("Записи можно вносить только за сегодняшний день");return}data.months[data.selected].points.push({id:id(),amount:Math.round(amount*100)/100,date,note:$("pointNote").value.trim().slice(0,100)});
+const date=$("pointDate").value||today();if(!validEntryDate(data.selected,date)){toast("Выбери дату в пределах нужного месяца");return}data.months[data.selected].points.push({id:id(),amount:Math.round(amount*100)/100,date,note:$("pointNote").value.trim().slice(0,100)});
 save();render();input.value="";$("pointNote").value="";toast("Очки добавлены ❄️")});
 $("npForm").addEventListener("submit",e=>{e.preventDefault();if(!isOpen(data.selected)){toast("Этот месяц закрыт для внесения НП");return}const name=$("npName").value.trim().replace(/\s+/g," ");if(!name){toast("Введи имя нового НП");return}
-if(($("npDate").value||today())!==today()){toast("НП можно записать только за сегодняшний день");return}data.months[data.selected].partners.push({id:id(),name:name.slice(0,100),date:today()});save();render();$("npName").value="";toast("Новый НП записан! ✨")});
+if(!validEntryDate(data.selected,$("npDate").value||today())){toast("Выбери дату в пределах нужного месяца");return}data.months[data.selected].partners.push({id:id(),name:name.slice(0,100),date:$("npDate").value||today()});save();render();$("npName").value="";toast("Новый НП записан! ✨")});
 $("log-panel");
 $("pointsList").addEventListener("click",e=>remove(e));
 $("npList").addEventListener("click",e=>remove(e));
