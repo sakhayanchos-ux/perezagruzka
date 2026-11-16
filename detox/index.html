@@ -212,6 +212,19 @@
   .mask-drag{container-type:inline-size;border-radius:28%;background:#ffe17b;box-shadow:0 0 0 3px rgba(255,255,255,.92),0 2px 9px #1d4b3240;overflow:hidden}
   .mask-drag span{display:block;font-size:85cqw;line-height:1;white-space:nowrap;pointer-events:none}
   .crop-frame{aspect-ratio:590/930}
+  /* Compact mobile editor: both photos side by side, neither taller than 250px. */
+  @media (max-width:600px){
+    #cropEditor{width:100%;max-width:100%;overflow:hidden;padding:10px 6px 12px}
+    #cropEditor .crop-pair{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important;align-items:start}
+    #cropEditor .crop-side{width:100%!important;min-width:0!important;max-width:100%!important;gap:5px!important}
+    #cropEditor .crop-frame{width:100%!important;max-width:160px!important;aspect-ratio:504/792!important;height:auto!important;max-height:252px!important;margin:0 auto!important}
+    #cropEditor .crop-frame canvas{display:block!important;width:100%!important;height:100%!important;max-width:100%!important}
+    #cropEditor .crop-side-title{font-size:.83rem}
+    #cropEditor .crop-zoom-label{font-size:.65rem;gap:3px}
+    #cropEditor .crop-slider{width:100%;height:25px}
+    #cropEditor .crop-reset{padding:7px 3px;font-size:.68rem;min-width:0;width:100%}
+    #cropEditor .crop-help{font-size:.73rem}
+  }
   /* On narrow phones show each photo full-width, not two tiny thumbnails. */
   /* Large export preview reaches the edges of the panel. */
   .collage-preview-box{padding:7px}
