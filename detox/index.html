@@ -213,7 +213,6 @@
   .mask-drag span{display:block;font-size:85cqw;line-height:1;white-space:nowrap;pointer-events:none}
   .crop-frame{aspect-ratio:590/930}
   /* On narrow phones show each photo full-width, not two tiny thumbnails. */
-  @media(max-width:600px){.crop-pair{grid-template-columns:minmax(0,1fr);gap:20px}.crop-side{gap:8px}.crop-side-title{font-size:1rem}.crop-frame{max-width:440px;margin-inline:auto;border-width:2px}.crop-slider{height:36px}.crop-reset{font-size:.85rem;padding:11px}}
   /* Large export preview reaches the edges of the panel. */
   .collage-preview-box{padding:7px}
   @media(max-width:520px){.collage-preview-box{padding:4px;border-radius:11px}.collage-preview{border-radius:6px}}
@@ -347,7 +346,7 @@
       <label class="photo-field" for="photoReview">Ваш отзыв <span aria-hidden="true">*</span><textarea id="photoReview" placeholder="Напишите ваш отзыв о марафоне: что изменилось и какие результаты получили" rows="3" required aria-required="true"></textarea></label>
       <div class="crop-editor" id="cropEditor" hidden>
         <div class="crop-title">✂️ Подгони фотографии по размеру</div>
-        <p class="crop-help">Фотографии будут крупными и займут почти весь коллаж. На телефоне каждый кадр показывается отдельно, во всю ширину. Передвигайте и масштабируйте изображение, чтобы фигура была хорошо видна. При скрытии лица установите смайлик на каждой фотографии.</p>
+        <p class="crop-help">Фотографии ДО и ПОСЛЕ расположены рядом, как раньше. Передвигайте и масштабируйте каждый кадр, чтобы фигура была хорошо видна. При скрытии лица установите смайлик на каждой фотографии.</p>
         <div class="crop-pair">
           <div class="crop-side">
             <div class="crop-side-title">ДО</div>
