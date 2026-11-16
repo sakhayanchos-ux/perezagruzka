@@ -1027,8 +1027,8 @@
       $('sharePhotos').disabled=true;
       $('downloadCollage').disabled=true;
       $('collageBox').hidden=true;
-      $('shareStatus').textContent='⚖️ Сначала укажите вес ДО и ПОСЛЕ в полях рядом с фотографиями — без них коллаж не будет готовым.';
-      $('photoWeightBefore').focus();
+      $('shareStatus').textContent='⚖️ Для коллажа укажите вес ДО и ПОСЛЕ в карточке участника наверху страницы.';
+      (!$('pStartWeight').value?$('pStartWeight'):$('pEndWeight')).focus();
       return;
     }
     if(!$('photoReview').value.trim()){
@@ -1100,7 +1100,7 @@
     const review=$('photoReview').value.trim();
     const report=getReport();
     const text='Здравствуйте, Виктория! Отправляю мой коллаж ДО / ПОСЛЕ.\n'
-      +'Участник: '+report.name+'\n'
+      +'Участник: '+($('hideName').checked?'Имя скрыто':report.name)+'\n'
       +'Консультант: '+report.consultant
       +'\nМой отзыв: '+review
       +'\nНовогодний Детокс Марафон.\n'
@@ -1109,7 +1109,7 @@
     // WhatsApp click-to-chat URLs do not support attaching local image files.
     // Offer the generated image locally so the participant can attach it in that chat.
     saveBlob(collageReady.blob,collageReady.filename);
-    status.textContent='Чат Виктории откроется в WhatsApp с готовым сообщением. Коллаж сохранён для прикрепления: добавьте его через «+» и подтвердите отправку.';
+    status.textContent='Чат Виктории откроется в WhatsApp с готовым сообщением. Коллаж сохранён для прикрепления: добавьте его через «+» и подтвердите отправку. Если закрываете лицо, перед отправкой проверьте маски.';
     openWhatsApp(text);
   }
   $('downloadStars').addEventListener('click',exportCsv);
@@ -1140,15 +1140,25 @@
     }
   });
   $('photoReview').addEventListener('change',refreshCollageContent);
+  $('pLastName').addEventListener('change',refreshCollageContent);
   $('pName').addEventListener('change',refreshCollageContent);
-  $('pStartWeight').addEventListener('input',()=>syncWeightFromPhoto('pStartWeight'));
-  $('pEndWeight').addEventListener('input',()=>syncWeightFromPhoto('pEndWeight'));
-  $('pStartWeight').addEventListener('change',refreshCollageContent);
-  $('pEndWeight').addEventListener('change',refreshCollageContent);
-  $('photoWeightBefore').addEventListener('input',()=>syncProfileFromPhoto('photoWeightBefore','pStartWeight'));
-  $('photoWeightAfter').addEventListener('input',()=>syncProfileFromPhoto('photoWeightAfter','pEndWeight'));
-  $('photoWeightBefore').addEventListener('change',refreshCollageContent);
-  $('photoWeightAfter').addEventListener('change',refreshCollageContent);
+  $('pConsultant').addEventListener('change',refreshCollageContent);
+  ['pStartWeight','pEndWeight'].forEach(id=>{
+    $(id).addEventListener('input',updatePhotoWeightStatus);
+    $(id).addEventListener('change',refreshCollageContent);
+  });
+  ['hideFace','hideName'].forEach(id=>{
+    $(id).addEventListener('change',()=>{
+      updatePrivacy();
+      refreshCollageContent();
+    });
+  });
+  $('maskSize').addEventListener('input',()=>{
+    updatePrivacy();
+    refreshCollageContent();
+  });
+  setupMaskDrag(0);
+  setupMaskDrag(1);
 
   load();
   bind();
