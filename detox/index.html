@@ -193,6 +193,7 @@
   .prize-plates{background-position:right center}
   @media(max-width:520px){.prize-photo{width:min(100%,95px)}}
   .prize-label{color:#255940}
+  .offline-status{position:relative;z-index:1;margin:9px auto 0;padding:9px 12px;max-width:620px;border-radius:12px;border:1px solid #d5e7d6;background:rgba(255,255,255,.68);font-size:.74rem;line-height:1.4;color:#315b42}
   .privacy-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0}
   .privacy-option{display:flex;align-items:center;gap:8px;padding:11px;border-radius:12px;background:#f2f9ef;border:1px solid #cbdac9;color:#24553b;font-size:.82rem;font-weight:750;cursor:pointer}
   .privacy-option input{accent-color:#275b43;flex:none;width:18px;height:18px}
@@ -235,6 +236,7 @@
         <div class="prize-item"><span class="prize-photo prize-plates" role="img" aria-label="Набор новогодней посуды"></span><span class="prize-label">Новогодний<br>набор посуды</span></div>
       </div>
       <div class="hero-win">✨ Собирайте звёзды! Все отметки автоматически сохраняются на этом устройстве.</div>
+      <p id="offlineStatus" class="offline-status" aria-live="polite">📲 Для работы без VPN откройте страницу в Safari и сохраните её на экран «Домой» при подключении к интернету.</p>
     </div>
   </header>
 
@@ -1195,6 +1197,26 @@
 
   load();
   bind();
+  // Install an offline copy of the app and its assets, so saved home-screen
+  // apps reopen after a successful connected visit, including without a VPN.
+  if('serviceWorker' in navigator && window.isSecureContext){
+    window.addEventListener('load',async()=>{
+      try{
+        await navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'});
+        await navigator.serviceWorker.ready;
+        $('offlineStatus').textContent='✅ Офлайн-режим установлен. Добавьте трекер на экран «Домой»: после первого успешного запуска он сможет открываться и без VPN.';
+      }catch(e){
+        $('offlineStatus').textContent='📲 Для работы без VPN откройте эту страницу один раз при доступном интернете и добавьте её на экран «Домой».';
+      }
+    });
+    window.addEventListener('offline',()=>{
+      $('offlineStatus').textContent='📴 Интернет недоступен. Вы можете заполнять трекер — отметки сохраняются на телефоне. Для WhatsApp понадобится связь.';
+    });
+    window.addEventListener('online',()=>{
+      $('offlineStatus').textContent='🌐 Интернет доступен. Данные по-прежнему сохраняются на этом устройстве.';
+    });
+  }
+
 })();</script>
 </body>
 </html>
