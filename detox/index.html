@@ -203,6 +203,9 @@
   .photos-panel{background:#f9fcf7;border-color:#d3e1cf}
   .collage-preview-box{background:#fbfdfa;border-color:#d5e1d0}
   @media(max-width:520px){.privacy-options{grid-template-columns:1fr}.mask-drag{font-size:.57rem}}
+  .face-controls select{width:100%;margin:5px 0 12px;padding:9px 12px;border:1px solid #c4d9c6;border-radius:10px;background:#fffdf7;color:#28533f;font-size:1rem}
+  .mask-drag{container-type:inline-size;border-radius:28%;background:#ffe17b;box-shadow:0 0 0 3px rgba(255,255,255,.92),0 2px 9px #1d4b3240;overflow:hidden}
+  .mask-drag span{display:block;font-size:85cqw;line-height:1;white-space:nowrap;pointer-events:none}
   .crop-frame{aspect-ratio:590/930}
   .collage-preview{border-radius:8px}
   .field-full-name{flex:2 1 280px}
@@ -323,8 +326,10 @@
         <label class="privacy-option"><input type="checkbox" id="hideName"> Скрыть имя и фамилию в коллаже</label>
       </div>
       <div id="faceControls" class="face-controls" hidden>
-        <p class="photo-weight-hint">🔒 Перетащите маску на лицо на каждом фото. Проверьте результат перед отправкой: автоматического распознавания лица нет.</p>
-        <label for="maskSize">Размер маски: <output id="maskSizeValue">45%</output></label>
+        <p class="photo-weight-hint">😊 Передвиньте смайлик на лицо на каждой фотографии. Проверьте оба кадра: лица автоматически не распознаются.</p>
+        <label for="faceEmoji">Смайлик для скрытия лица</label>
+        <select id="faceEmoji" aria-label="Выберите смайлик"><option value="😊">😊 Улыбка</option><option value="😍">😍 Глаза-сердечки</option></select>
+        <label for="maskSize">Размер смайлика: <output id="maskSizeValue">45%</output></label>
         <input id="maskSize" type="range" min="25" max="85" value="45" step="1">
       </div>
       <label class="photo-field" for="photoReview">Ваш отзыв <span aria-hidden="true">*</span><textarea id="photoReview" placeholder="Напишите ваш отзыв о марафоне: что изменилось и какие результаты получили" rows="3" required aria-required="true"></textarea></label>
@@ -334,14 +339,14 @@
         <div class="crop-pair">
           <div class="crop-side">
             <div class="crop-side-title">ДО</div>
-            <div class="crop-frame"><canvas id="cropBefore" width="504" height="792" aria-label="Подвинуть и увеличить фотографию ДО"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragBefore" class="mask-drag" hidden><span>Лицо скрыто</span></div></div>
+            <div class="crop-frame"><canvas id="cropBefore" width="504" height="792" aria-label="Подвинуть и увеличить фотографию ДО"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragBefore" class="mask-drag" hidden aria-label="Перетащить смайлик на лицо ДО"><span aria-hidden="true">😊</span></div></div>
             <label class="crop-zoom-label" for="zoomBefore">Масштаб ДО <output id="zoomBeforeValue">100%</output></label>
             <input class="crop-slider" id="zoomBefore" type="range" min="1" max="3.5" step=".01" value="1">
             <button type="button" class="crop-reset" id="resetBefore">↺ Сбросить ДО</button>
           </div>
           <div class="crop-side">
             <div class="crop-side-title">ПОСЛЕ</div>
-            <div class="crop-frame"><canvas id="cropAfter" width="504" height="792" aria-label="Подвинуть и увеличить фотографию ПОСЛЕ"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragAfter" class="mask-drag" hidden><span>Лицо скрыто</span></div></div>
+            <div class="crop-frame"><canvas id="cropAfter" width="504" height="792" aria-label="Подвинуть и увеличить фотографию ПОСЛЕ"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragAfter" class="mask-drag" hidden aria-label="Перетащить смайлик на лицо ПОСЛЕ"><span aria-hidden="true">😊</span></div></div>
             <label class="crop-zoom-label" for="zoomAfter">Масштаб ПОСЛЕ <output id="zoomAfterValue">100%</output></label>
             <input class="crop-slider" id="zoomAfter" type="range" min="1" max="3.5" step=".01" value="1">
             <button type="button" class="crop-reset" id="resetAfter">↺ Сбросить ПОСЛЕ</button>
@@ -466,6 +471,7 @@
     $('hideFace').checked=get('detox2026_privacy_face')==='true';
     $('hideName').checked=get('detox2026_privacy_name')==='true';
     $('maskSize').value=get('detox2026_mask_size')||'45';
+    $('faceEmoji').value=get('detox2026_face_emoji')==='😍'?'😍':'😊';
     updatePrivacy();
     renderTable();
     calc();
@@ -723,6 +729,7 @@
     el.style.left=(pos.x*100)+'%';
     el.style.top=(pos.y*100)+'%';
     el.style.width=(size*100)+'%';
+    el.querySelector('span').textContent=$('faceEmoji').value==='😍'?'😍':'😊';
   }
   function updatePrivacy(){
     const enabled=$('hideFace').checked;
@@ -733,6 +740,7 @@
     set('detox2026_privacy_face',String(enabled));
     set('detox2026_privacy_name',String($('hideName').checked));
     set('detox2026_mask_size',$('maskSize').value);
+    set('detox2026_face_emoji',$('faceEmoji').value==='😍'?'😍':'😊');
   }
   function setupMaskDrag(index){
     const el=$(index===0?'maskDragBefore':'maskDragAfter');
@@ -905,15 +913,17 @@
     if(!$('hideFace').checked)return;
     const p=maskPositions[index];
     const d=(Number($('maskSize').value)||45)/100*boxWidth;
+    const cx=x+p.x*boxWidth,cy=top+p.y*photoHeight;
+    const emoji=$('faceEmoji').value==='😍'?'😍':'😊';
     c.save();
-    c.fillStyle='#244b37';
-    c.beginPath();
-    c.arc(x+p.x*boxWidth,top+p.y*photoHeight,d/2,0,2*Math.PI);
+    // Opaque rounded base ensures even transparent emoji pixels do not expose a face.
+    c.fillStyle='#ffe17b';
+    roundedPath(c,cx-d/2,cy-d/2,d,d,d*.30);
     c.fill();
-    c.fillStyle='#fffaf3';
     c.textAlign='center';
-    c.font='bold 18px Arial,sans-serif';
-    c.fillText('ЛИЦО СКРЫТО',x+p.x*boxWidth,top+p.y*photoHeight+5);
+    c.textBaseline='middle';
+    c.font=''+Math.round(d*.94)+'px "Apple Color Emoji","Segoe UI Emoji",sans-serif';
+    c.fillText(emoji,cx,cy+d*.02);
     c.restore();
   }
   function paintCollage(canvas,before,after){
@@ -1052,7 +1062,7 @@
       paintCollage(canvas,loadedPhotoImages[0],loadedPhotoImages[1]);
       const blob=await canvasPng(canvas);
       if(version!==collageVersion)return;
-      const filename='detox_do_posle_'+getReport().name.replace(/[^a-zA-Zа-яА-ЯёЁ0-9_-]+/g,'_').slice(0,40)+'.png';
+      const filename='detox_do_posle_'+($('hideName').checked?'uchastnik':getReport().name.replace(/[^a-zA-Zа-яА-ЯёЁ0-9_-]+/g,'_').slice(0,40))+'.png';
       collageReady={blob,filename};
       $('cropEditor').hidden=true;
       $('collageBox').hidden=false;
@@ -1156,6 +1166,10 @@
     });
   });
   $('maskSize').addEventListener('input',()=>{
+    updatePrivacy();
+    refreshCollageContent();
+  });
+  $('faceEmoji').addEventListener('change',()=>{
     updatePrivacy();
     refreshCollageContent();
   });
