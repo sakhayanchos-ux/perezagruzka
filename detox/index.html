@@ -891,84 +891,75 @@
     const el=$('photoWeightStatus');
     if(weights.start&&weights.end){
       el.classList.remove('warning');
-      el.textContent='Итог за марафон: '+weights.result;
+      el.textContent='⚖️ ДО '+weights.start+' · ПОСЛЕ '+weights.end+' · ИТОГ '+weights.result;
     }else{
       el.classList.add('warning');
-      el.textContent='Заполните вес ДО и ПОСЛЕ — тогда итог появится в коллаже';
+      el.textContent='⚖️ Заполните вес ДО и ПОСЛЕ в карточке участника выше.';
     }
   }
-  function syncPhotoWeightInputs(){
-    $('photoWeightBefore').value=$('pStartWeight').value;
-    $('photoWeightAfter').value=$('pEndWeight').value;
-    updatePhotoWeightStatus();
-  }
-  function syncWeightFromPhoto(id){
-    $('pStartWeight'===id?'photoWeightBefore':'photoWeightAfter').value =
-      $(id).value;
-    updatePhotoWeightStatus();
-  }
-  function syncProfileFromPhoto(photoId,profileId){
-    $(profileId).value=$(photoId).value;
-    calc();
-    updatePhotoWeightStatus();
+  function syncPhotoWeightInputs(){updatePhotoWeightStatus()}
+  function paintPrivacyMask(c,index,x,top,boxWidth,photoHeight){
+    if(!$('hideFace').checked)return;
+    const p=maskPositions[index];
+    const d=(Number($('maskSize').value)||45)/100*boxWidth;
+    c.save();
+    c.fillStyle='#244b37';
+    c.beginPath();
+    c.arc(x+p.x*boxWidth,top+p.y*photoHeight,d/2,0,2*Math.PI);
+    c.fill();
+    c.fillStyle='#fffaf3';
+    c.textAlign='center';
+    c.font='bold 18px Arial,sans-serif';
+    c.fillText('ЛИЦО СКРЫТО',x+p.x*boxWidth,top+p.y*photoHeight+5);
+    c.restore();
   }
   function paintCollage(canvas,before,after){
     const c=canvas.getContext('2d');
     const W=canvas.width,H=canvas.height;
     c.clearRect(0,0,W,H);
-    const bg=c.createLinearGradient(0,0,W,H);
-    bg.addColorStop(0,'#fff9f4');bg.addColorStop(.52,'#ffe3ea');bg.addColorStop(1,'#f4afc8');
-    c.fillStyle=bg;c.fillRect(0,0,W,H);
-    c.strokeStyle='#ce9a58';c.lineWidth=5;
-    roundedPath(c,24,24,W-48,H-48,46);c.stroke();
-
-    c.textAlign='center';c.fillStyle='#a0184d';
-    c.font='bold 65px Georgia,serif';c.fillText('ДЕТОКС МАРАФОН',W/2,106);
-    c.fillStyle='#9d4b67';c.font='bold 34px Arial,sans-serif';
-    c.fillText('МОИ ИЗМЕНЕНИЯ · ДО И ПОСЛЕ',W/2,166);
-    const name=$('pName').value.trim();
-    if(name){c.fillStyle='#752c49';c.font='31px Arial,sans-serif';c.fillText(name.slice(0,42),W/2,212)}
-
+    c.fillStyle='#f5f8f1';
+    c.fillRect(0,0,W,H);
+    c.fillStyle='#214b37';c.fillRect(0,0,W,197);
+    c.fillStyle='#fffef7';c.textAlign='center';
+    c.font='bold 56px Georgia,serif';c.fillText('НОВОГОДНИЙ ДЕТОКС',W/2,68);
+    c.font='bold 28px Arial,sans-serif';c.fillText('МАРАФОН · ДО И ПОСЛЕ',W/2,110);
+    const fullName=[$('pLastName').value.trim(),$('pName').value.trim()].filter(Boolean).join(' ');
+    const displayedName=$('hideName').checked?'Участник марафона':(fullName||'Участник марафона');
+    c.font=(displayedName.length>34?'bold 27px':'bold 34px')+' Arial,sans-serif';
+    c.fillText(displayedName.slice(0,54),W/2,151);
+    const consultant=$('pConsultant').value.trim()||'Не указан';
+    c.font=(consultant.length>34?'22px':'26px')+' Arial,sans-serif';
+    c.fillStyle='#e1eadc';
+    c.fillText('Консультант: '+consultant.slice(0,48),W/2,181);
     const weights=collageWeightData();
-    const top=252,photoHeight=730,boxWidth=526,photoX=[57,617];
+    const top=206,photoHeight=1002,boxWidth=592,photoX=[0,608];
     for(let i=0;i<2;i++){
       const x=photoX[i];
-      c.fillStyle='#fffaf7';
-      roundedPath(c,x,top,boxWidth,photoHeight+66,24);c.fill();
       c.save();
-      roundedPath(c,x+11,top+11,boxWidth-22,photoHeight-22,17);c.clip();
-      paintPhoto(c,i===0?before:after,x+11,top+11,boxWidth-22,photoHeight-22,i);
+      c.beginPath();c.rect(x,top,boxWidth,photoHeight);c.clip();
+      paintPhoto(c,i===0?before:after,x,top,boxWidth,photoHeight,i);
+      paintPrivacyMask(c,i,x,top,boxWidth,photoHeight);
+      c.fillStyle='rgba(23,67,48,.91)';
+      c.fillRect(x,top,boxWidth,74);
+      c.fillStyle='#fffdf7';c.textAlign='center';c.font='bold 39px Arial,sans-serif';
+      c.fillText(i===0?'ДО':'ПОСЛЕ',x+boxWidth/2,top+50);
+      c.fillStyle='rgba(23,67,48,.91)';
+      c.fillRect(x,top+photoHeight-85,boxWidth,85);
+      c.fillStyle='#fffdf7';c.font='bold 49px Georgia,serif';
+      c.fillText(i===0?weights.start:weights.end,x+boxWidth/2,top+photoHeight-26);
       c.restore();
-      const photoWeight=i===0?weights.start:weights.end;
-      if(photoWeight){
-        c.fillStyle='rgba(255,250,247,.94)';
-        roundedPath(c,x+95,top+photoHeight-105,boxWidth-190,75,23);c.fill();
-        c.fillStyle='#8b204d';c.textAlign='center';c.font='bold 45px Arial,sans-serif';
-        c.fillText(photoWeight,x+boxWidth/2,top+photoHeight-55);
-      }
-      c.strokeStyle='#d7a76f';c.lineWidth=3;
-      roundedPath(c,x,top,boxWidth,photoHeight+66,24);c.stroke();
-      c.fillStyle='#a62b5b';c.textAlign='center';c.font='bold 39px Arial,sans-serif';
-      c.fillText(i===0?'ДО':'ПОСЛЕ',x+boxWidth/2,top+photoHeight+37);
     }
-    c.fillStyle='rgba(255,251,249,.94)';
-    roundedPath(c,232,1065,W-464,120,29);c.fill();
-    c.strokeStyle='#d3a36d';c.lineWidth=3;
-    roundedPath(c,232,1065,W-464,120,29);c.stroke();
-    c.textAlign='center';c.fillStyle='#99506b';
-    c.font='bold 27px Arial,sans-serif';c.fillText('ИТОГ ЗА МАРАФОН',W/2,1108);
-    c.fillStyle='#a21c50';c.font=weights.result?'bold 59px Georgia,serif':'28px Arial,sans-serif';
-    c.fillText(weights.result||'Укажите вес ДО и ПОСЛЕ',W/2,1164);
+    c.fillStyle='#edf4e9';c.fillRect(0,1208,W,322);
+    c.textAlign='center';c.fillStyle='#285c40';
+    c.font='bold 27px Arial,sans-serif';c.fillText('ИТОГ ЗА МАРАФОН',W/2,1260);
+    c.font='bold 72px Georgia,serif';c.fillText(weights.result||'—',W/2,1344);
+    c.fillStyle='#426a51';
     const review=$('photoReview').value.trim();
-    if(review){
-      c.textAlign='left';c.fillStyle='#78384f';c.font='29px Arial,sans-serif';
-      wrapCaption(c,'“'+review+'”',70,1240,W-140,43,3);
-    }else{
-      c.textAlign='center';c.fillStyle='#8e4967';c.font='30px Arial,sans-serif';
-      c.fillText('Каждый шаг — это движение к цели ✨',W/2,1270);
-    }
-    c.textAlign='center';c.fillStyle='#a42356';c.font='bold 27px Arial,sans-serif';
-    c.fillText('НОВОГОДНИЙ ДЕТОКС МАРАФОН · 2026',W/2,1394);
+    c.font='27px Arial,sans-serif';
+    c.textAlign='left';
+    if(review)wrapCaption(c,'“'+review+'”',56,1403,W-112,37,3);
+    c.textAlign='center';c.font='bold 22px Arial,sans-serif';
+    c.fillText('НОВОГОДНИЙ ДЕТОКС МАРАФОН · 2026',W/2,1514);
   }
   function canvasPng(canvas){
     return new Promise((resolve,reject)=>{
