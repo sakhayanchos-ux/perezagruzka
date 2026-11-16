@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Совместный марафон стройности — трекер</title>
+  <title>Новогодний Детокс Марафон — звёздный трекер</title>
   
-  <link rel="manifest" href="./manifest.webmanifest?v=3">
-  <link rel="icon" type="image/svg+xml" href="./app-icon.svg?v=2">
-  <link rel="apple-touch-icon" sizes="180x180" href="./app-icon.png?v=2">
+  <link rel="manifest" href="./manifest.webmanifest?v=1">
+  <link rel="icon" type="image/svg+xml" href="../app-icon.svg?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="../app-icon.png?v=2">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Перезагрузка">
+  <meta name="apple-mobile-web-app-title" content="Детокс Марафон">
   <meta name="theme-color" content="#A61852">
   
   <style>
@@ -180,33 +180,33 @@
 
 <div class="container">
   <header class="hero">
-    <div class="eyebrow">Совместный</div>
-    <h1>МАРАФОН <span>СТРОЙНОСТИ</span></h1>
-    <div class="subhead">Тело · Энергия · Поддержка</div>
+    <div class="eyebrow">Herbalife · Новый сезон 2026</div>
+    <h1>НОВОГОДНИЙ <span>ДЕТОКС МАРАФОН</span></h1>
+    <div class="subhead">⭐ Звёздная система</div>
     <div class="hero-bottom">
-      <span><strong>⭐ Звёздный трекер</strong> · 19 октября — 8 ноября</span>
-      <span class="hero-price">Вход 899 ₽</span>
+      <span><strong>Личный трекер</strong> · 16 ноября — 8 декабря 2026</span>
       <div class="prize-gallery" aria-label="Главные призы марафона">
-        <div class="prize-item"><img class="prize-image" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3JnxJybheEBr6vyAb5CaaLdLJym/cdf40b5d-1160-4561-8a3e-5220c57715d7.png" alt="Смарт-очки" loading="eager" decoding="async"><span class="prize-label">Смарт-очки</span></div>
-        <div class="prize-item"><img class="prize-image" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3JnxJybheEBr6vyAb5CaaLdLJym/20300be7-916b-4488-9827-59acc0937234.png" alt="LED-маска" loading="eager" decoding="async"><span class="prize-label">LED-маска</span></div>
-        <div class="prize-item"><img class="prize-image" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3JnxJybheEBr6vyAb5CaaLdLJym/dd33c91e-6791-4423-910e-4e6afd6673c3.png" alt="Умное кольцо" loading="eager" decoding="async"><span class="prize-label">Умное кольцо</span></div>
+        <div class="prize-item"><span class="prize-symbol">📺</span><span class="prize-label">Smart TV<br>на колёсах</span></div>
+        <div class="prize-item"><span class="prize-symbol">📽️</span><span class="prize-label">Проектор</span></div>
+        <div class="prize-item"><span class="prize-symbol">🎁</span><span class="prize-label">Новогодний<br>набор посуды</span></div>
       </div>
-      <div class="hero-win">✨ 15 победителей! Каждая из вас может стать обладательницей наших суперпризов и любимых продуктов 💗</div>
+      <div class="hero-win">✨ Собирайте звёзды! Все отметки автоматически сохраняются на этом устройстве.</div>
     </div>
   </header>
 
   <section class="section">
     <div class="section-title">👤 УЧАСТНИК</div>
     <div class="row">
-      <div class="field"><label for="pName">👤 Имя</label><input type="text" id="pName" placeholder="Имя"></div>
-      <div class="field"><label for="pConsultant">👩‍💼 Консультант</label><input type="text" id="pConsultant" placeholder="Консультант"></div>
+      <div class="field"><label for="pLastName">👤 Фамилия</label><input type="text" id="pLastName" autocomplete="family-name" placeholder="Фамилия"></div>
+      <div class="field"><label for="pName">👤 Имя</label><input type="text" id="pName" autocomplete="given-name" placeholder="Имя"></div>
+      <div class="field"><label for="pConsultant">👩‍💼 Консультант</label><input type="text" id="pConsultant" placeholder="Имя консультанта"></div>
       <div class="field"><label for="pDiscount">💰 Скидка</label><input type="text" id="pDiscount" placeholder="%"></div>
     </div>
     <div class="weight-block">
       <div class="weight-row">
-        <strong>⚖️ Вес начало:</strong>
+        <strong>⚖️ Вес ДО:</strong>
         <input type="number" id="pStartWeight" min="0" placeholder="кг" step="0.1" aria-label="Начальный вес">
-        <strong>→ Конец:</strong>
+        <strong>→ Вес ПОСЛЕ:</strong>
         <input type="number" id="pEndWeight" min="0" placeholder="кг" step="0.1" aria-label="Конечный вес">
         <span class="weight-result" id="weightResult">⭐ 0 за снижение веса</span>
       </div>
@@ -216,13 +216,11 @@
   <section class="section">
     <div class="section-title">⭐ ЗВЁЗДНАЯ СИСТЕМА</div>
     <div class="reward-guide">
-      <div class="reward-card"><div class="reward-score">1 ★</div><div class="reward-list">Каждый 1 VP · каждые −300 г · ужин вечерним коктейлем · выпечка из продукта · Герби-напитки (кофе Гербалайф, коллагеновый лимонад, детокс, ЛифтОфф и т. д.) · Zoom 07:30 и 20:00 с отзывом · друг на Zoom 07:30 и 20:00</div></div>
+      <div class="reward-card"><div class="reward-score">1 ★</div><div class="reward-list">Каждый 1 VP · каждые −300 г · ужин вечерним коктейлем · выпечка из продукта · Герби-напитки · Zoom с отзывом · друг на Zoom</div></div>
       <div class="reward-card"><div class="reward-score">3 ★</div><div class="reward-list">Турбо-напиток · сторис с отметкой консультанта · репост друга</div></div>
-      <div class="reward-card"><div class="reward-score">5 ★</div><div class="reward-list">Друг на офлайн-мероприятии · онлайн-тренировка (среда и пятница) · день Хибера · Reels о проекте</div></div>
+      <div class="reward-card"><div class="reward-score">5 ★</div><div class="reward-list">Онлайн-тренировка по средам · день Хибера · Reels о проекте</div></div>
       <div class="reward-card"><div class="reward-score">10 ★</div><div class="reward-list">10-дневный абонемент · друг на диагностике состава тела</div></div>
       <div class="reward-card"><div class="reward-score">20 ★</div><div class="reward-list">Домашний клиент (алоэ, чай, коктейль) или месячный абонемент в клуб</div></div>
-      <div class="reward-card"><div class="reward-score">30 ★</div><div class="reward-list">VIP 300 — открыть промоушен «Байкал»</div></div>
-      <div class="reward-card"><div class="reward-score">50 ★</div><div class="reward-list">VIP 500 — открыть промоушен «Забугор-2»</div></div>
     </div>
     <div class="section-title">📅 ЕЖЕДНЕВНЫЙ ТРЕКЕР</div>
     <p class="drink-examples">🥤 <strong>Герби-напитки:</strong> кофе Гербалайф, коллагеновый лимонад, детокс, ЛифтОфф и другие напитки. В колонке укажи количество напитков — за каждый 1 ⭐.</p>
@@ -232,20 +230,25 @@
         <tbody id="tableBody"></tbody>
       </table>
     </div>
-    <div class="note">↔️ Прокручивай таблицу влево и вправо. 🏋️ Онлайн-тренировки — только по средам и пятницам; в остальные дни ячейки пустые. ✅ Галочка — выполнено, 🔢 число — количество. Звёзды за вес и особые события прибавляются автоматически.</div>
+    <div class="note">↔️ Прокручивайте таблицу влево и вправо. 🧘 Онлайн-тренировка только по средам — 1 раз в неделю; в остальные дни галочек нет. ✅ Галочка — выполнено, 🔢 число — количество. Звёзды подсчитываются автоматически.</div>
   </section>
 
   <section class="section">
     <div class="section-title">🎉 ОСОБЫЕ СОБЫТИЯ</div>
     <div class="special-block">
-      <label class="special-row"><span class="event-date">01.11</span><span class="special-label">💖 Мисс Herbalife</span><input type="checkbox" id="miss"><span>20 ⭐</span></label>
-      <label class="special-row friend-event-row"><span class="event-date">01.11</span><span class="special-label">👥 Каждый друг на Мисс Herbalife</span><input type="number" min="0" step="1" inputmode="numeric" id="missFriends" value="" placeholder="0" aria-label="Количество друзей на Мисс Herbalife"><span>20 ⭐</span></label>
-      <label class="special-row"><span class="event-date">до 11.11</span><span class="special-label">📸 Фото до/после + отзыв</span><input type="checkbox" id="photo"><span>30 ⭐</span></label>
-      <label class="special-row"><span class="event-date">до 11.11</span><span class="special-label">👑 Амбассадор</span><input type="checkbox" id="ambassador"><span>50 ⭐</span></label>
-      <label class="special-row"><span class="event-date">11.11</span><span class="special-label">🎓 Выпускной</span><input type="checkbox" id="graduation"><span>30 ⭐</span></label>
-      <label class="special-row"><span class="event-date">до 31.10</span><span class="special-label">🏅 VIP 300 — открыть промоушен «Байкал»</span><input type="checkbox" id="vip300"><span>30 ⭐</span></label>
-      <label class="special-row"><span class="event-date">до 31.10</span><span class="special-label">💎 VIP 500 — открыть промоушен «Забугор-2»</span><input type="checkbox" id="vip500"><span>50 ⭐</span></label>
+      <label class="special-row"><span class="event-date">до 25.11</span><span class="special-label">🎪 Корпоратив + выпускной (оплатить участие)</span><input type="checkbox" id="corporate"><span>30 ⭐</span></label>
+      <label class="special-row friend-event-row"><span class="event-date">до 25.11</span><span class="special-label">👭 За друга (количество)</span><input type="number" min="0" step="1" inputmode="numeric" id="friend" placeholder="0" aria-label="Количество друзей"><span>30 ⭐</span></label>
+      <label class="special-row"><span class="event-date">до 06.12</span><span class="special-label">👑 Стать амбассадором</span><input type="checkbox" id="ambassador"><span>50 ⭐</span></label>
+      <label class="special-row"><span class="event-date">до 08.12</span><span class="special-label">📸 Фото ДО/ПОСЛЕ + отзыв</span><input type="checkbox" id="photo"><span>30 ⭐</span></label>
     </div>
+    <details class="hidden-events">
+      <summary>Дополнительные события и промо</summary>
+      <div class="special-block">
+        <label class="special-row"><span class="event-date">до 30.11</span><span class="special-label">💎 VIP 300</span><input type="checkbox" id="vip300"><span>30 ⭐</span></label>
+        <label class="special-row"><span class="event-date">до 30.11</span><span class="special-label">💎 VIP 500</span><input type="checkbox" id="vip500"><span>50 ⭐</span></label>
+        <label class="special-row"><span class="event-date">до 30.11</span><span class="special-label">❄️ Промо Байкал <small style="display:block">500 очков + 3 НП</small></span><input type="checkbox" id="baikal"><span>100 ⭐</span></label>
+      </div>
+    </details>
   </section>
 
   <div class="total-box">
