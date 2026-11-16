@@ -211,20 +211,6 @@
   .face-controls select{width:100%;margin:5px 0 12px;padding:9px 12px;border:1px solid #c4d9c6;border-radius:10px;background:#fffdf7;color:#28533f;font-size:1rem}
   .mask-drag{container-type:inline-size;border-radius:28%;background:#ffe17b;box-shadow:0 0 0 3px rgba(255,255,255,.92),0 2px 9px #1d4b3240;overflow:hidden}
   .mask-drag span{display:block;font-size:85cqw;line-height:1;white-space:nowrap;pointer-events:none}
-  .crop-frame{aspect-ratio:590/930}
-  /* Compact mobile editor: both photos side by side, neither taller than 250px. */
-  @media (max-width:600px){
-    #cropEditor{width:100%;max-width:100%;overflow:hidden;padding:10px 6px 12px}
-    #cropEditor .crop-pair{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important;align-items:start}
-    #cropEditor .crop-side{width:100%!important;min-width:0!important;max-width:100%!important;gap:5px!important}
-    #cropEditor .crop-frame{width:100%!important;max-width:160px!important;aspect-ratio:504/792!important;height:auto!important;max-height:252px!important;margin:0 auto!important}
-    #cropEditor .crop-frame canvas{display:block!important;width:100%!important;height:100%!important;max-width:100%!important}
-    #cropEditor .crop-side-title{font-size:.83rem}
-    #cropEditor .crop-zoom-label{font-size:.65rem;gap:3px}
-    #cropEditor .crop-slider{width:100%;height:25px}
-    #cropEditor .crop-reset{padding:7px 3px;font-size:.68rem;min-width:0;width:100%}
-    #cropEditor .crop-help{font-size:.73rem}
-  }
   /* On narrow phones show each photo full-width, not two tiny thumbnails. */
   /* Large export preview reaches the edges of the panel. */
   .collage-preview-box{padding:7px}
@@ -359,18 +345,18 @@
       <label class="photo-field" for="photoReview">Ваш отзыв <span aria-hidden="true">*</span><textarea id="photoReview" placeholder="Напишите ваш отзыв о марафоне: что изменилось и какие результаты получили" rows="3" required aria-required="true"></textarea></label>
       <div class="crop-editor" id="cropEditor" hidden>
         <div class="crop-title">✂️ Подгони фотографии по размеру</div>
-        <p class="crop-help">Фотографии ДО и ПОСЛЕ расположены рядом, как раньше. Передвигайте и масштабируйте каждый кадр, чтобы фигура была хорошо видна. При скрытии лица установите смайлик на каждой фотографии.</p>
-        <div class="crop-pair">
+        <p class="crop-help">Оба кадра одинаковые, как в марафоне «Перезагрузка». Передвигайте их пальцем и меняйте масштаб, чтобы фигура была хорошо видна. Для скрытия лица установите смайлик на каждом фото.</p>
+        <div class="crop-pair" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-width:430px;margin-inline:auto">
           <div class="crop-side">
             <div class="crop-side-title">ДО</div>
-            <div class="crop-frame"><canvas id="cropBefore" width="504" height="792" aria-label="Подвинуть и увеличить фотографию ДО"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragBefore" class="mask-drag" hidden aria-label="Перетащить смайлик на лицо ДО"><span aria-hidden="true">😊</span></div></div>
+            <div class="crop-frame" style="aspect-ratio:504/708;max-width:190px"><canvas id="cropBefore" width="504" height="708" aria-label="Подвинуть и увеличить фотографию ДО"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragBefore" class="mask-drag" hidden aria-label="Перетащить смайлик на лицо ДО"><span aria-hidden="true">😊</span></div></div>
             <label class="crop-zoom-label" for="zoomBefore">Масштаб ДО <output id="zoomBeforeValue">100%</output></label>
             <input class="crop-slider" id="zoomBefore" type="range" min="1" max="3.5" step=".01" value="1">
             <button type="button" class="crop-reset" id="resetBefore">↺ Сбросить ДО</button>
           </div>
           <div class="crop-side">
             <div class="crop-side-title">ПОСЛЕ</div>
-            <div class="crop-frame"><canvas id="cropAfter" width="504" height="792" aria-label="Подвинуть и увеличить фотографию ПОСЛЕ"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragAfter" class="mask-drag" hidden aria-label="Перетащить смайлик на лицо ПОСЛЕ"><span aria-hidden="true">😊</span></div></div>
+            <div class="crop-frame" style="aspect-ratio:504/708;max-width:190px"><canvas id="cropAfter" width="504" height="708" aria-label="Подвинуть и увеличить фотографию ПОСЛЕ"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragAfter" class="mask-drag" hidden aria-label="Перетащить смайлик на лицо ПОСЛЕ"><span aria-hidden="true">😊</span></div></div>
             <label class="crop-zoom-label" for="zoomAfter">Масштаб ПОСЛЕ <output id="zoomAfterValue">100%</output></label>
             <input class="crop-slider" id="zoomAfter" type="range" min="1" max="3.5" step=".01" value="1">
             <button type="button" class="crop-reset" id="resetAfter">↺ Сбросить ПОСЛЕ</button>
