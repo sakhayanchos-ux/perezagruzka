@@ -211,7 +211,7 @@
   .face-controls select{width:100%;margin:5px 0 12px;padding:9px 12px;border:1px solid #c4d9c6;border-radius:10px;background:#fffdf7;color:#28533f;font-size:1rem}
   .mask-drag{container-type:inline-size;border-radius:28%;background:#ffe17b;box-shadow:0 0 0 3px rgba(255,255,255,.92),0 2px 9px #1d4b3240;overflow:hidden}
   .mask-drag span{display:block;font-size:85cqw;line-height:1;white-space:nowrap;pointer-events:none}
-  .crop-frame{aspect-ratio:504/1000}
+  .crop-frame{aspect-ratio:590/930}
   /* On narrow phones show each photo full-width, not two tiny thumbnails. */
   @media(max-width:600px){.crop-pair{grid-template-columns:minmax(0,1fr);gap:20px}.crop-side{gap:8px}.crop-side-title{font-size:1rem}.crop-frame{max-width:440px;margin-inline:auto;border-width:2px}.crop-slider{height:36px}.crop-reset{font-size:.85rem;padding:11px}}
   /* Large export preview reaches the edges of the panel. */
@@ -351,14 +351,14 @@
         <div class="crop-pair">
           <div class="crop-side">
             <div class="crop-side-title">ДО</div>
-            <div class="crop-frame"><canvas id="cropBefore" width="504" height="1000" aria-label="Подвинуть и увеличить фотографию ДО"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragBefore" class="mask-drag" hidden aria-label="Перетащить смайлик на лицо ДО"><span aria-hidden="true">😊</span></div></div>
+            <div class="crop-frame"><canvas id="cropBefore" width="504" height="792" aria-label="Подвинуть и увеличить фотографию ДО"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragBefore" class="mask-drag" hidden aria-label="Перетащить смайлик на лицо ДО"><span aria-hidden="true">😊</span></div></div>
             <label class="crop-zoom-label" for="zoomBefore">Масштаб ДО <output id="zoomBeforeValue">100%</output></label>
             <input class="crop-slider" id="zoomBefore" type="range" min="1" max="3.5" step=".01" value="1">
             <button type="button" class="crop-reset" id="resetBefore">↺ Сбросить ДО</button>
           </div>
           <div class="crop-side">
             <div class="crop-side-title">ПОСЛЕ</div>
-            <div class="crop-frame"><canvas id="cropAfter" width="504" height="1000" aria-label="Подвинуть и увеличить фотографию ПОСЛЕ"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragAfter" class="mask-drag" hidden aria-label="Перетащить смайлик на лицо ПОСЛЕ"><span aria-hidden="true">😊</span></div></div>
+            <div class="crop-frame"><canvas id="cropAfter" width="504" height="792" aria-label="Подвинуть и увеличить фотографию ПОСЛЕ"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragAfter" class="mask-drag" hidden aria-label="Перетащить смайлик на лицо ПОСЛЕ"><span aria-hidden="true">😊</span></div></div>
             <label class="crop-zoom-label" for="zoomAfter">Масштаб ПОСЛЕ <output id="zoomAfterValue">100%</output></label>
             <input class="crop-slider" id="zoomAfter" type="range" min="1" max="3.5" step=".01" value="1">
             <button type="button" class="crop-reset" id="resetAfter">↺ Сбросить ПОСЛЕ</button>
@@ -373,7 +373,7 @@
           <button class="crop-edit-again" id="editCrop" type="button">✂️ Подправить кадры</button>
           <button type="button" class="photo-remove collage-remove" id="removeCollage" aria-label="Удалить коллаж и очистить обе фотографии" title="Удалить коллаж и обе фотографии">✕</button>
         </div>
-        <canvas class="collage-preview" id="collagePreview" width="1200" height="1580" aria-label="Большой коллаж ДО и ПОСЛЕ с итогом марафона"></canvas>
+        <canvas class="collage-preview" id="collagePreview" width="1200" height="1530" aria-label="Большой коллаж ДО и ПОСЛЕ с итогом марафона"></canvas>
       </div>
       <div class="action-buttons">
         <button class="action-btn main" id="sharePhotos" type="button" disabled>📲 Отправить коллаж Виктории</button>
@@ -958,22 +958,21 @@
     c.clearRect(0,0,W,H);
     c.fillStyle='#f5f8f1';
     c.fillRect(0,0,W,H);
-    // Compact masthead: keep the participants visible while giving photos more space.
-    c.fillStyle='#214b37';c.fillRect(0,0,W,140);
+    c.fillStyle='#214b37';c.fillRect(0,0,W,197);
     c.fillStyle='#fffef7';c.textAlign='center';
-    c.font='bold 47px Georgia,serif';c.fillText('НОВОГОДНИЙ ДЕТОКС',W/2,49);
-    c.font='bold 22px Arial,sans-serif';c.fillText('МАРАФОН · ДО И ПОСЛЕ',W/2,80);
+    c.font='bold 56px Georgia,serif';c.fillText('НОВОГОДНИЙ ДЕТОКС',W/2,68);
+    c.font='bold 28px Arial,sans-serif';c.fillText('МАРАФОН · ДО И ПОСЛЕ',W/2,110);
     const fullName=$('pFullName').value.trim();
     const displayedName=$('hideName').checked?'Участник марафона':(fullName||'Участник марафона');
-    c.font=(displayedName.length>34?'bold 23px':'bold 28px')+' Arial,sans-serif';
-    c.fillText(displayedName.slice(0,54),W/2,110);
+    c.font=(displayedName.length>34?'bold 27px':'bold 34px')+' Arial,sans-serif';
+    c.fillText(displayedName.slice(0,54),W/2,151);
     const consultant=$('pConsultant').value.trim()||'Не указан';
-    c.font=(consultant.length>34?'16px':'19px')+' Arial,sans-serif';
+    c.font=(consultant.length>34?'22px':'26px')+' Arial,sans-serif';
     c.fillStyle='#e1eadc';
-    c.fillText('Консультант: '+consultant.slice(0,48),W/2,134);
+    c.fillText('Консультант: '+consultant.slice(0,48),W/2,181);
     const weights=collageWeightData();
-    // Photos occupy 1,180 of 1,580 canvas pixels (75%), versus 1,002 of 1,530 (65%).
-    const top=144,photoHeight=1180,boxWidth=592,photoX=[0,608];
+    // Original photo proportions. Each image touches the center, divided by one thin line.
+    const top=206,photoHeight=1002,boxWidth=600,photoX=[0,600];
     for(let i=0;i<2;i++){
       const x=photoX[i];
       c.save();
@@ -981,27 +980,29 @@
       paintPhoto(c,i===0?before:after,x,top,boxWidth,photoHeight,i);
       paintPrivacyMask(c,i,x,top,boxWidth,photoHeight);
       c.fillStyle='rgba(23,67,48,.91)';
-      c.fillRect(x,top,boxWidth,62);
-      c.fillStyle='#fffdf7';c.textAlign='center';c.font='bold 38px Arial,sans-serif';
-      c.fillText(i===0?'ДО':'ПОСЛЕ',x+boxWidth/2,top+44);
+      c.fillRect(x,top,boxWidth,74);
+      c.fillStyle='#fffdf7';c.textAlign='center';c.font='bold 39px Arial,sans-serif';
+      c.fillText(i===0?'ДО':'ПОСЛЕ',x+boxWidth/2,top+50);
       c.fillStyle='rgba(23,67,48,.91)';
-      c.fillRect(x,top+photoHeight-75,boxWidth,75);
-      c.fillStyle='#fffdf7';c.font='bold 45px Georgia,serif';
-      c.fillText(i===0?weights.start:weights.end,x+boxWidth/2,top+photoHeight-24);
+      c.fillRect(x,top+photoHeight-85,boxWidth,85);
+      c.fillStyle='#fffdf7';c.font='bold 49px Georgia,serif';
+      c.fillText(i===0?weights.start:weights.end,x+boxWidth/2,top+photoHeight-26);
       c.restore();
     }
-    const footerTop=top+photoHeight;
-    c.fillStyle='#edf4e9';c.fillRect(0,footerTop,W,H-footerTop);
+    // One neat continuous 4px line, no empty gap between photos.
+    c.fillStyle='#fffdf7';
+    c.fillRect(W/2-2,top,4,photoHeight);
+    c.fillStyle='#edf4e9';c.fillRect(0,1208,W,322);
     c.textAlign='center';c.fillStyle='#285c40';
-    c.font='bold 25px Arial,sans-serif';c.fillText('ИТОГ ЗА МАРАФОН',W/2,footerTop+42);
-    c.font='bold 70px Georgia,serif';c.fillText(weights.result||'—',W/2,footerTop+112);
+    c.font='bold 27px Arial,sans-serif';c.fillText('ИТОГ ЗА МАРАФОН',W/2,1260);
+    c.font='bold 72px Georgia,serif';c.fillText(weights.result||'—',W/2,1344);
     c.fillStyle='#426a51';
     const review=$('photoReview').value.trim();
-    c.font='25px Arial,sans-serif';
+    c.font='27px Arial,sans-serif';
     c.textAlign='left';
-    if(review)wrapCaption(c,'“'+review+'”',56,footerTop+153,W-112,29,3);
-    c.textAlign='center';c.font='bold 19px Arial,sans-serif';
-    c.fillText('НОВОГОДНИЙ ДЕТОКС МАРАФОН · 2026',W/2,H-14);
+    if(review)wrapCaption(c,'“'+review+'”',56,1403,W-112,37,3);
+    c.textAlign='center';c.font='bold 22px Arial,sans-serif';
+    c.fillText('НОВОГОДНИЙ ДЕТОКС МАРАФОН · 2026',W/2,1514);
   }
   function canvasPng(canvas){
     return new Promise((resolve,reject)=>{
