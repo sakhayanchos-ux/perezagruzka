@@ -174,7 +174,39 @@
   .prize-image{display:block;width:100%;height:145px;object-fit:contain;object-position:center;filter:drop-shadow(0 5px 4px rgba(110,36,58,.15))}
   .prize-label{font-size:.84rem;color:#8f2756;font-weight:800;line-height:1.2;text-align:center;margin-top:4px}
   @media(max-width:520px){.prize-gallery{gap:6px}.prize-item{padding:6px 3px 8px;border-radius:13px}.prize-image{height:102px}.prize-label{font-size:.72rem}}
-  </style>
+  
+  /* Calm winter palette: pine green, ivory and restrained gold */
+  :root{--wine:#164932;--berry:#246546;--pink:#9abd9e;--blush:#eff4ea;--cream:#fffdf8;--gold:#b4a17b;--goldlight:#e7d8af;--ink:#203d2e}
+  body{background:radial-gradient(ellipse at 0 0,#edf4ed,transparent 38%),linear-gradient(155deg,#fafdf9,#f4efe9 56%,#eaf3eb);color:#244333}
+  body:before{opacity:.08}
+  .hero{background:linear-gradient(145deg,#fffdf8,#edf5ed 60%,#e4efdf);border-color:#b6cdb2}
+  .hero:before,.hero:after{border-color:#c9d8c7}
+  .hero h1 span{color:#275e43}
+  .section{background:#fffdfa;border-color:#cfdfcf}
+  .section-title{color:#1b5e3f}
+  .total-box{background:linear-gradient(135deg,#184e34,#337959)}
+  .prize-gallery{margin-top:14px}
+  .prize-item{background:#f7faf5;border-color:#d5e1d0}
+  .prize-symbol{font-size:clamp(1.5rem,5vw,2.5rem)}
+  .prize-label{color:#255940}
+  .hidden-events{border:1px solid #d9e7d8;border-radius:14px;background:#f6faf5;padding:12px;margin-top:12px}
+  .hidden-events summary{cursor:pointer;font-weight:750;color:#356b51}
+  .hidden-events .special-block{margin-top:12px}
+  .privacy-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0}
+  .privacy-option{display:flex;align-items:center;gap:8px;padding:11px;border-radius:12px;background:#f2f9ef;border:1px solid #cbdac9;color:#24553b;font-size:.82rem;font-weight:750;cursor:pointer}
+  .privacy-option input{accent-color:#275b43;flex:none;width:18px;height:18px}
+  .face-controls{padding:13px;border:1px solid #d0dbc9;background:#f6fbf2;border-radius:14px;margin-bottom:12px}
+  .face-controls[hidden],.mask-drag[hidden]{display:none!important}
+  .face-controls label{font-size:.78rem;font-weight:750;color:#28533f}
+  .face-controls input{display:block;width:100%;accent-color:#306a49;margin:8px 0}
+  .mask-drag{position:absolute;left:50%;top:26%;width:45%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:#244935;box-shadow:0 0 0 3px rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;color:white;font-size:.69rem;font-weight:800;line-height:1.2;text-align:center;touch-action:none;cursor:grab;z-index:3;padding:3px;user-select:none}
+  .crop-guides{pointer-events:none}
+  .photo-weight-status{padding:9px 12px;background:#f2f7ef;border-radius:11px;margin:7px 0;color:#225e3d}
+  .photo-weight-status.warning{color:#a35f40}
+  .photos-panel{background:#f9fcf7;border-color:#d3e1cf}
+  .collage-preview-box{background:#fbfdfa;border-color:#d5e1d0}
+  @media(max-width:520px){.privacy-options{grid-template-columns:1fr}.mask-drag{font-size:.57rem}}
+</style>
 </head>
 <body>
 
@@ -259,14 +291,14 @@
 
   <section class="section share-section">
     <div class="section-title">📤 ВЫГРУЗКА ЗВЁЗД И ОТЧЁТОВ</div>
-    <p class="share-text">Виктория Никитина проверяет звёзды. Сначала заполните трекер — итог пересчитается автоматически.</p>
+    <p class="share-text">Заполняйте таблицу — итог пересчитывается автоматически. Готовый отчёт можно сохранить или отправить Виктории.</p>
     <div class="action-buttons">
       <button class="action-btn light" id="downloadStars" type="button">📥 Выгрузить звёзды (таблица)</button>
       <button class="action-btn light" id="downloadCard" type="button">🖼️ Скачать карточку звёзд</button>
       <button class="action-btn main" id="sendStars" type="button">📲 Отправить звёзды Виктории</button>
     </div>
     <div class="photos-panel">
-      <div class="photos-title">📸 Фото «до» и «после» для Виктории</div>
+      <div class="photos-title">📸 Большой коллаж ДО / ПОСЛЕ</div>
       <div class="photo-inputs">
         <div class="photo-slot">
           <label class="photo-field" for="beforePhoto">Фото ДО</label>
@@ -283,31 +315,32 @@
           </div>
         </div>
       </div>
-      <p class="photo-weight-hint">⚖️ Укажите вес до и после марафона. Если вы уже заполняли их в разделе «Участник», значения появятся здесь автоматически.</p>
-      <div class="collage-weight-fields">
-        <label class="photo-field" for="photoWeightBefore">⚖️ Вес ДО, кг
-          <input id="photoWeightBefore" type="number" min="0.1" step="0.01" inputmode="decimal" placeholder="Например, 97" aria-label="Вес на фото ДО в килограммах">
-        </label>
-        <label class="photo-field" for="photoWeightAfter">⚖️ Вес ПОСЛЕ, кг
-          <input id="photoWeightAfter" type="number" min="0.1" step="0.01" inputmode="decimal" placeholder="Например, 95,6" aria-label="Вес на фото ПОСЛЕ в килограммах">
-        </label>
-        <div id="photoWeightStatus" class="photo-weight-status warning" role="status" aria-live="polite">Заполните оба значения для итога марафона</div>
+      <p class="photo-weight-hint">⚖️ Вес ДО и ПОСЛЕ автоматически берётся из карточки участника выше — вводить его повторно не нужно.</p>
+      <div class="photo-weight-status warning" id="photoWeightStatus" role="status" aria-live="polite">Укажите оба значения веса в карточке участника.</div>
+      <div class="privacy-options">
+        <label class="privacy-option"><input type="checkbox" id="hideFace"> Скрыть лицо на фотографиях</label>
+        <label class="privacy-option"><input type="checkbox" id="hideName"> Скрыть имя и фамилию в коллаже</label>
+      </div>
+      <div id="faceControls" class="face-controls" hidden>
+        <p class="photo-weight-hint">🔒 Перетащите маску на лицо на каждом фото. Проверьте результат перед отправкой: автоматического распознавания лица нет.</p>
+        <label for="maskSize">Размер маски: <output id="maskSizeValue">45%</output></label>
+        <input id="maskSize" type="range" min="25" max="85" value="45" step="1">
       </div>
       <label class="photo-field" for="photoReview">Ваш отзыв <span aria-hidden="true">*</span><textarea id="photoReview" placeholder="Напишите ваш отзыв о марафоне: что изменилось и какие результаты получили" rows="3" required aria-required="true"></textarea></label>
       <div class="crop-editor" id="cropEditor" hidden>
         <div class="crop-title">✂️ Подгони фотографии по размеру</div>
-        <p class="crop-help">Оба кадра одинаковые. Передвигай фото пальцем и увеличивай масштаб, чтобы голова и плечи оказались примерно на одной высоте. Пунктирные линии помогут сравнить.</p>
+        <p class="crop-help">Фотографии займут почти весь коллаж. Передвигайте и масштабируйте изображение. При скрытии лица передвиньте отдельную маску на лицо на КАЖДОЙ фотографии.</p>
         <div class="crop-pair">
           <div class="crop-side">
             <div class="crop-side-title">ДО</div>
-            <div class="crop-frame"><canvas id="cropBefore" width="504" height="708" aria-label="Подвинуть и увеличить фотографию ДО"></canvas><div class="crop-guides" aria-hidden="true"></div></div>
+            <div class="crop-frame"><canvas id="cropBefore" width="504" height="708" aria-label="Подвинуть и увеличить фотографию ДО"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragBefore" class="mask-drag" hidden><span>Лицо скрыто</span></div></div>
             <label class="crop-zoom-label" for="zoomBefore">Масштаб ДО <output id="zoomBeforeValue">100%</output></label>
             <input class="crop-slider" id="zoomBefore" type="range" min="1" max="3.5" step=".01" value="1">
             <button type="button" class="crop-reset" id="resetBefore">↺ Сбросить ДО</button>
           </div>
           <div class="crop-side">
             <div class="crop-side-title">ПОСЛЕ</div>
-            <div class="crop-frame"><canvas id="cropAfter" width="504" height="708" aria-label="Подвинуть и увеличить фотографию ПОСЛЕ"></canvas><div class="crop-guides" aria-hidden="true"></div></div>
+            <div class="crop-frame"><canvas id="cropAfter" width="504" height="708" aria-label="Подвинуть и увеличить фотографию ПОСЛЕ"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragAfter" class="mask-drag" hidden><span>Лицо скрыто</span></div></div>
             <label class="crop-zoom-label" for="zoomAfter">Масштаб ПОСЛЕ <output id="zoomAfterValue">100%</output></label>
             <input class="crop-slider" id="zoomAfter" type="range" min="1" max="3.5" step=".01" value="1">
             <button type="button" class="crop-reset" id="resetAfter">↺ Сбросить ПОСЛЕ</button>
@@ -322,13 +355,13 @@
           <button class="crop-edit-again" id="editCrop" type="button">✂️ Подправить кадры</button>
           <button type="button" class="photo-remove collage-remove" id="removeCollage" aria-label="Удалить коллаж и очистить обе фотографии" title="Удалить коллаж и обе фотографии">✕</button>
         </div>
-        <canvas class="collage-preview" id="collagePreview" width="1200" height="1450" aria-label="Предварительный просмотр коллажа до и после с весом и итогом марафона"></canvas>
+        <canvas class="collage-preview" id="collagePreview" width="1200" height="1530" aria-label="Большой коллаж ДО и ПОСЛЕ с итогом марафона"></canvas>
       </div>
       <div class="action-buttons">
         <button class="action-btn main" id="sharePhotos" type="button" disabled>📲 Отправить коллаж Виктории</button>
         <button class="action-btn light" id="downloadCollage" type="button" disabled>📥 Скачать коллаж</button>
       </div>
-      <p class="share-hint" id="shareStatus" aria-live="polite">Выберите фото ДО и ПОСЛЕ, укажите оба значения веса и создайте коллаж. Кнопка «Отправить коллаж Виктории» открывает сразу её чат WhatsApp, как отправка звёзд. Коллаж сохраняется отдельным файлом: прикрепите его через «+» в чате и нажмите «Отправить». WhatsApp не разрешает сайту автоматически прикреплять фото. Фото не загружаются на сайт.</p>
+      <p class="share-hint" id="shareStatus" aria-live="polite">Выберите фотографии, заполните данные участника и отзыв, настройте кадры и сохраните коллаж. Если скрываете лицо, проверьте положение маски. Фотографии обрабатываются только на вашем устройстве и не загружаются на сайт.</p>
     </div>
   </section>
 
