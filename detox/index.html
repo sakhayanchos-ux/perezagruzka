@@ -373,19 +373,19 @@
 <script>
 (function(){
   'use strict';
-  const STORAGE_KEY = 'slim_marathon_nov2026_stars_v1';
-  const EVENT_STORAGE_PREFIX = 'slim_marathon_nov2026_evt_';
+  const STORAGE_KEY = 'novogodniy_detox_2026_stars_v1';
+  const EVENT_STORAGE_PREFIX = 'novogodniy_detox_2026_evt_';
   const VICTORIA_PHONE = '79247611616';
   const DATES = [];
   const DAYS = [];
   const WEEKDAYS = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
-  for(let t=Date.UTC(2026,9,19);t<=Date.UTC(2026,10,8);t+=86400000){
+  for(let t=Date.UTC(2026,10,16);t<=Date.UTC(2026,11,8);t+=86400000){
     const d = new Date(t);
     DATES.push(String(d.getUTCDate()).padStart(2,'0')+'.'+String(d.getUTCMonth()+1).padStart(2,'0'));
     DAYS.push(WEEKDAYS[d.getUTCDay()]);
   }
   const OLD_DATES=Array.from({length:11},(_,i)=>String(i+1).padStart(2,'0')+'.11');
-  const isTrainingDay = i => DAYS[i]==='Ср' || DAYS[i]==='Пт';
+  const isTrainingDay = i => DAYS[i]==='Ср';
   const ACTIVITIES = [
     {key:'vp',short:'Каждый 1 VP (объём)',title:'Каждый 1 VP (балл объёма)',points:1,type:'num'},
     {key:'dinner',short:'Ужин вечерним коктейлем',title:'Ужин вечерним коктейлем',points:1,type:'check'},
@@ -398,19 +398,18 @@
     {key:'turbo',short:'Турбо-напиток',title:'Турбо-напиток',points:3,type:'check'},
     {key:'story',short:'Статус / сторис с отметкой консультанта',title:'Статус или сторис с отметкой консультанта',points:3,type:'check'},
     {key:'repost',short:'Друг сделал репост статуса',title:'Друг сделал репост готового статуса (количество)',points:3,type:'num'},
-    {key:'offline',short:'Привести друга на офлайн-мероприятие',title:'Привести друга на офлайн-мероприятие (количество)',points:5,type:'num'},
-    {key:'training',short:'Посещение онлайн-тренировки',title:'Посещение онлайн-тренировки',points:5,type:'check'},
+    {key:'training',short:'Онлайн-тренировка (среда)',title:'Онлайн-тренировка по средам',points:5,type:'check'},
     {key:'hiber',short:'День Хибера',title:'День Хибера',points:5,type:'check'},
     {key:'reels',short:'Рилс по теме проекта',title:'Рилс по теме проекта',points:5,type:'check'},
     {key:'sub10',short:'10-дневный абонемент',title:'10-дневный абонемент',points:10,type:'check'},
     {key:'diagnostic',short:'Друг на диагностике состава тела',title:'Друг на диагностике состава тела (количество)',points:10,type:'num'},
     {key:'homeClient',short:'Домашний клиент или месячный абонемент',title:'Домашний клиент или месячный абонемент (количество)',points:20,type:'num'}
   ];
-  const EVENT_POINTS = {miss:20,missFriends:20,photo:30,ambassador:50,graduation:30,vip300:30,vip500:50};
-  const EVENT_LABELS = {miss:'Мисс Herbalife (01.11)',missFriends:'Друзья на Мисс Herbalife (01.11)',photo:'Фото до/после + отзыв (до 11.11)',ambassador:'Амбассадор (до 11.11)',graduation:'Выпускной (11.11)',vip300:'VIP 300 — Байкал (до 31.10)',vip500:'VIP 500 — Забугор-2 (до 31.10)'};
+  const EVENT_POINTS = {corporate:30,friend:30,ambassador:50,photo:30,vip300:30,vip500:50,baikal:100};
+  const EVENT_LABELS = {corporate:'Корпоратив + выпускной (до 25.11)',friend:'За друга (до 25.11)',ambassador:'Стать амбассадором (до 06.12)',photo:'Фото ДО/ПОСЛЕ + отзыв (до 08.12)',vip300:'VIP 300 (до 30.11)',vip500:'VIP 500 (до 30.11)',baikal:'Промо Байкал: 500 очков + 3 НП (до 30.11)'};
   const EVENT_IDS = Object.keys(EVENT_POINTS);
-  const PROFILE_IDS = ['pName','pConsultant','pDiscount','pStartWeight','pEndWeight'];
-  const PROFILE_STORAGE = {pName:'silk_v11_name',pConsultant:'silk_v11_cons',pDiscount:'silk_v11_disc',pStartWeight:'silk_v11_ws',pEndWeight:'silk_v11_we'};
+  const PROFILE_IDS = ['pLastName','pName','pConsultant','pDiscount','pStartWeight','pEndWeight'];
+  const PROFILE_STORAGE = {pLastName:'detox2026_last',pName:'detox2026_first',pConsultant:'detox2026_cons',pDiscount:'detox2026_discount',pStartWeight:'detox2026_ws',pEndWeight:'detox2026_we'};
   const $ = id => document.getElementById(id);
   const get = key => {try{return localStorage.getItem(key)}catch(e){return null}};
   const set = (key,value) => {try{localStorage.setItem(key,String(value))}catch(e){}};
@@ -434,43 +433,35 @@
   }
   let tableData = DATES.map(emptyDay);
   function load(){
-    const stored = get(STORAGE_KEY);
-    // VIP 300 and VIP 500 were formerly daily tasks. Transfer any prior ticks only once.
-    const oldVip={vip300:false,vip500:false};
+    const stored=get(STORAGE_KEY);
     if(stored){
       try{
-        const parsed = JSON.parse(stored);
+        const parsed=JSON.parse(stored);
         if(Array.isArray(parsed.table)){
-          for(const oldDay of parsed.table){
-            if(oldDay?.vip300===true)oldVip.vip300=true;
-            if(oldDay?.vip500===true)oldVip.vip500=true;
-          }
-          // Keep an untouched copy on this phone in case the old information is needed.
-          if((oldVip.vip300||oldVip.vip500)&&!get('slim_marathon_nov2026_before_vip_move_v1')){
-            set('slim_marathon_nov2026_before_vip_move_v1',stored);
-          }
-          const savedDates=Array.isArray(parsed.dates)&&parsed.dates.length===parsed.table.length
-            ?parsed.dates:(parsed.table.length===11?OLD_DATES:DATES);
-          const savedByDate=new Map(savedDates.map((d,i)=>[String(d).replace('🎓',''),parsed.table[i]]));
+          const dates=Array.isArray(parsed.dates)&&parsed.dates.length===parsed.table.length?parsed.dates:DATES;
+          const byDate=new Map(dates.map((d,i)=>[d,parsed.table[i]]));
           tableData=DATES.map(date=>{
-            const day=emptyDay();
-            const old=savedByDate.get(date)||{};
-            ACTIVITIES.forEach(item=>{day[item.key]=normalise(item,old[item.key])});
+            const day=emptyDay(),old=byDate.get(date)||{};
+            ACTIVITIES.forEach(item=>day[item.key]=normalise(item,old[item.key]));
             return day;
           });
         }
-      }catch(e){}
+      }catch(err){console.warn('Ошибка восстановления трекера',err)}
     }
-    PROFILE_IDS.forEach(id=>{$(id).value=get(PROFILE_STORAGE[id]) || ''});
+    PROFILE_IDS.forEach(id=>{$(id).value=get(PROFILE_STORAGE[id])||''});
     syncPhotoWeightInputs();
     EVENT_IDS.forEach(id=>{
       const el=$(id);
-      if(el.type==='checkbox')el.checked=get(EVENT_STORAGE_PREFIX+id)==='true'||oldVip[id]===true;
+      if(el.type==='checkbox')el.checked=get(EVENT_STORAGE_PREFIX+id)==='true';
       else{
         const count=normalise({type:'num'},get(EVENT_STORAGE_PREFIX+id));
-        el.value=count>0?String(count):'';
+        el.value=count?String(count):'';
       }
     });
+    $('hideFace').checked=get('detox2026_privacy_face')==='true';
+    $('hideName').checked=get('detox2026_privacy_name')==='true';
+    $('maskSize').value=get('detox2026_mask_size')||'45';
+    updatePrivacy();
     renderTable();
     calc();
   }
@@ -580,7 +571,7 @@
     const daily=byDay.reduce((sum,v)=>sum+v,0);
     const events=eventTotal();
     const weight=getWeightStars();
-    const name=$('pName').value.trim()||'Участник';
+    const name=[$('pLastName').value.trim(),$('pName').value.trim()].filter(Boolean).join(' ')||'Участник';
     const consultant=$('pConsultant').value.trim()||'Не указан';
     return {name,consultant,discount:$('pDiscount').value.trim(),daily,events,weight,total:daily+events+weight,byDay};
   }
@@ -592,8 +583,8 @@
       return v>0 ? '• '+EVENT_LABELS[id]+': '+v+' × '+EVENT_POINTS[id]+' = '+(v*EVENT_POINTS[id])+' ⭐' : '';
     }).filter(Boolean);
     return [
-      '⭐ ОТЧЁТ ПО ЗВЁЗДАМ · МАРАФОН СТРОЙНОСТИ',
-      'Период: 19 октября — 8 ноября 2026',
+      '⭐ ОТЧЁТ ПО ЗВЁЗДАМ · НОВОГОДНИЙ ДЕТОКС МАРАФОН',
+      'Период: 16 ноября — 8 декабря 2026',
       'Участник: '+r.name,
       'Консультант: '+r.consultant,
       'Скидка: '+(r.discount||'—'),
@@ -624,7 +615,7 @@
     const r=getReport();
     const esc=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
     const rows=[
-      ['Марафон стройности · 19 октября — 8 ноября 2026'],
+      ['Новогодний Детокс Марафон · 16 ноября — 8 декабря 2026'],
       ['Участник',r.name],
       ['Консультант',r.consultant],
       ['Скидка',r.discount],
@@ -650,9 +641,9 @@
     grad.addColorStop(0,'#fff8f1');grad.addColorStop(.55,'#ffe5eb');grad.addColorStop(1,'#f5b0c6');
     ctx.fillStyle=grad;ctx.fillRect(0,0,1000,1420);
     ctx.strokeStyle='#c59459';ctx.lineWidth=6;ctx.strokeRect(26,26,948,1368);
-    ctx.fillStyle='#a61b50';ctx.textAlign='center';ctx.font='bold 45px Georgia,serif';ctx.fillText('СОВМЕСТНЫЙ МАРАФОН',500,120);
-    ctx.fillStyle='#bc8645';ctx.font='bold 66px Georgia,serif';ctx.fillText('СТРОЙНОСТИ',500,205);
-    ctx.fillStyle='#83304c';ctx.font='30px Arial,sans-serif';ctx.fillText('Звёздный отчёт • 19 октября — 8 ноября 2026',500,260);
+    ctx.fillStyle='#a61b50';ctx.textAlign='center';ctx.font='bold 45px Georgia,serif';ctx.fillText('НОВОГОДНИЙ',500,120);
+    ctx.fillStyle='#bc8645';ctx.font='bold 66px Georgia,serif';ctx.fillText('ДЕТОКС МАРАФОН',500,205);
+    ctx.fillStyle='#83304c';ctx.font='30px Arial,sans-serif';ctx.fillText('Звёздный отчёт • 16 ноября — 8 декабря 2026',500,260);
     ctx.textAlign='left';ctx.font='bold 34px Arial,sans-serif';
     const clip=(v,n)=>v.length>n?v.slice(0,n-1)+'…':v;
     ctx.fillText('Участник: '+clip(r.name,30),90,352);
@@ -880,7 +871,7 @@
     roundedPath(c,24,24,W-48,H-48,46);c.stroke();
 
     c.textAlign='center';c.fillStyle='#a0184d';
-    c.font='bold 65px Georgia,serif';c.fillText('ПЕРЕЗАГРУЗКА',W/2,106);
+    c.font='bold 65px Georgia,serif';c.fillText('ДЕТОКС МАРАФОН',W/2,106);
     c.fillStyle='#9d4b67';c.font='bold 34px Arial,sans-serif';
     c.fillText('МОИ ИЗМЕНЕНИЯ · ДО И ПОСЛЕ',W/2,166);
     const name=$('pName').value.trim();
@@ -925,7 +916,7 @@
       c.fillText('Каждый шаг — это движение к цели ✨',W/2,1270);
     }
     c.textAlign='center';c.fillStyle='#a42356';c.font='bold 27px Arial,sans-serif';
-    c.fillText('МАРАФОН СТРОЙНОСТИ · 2026',W/2,1394);
+    c.fillText('НОВОГОДНИЙ ДЕТОКС МАРАФОН · 2026',W/2,1394);
   }
   function canvasPng(canvas){
     return new Promise((resolve,reject)=>{
@@ -1015,7 +1006,7 @@
       paintCollage(canvas,loadedPhotoImages[0],loadedPhotoImages[1]);
       const blob=await canvasPng(canvas);
       if(version!==collageVersion)return;
-      const filename='perezagruzka_do_posle_'+getReport().name.replace(/[^a-zA-Zа-яА-ЯёЁ0-9_-]+/g,'_').slice(0,40)+'.png';
+      const filename='detox_do_posle_'+getReport().name.replace(/[^a-zA-Zа-яА-ЯёЁ0-9_-]+/g,'_').slice(0,40)+'.png';
       collageReady={blob,filename};
       $('cropEditor').hidden=true;
       $('collageBox').hidden=false;
@@ -1069,7 +1060,7 @@
       +'Участник: '+report.name+'\n'
       +'Консультант: '+report.consultant
       +'\nМой отзыв: '+review
-      +'\nМарафон «Перезагрузка».\n'
+      +'\nНовогодний Детокс Марафон.\n'
       +'Коллаж прикреплю отдельной фотографией.';
     // Use the exact same wa.me direct-chat mechanism as "Отправить звёзды Виктории".
     // WhatsApp click-to-chat URLs do not support attaching local image files.
