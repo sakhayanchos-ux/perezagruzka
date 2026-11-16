@@ -206,6 +206,8 @@
   .photos-panel{background:#f9fcf7;border-color:#d3e1cf}
   .collage-preview-box{background:#fbfdfa;border-color:#d5e1d0}
   @media(max-width:520px){.privacy-options{grid-template-columns:1fr}.mask-drag{font-size:.57rem}}
+  .crop-frame{aspect-ratio:590/930}
+  .collage-preview{border-radius:8px}
 </style>
 </head>
 <body>
@@ -333,14 +335,14 @@
         <div class="crop-pair">
           <div class="crop-side">
             <div class="crop-side-title">ДО</div>
-            <div class="crop-frame"><canvas id="cropBefore" width="504" height="708" aria-label="Подвинуть и увеличить фотографию ДО"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragBefore" class="mask-drag" hidden><span>Лицо скрыто</span></div></div>
+            <div class="crop-frame"><canvas id="cropBefore" width="504" height="792" aria-label="Подвинуть и увеличить фотографию ДО"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragBefore" class="mask-drag" hidden><span>Лицо скрыто</span></div></div>
             <label class="crop-zoom-label" for="zoomBefore">Масштаб ДО <output id="zoomBeforeValue">100%</output></label>
             <input class="crop-slider" id="zoomBefore" type="range" min="1" max="3.5" step=".01" value="1">
             <button type="button" class="crop-reset" id="resetBefore">↺ Сбросить ДО</button>
           </div>
           <div class="crop-side">
             <div class="crop-side-title">ПОСЛЕ</div>
-            <div class="crop-frame"><canvas id="cropAfter" width="504" height="708" aria-label="Подвинуть и увеличить фотографию ПОСЛЕ"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragAfter" class="mask-drag" hidden><span>Лицо скрыто</span></div></div>
+            <div class="crop-frame"><canvas id="cropAfter" width="504" height="792" aria-label="Подвинуть и увеличить фотографию ПОСЛЕ"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragAfter" class="mask-drag" hidden><span>Лицо скрыто</span></div></div>
             <label class="crop-zoom-label" for="zoomAfter">Масштаб ПОСЛЕ <output id="zoomAfterValue">100%</output></label>
             <input class="crop-slider" id="zoomAfter" type="range" min="1" max="3.5" step=".01" value="1">
             <button type="button" class="crop-reset" id="resetAfter">↺ Сбросить ПОСЛЕ</button>
@@ -707,6 +709,54 @@
   const crops=[{zoom:1,x:0,y:0},{zoom:1,x:0,y:0}];
   let loadedPhotoFiles=[null,null];
   let loadedPhotoImages=[null,null];
+  // Opaque privacy masks are manually positioned; no face recognition or image alteration.
+  const maskPositions=[{x:.5,y:.25},{x:.5,y:.25}];
+  function updateMaskOverlay(index){
+    const el=$(index===0?'maskDragBefore':'maskDragAfter');
+    const enabled=$('hideFace').checked;
+    el.hidden=!enabled;
+    const size=(Number($('maskSize').value)||45)/100;
+    const pos=maskPositions[index];
+    el.style.left=(pos.x*100)+'%';
+    el.style.top=(pos.y*100)+'%';
+    el.style.width=(size*100)+'%';
+  }
+  function updatePrivacy(){
+    const enabled=$('hideFace').checked;
+    $('faceControls').hidden=!enabled;
+    $('maskSizeValue').textContent=$('maskSize').value+'%';
+    updateMaskOverlay(0);
+    updateMaskOverlay(1);
+    set('detox2026_privacy_face',String(enabled));
+    set('detox2026_privacy_name',String($('hideName').checked));
+    set('detox2026_mask_size',$('maskSize').value);
+  }
+  function setupMaskDrag(index){
+    const el=$(index===0?'maskDragBefore':'maskDragAfter');
+    const frame=el.parentElement;
+    let pointer=null;
+    el.addEventListener('pointerdown',e=>{
+      if(!$('hideFace').checked)return;
+      e.preventDefault();
+      pointer=e.pointerId;
+      el.setPointerCapture(pointer);
+    });
+    el.addEventListener('pointermove',e=>{
+      if(pointer!==e.pointerId)return;
+      e.preventDefault();
+      const r=frame.getBoundingClientRect();
+      if(!r.width||!r.height)return;
+      const radiusX=(Number($('maskSize').value)||45)/200;
+      const radiusY=radiusX*r.width/r.height;
+      maskPositions[index].x=Math.max(radiusX,Math.min(1-radiusX,(e.clientX-r.left)/r.width));
+      maskPositions[index].y=Math.max(radiusY,Math.min(1-radiusY,(e.clientY-r.top)/r.height));
+      updateMaskOverlay(index);
+    });
+    const up=e=>{if(pointer===e.pointerId)pointer=null};
+    el.addEventListener('pointerup',up);
+    el.addEventListener('pointercancel',up);
+    el.addEventListener('lostpointercapture',up);
+  }
   function cropBounds(img,index,w,h){
     const z=crops[index].zoom;
     const scale=Math.max(w/img.naturalWidth,h/img.naturalHeight)*z;
@@ -739,6 +789,8 @@
   function drawBothCropPreviews(){
     drawCropPreview(0);
     drawCropPreview(1);
+    updateMaskOverlay(0);
+    updateMaskOverlay(1);
   }
   function resetCrop(index){
     crops[index]={zoom:1,x:0,y:0};
