@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Новогодний Детокс Марафон — звёздный трекер</title>
+  
+  <link rel="manifest" href="./manifest.webmanifest?v=1">
+  <link rel="icon" type="image/svg+xml" href="../app-icon.svg?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="../app-icon.png?v=2">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Детокс Марафон">
+  <meta name="theme-color" content="#A61852">
+  
+  <style>
+  :root { --wine:#831e40;--berry:#bc2158;--pink:#ed78a0;--blush:#ffe4e9;--cream:#fff7ef;--gold:#bf8642;--goldlight:#f3cf91;--ink:#55223b; }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;padding:18px 10px 36px;color:var(--ink);line-height:1.42;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:radial-gradient(ellipse at 0% 1%,#f7afc5 0,transparent 42%),
+    radial-gradient(ellipse at 100% 33%,#fff4e4 0,transparent 44%),
+    radial-gradient(ellipse at 3% 95%,#ed94b2 0,transparent 42%),
+    linear-gradient(145deg,#ffe2e8,#fdf3ed 38%,#f9bfd0 100%);min-height:100vh}
+  body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.24;background:
+    repeating-linear-gradient(133deg,transparent 0,transparent 118px,rgba(255,255,255,.52) 122px,transparent 154px);
+    mask-image:linear-gradient(to bottom,#000,transparent 76%)}
+  .container{position:relative;max-width:920px;margin:0 auto}
+  .hero,.section,.total-box{position:relative;overflow:hidden;border:1px solid rgba(189,132,66,.65);box-shadow:0 9px 28px rgba(121,43,75,.12)}
+  .hero{border-radius:27px;padding:26px 18px 22px;text-align:center;background:
+    radial-gradient(ellipse at 95% -18%,rgba(255,255,255,.96),transparent 61%),
+    radial-gradient(ellipse at 0 95%,rgba(233,69,123,.25),transparent 58%),
+    linear-gradient(138deg,#fff8f0,#ffe3e8 55%,#fac5d8)}
+  .hero:before,.hero:after{content:"";position:absolute;border:1px solid rgba(191,134,66,.38);border-radius:50%;pointer-events:none}
+  .hero:before{width:420px;height:160px;transform:rotate(-20deg);top:-98px;right:-170px;box-shadow:0 0 0 24px rgba(248,172,193,.12)}
+  .hero:after{width:370px;height:135px;transform:rotate(29deg);bottom:-107px;left:-125px;box-shadow:0 0 0 20px rgba(255,255,255,.23)}
+  .eyebrow{position:relative;z-index:1;color:var(--wine);font-size:.8rem;font-weight:650;letter-spacing:.35em;text-transform:uppercase}
+  .hero h1{position:relative;z-index:1;margin:8px auto 4px;max-width:880px;font-family:Georgia,"Times New Roman",serif;
+    font-size:clamp(2rem,8vw,4.8rem);font-weight:700;line-height:.98;letter-spacing:-.055em;color:var(--berry);text-shadow:0 2px 0 rgba(255,255,255,.64)}
+  .hero h1 span{display:block;color:var(--gold);font-size:.83em;letter-spacing:-.045em}
+  .subhead{position:relative;z-index:1;display:inline-block;margin:12px auto 8px;padding:7px 17px;color:var(--wine);letter-spacing:.19em;
+    text-transform:uppercase;font-weight:600;font-size:.74rem;border-radius:99px;background:rgba(255,212,221,.7);border:1px solid #f5bfce}
+  .hero-bottom{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px 16px;margin-top:5px;font-size:.83rem}
+  .hero-bottom strong{color:var(--wine)}
+  .hero-price{background:linear-gradient(135deg,#9b1749,#cc3567);color:#fff6e9;padding:8px 17px;border:1px solid var(--goldlight);border-radius:50px;box-shadow:0 3px 10px #9b174933}
+  .section{background:rgba(255,250,248,.94);border-radius:24px;padding:18px;margin:13px 0}
+  .section-title{font-weight:800;font-size:1.03rem;letter-spacing:.04em;color:var(--wine);margin:0 0 13px;padding-bottom:10px;border-bottom:1px solid #eab6b7}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:9px}
+  .field{display:flex;flex:1 1 180px;flex-direction:column;gap:5px}
+  label,.special-label{font-weight:650;font-size:.8rem;color:var(--wine)}
+  input,select{background:#fffaf8;color:var(--ink);border:1px solid #e7bdbe;border-radius:12px;font:inherit;font-size:.91rem;padding:10px 12px;max-width:100%;min-width:0}
+  .field input{width:100%}
+  input:focus-visible{outline:3px solid #ee91b7;outline-offset:1px;border-color:var(--berry)}
+  input[type="checkbox"]{accent-color:var(--berry);width:19px;height:19px;cursor:pointer}
+  .weight-block{background:linear-gradient(115deg,#fff0e9,#ffe5ec);border:1px solid #f0c6c6;border-radius:16px;padding:13px}
+  .weight-row{display:flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:7px}
+  .weight-row input{width:95px;font-size:.93rem}
+  .weight-row strong{color:var(--wine);font-size:.83rem}
+  .weight-result{display:inline-block;margin:3px 0;padding:8px 10px;border-radius:12px;font-weight:800;color:#971d52;background:#fff9f0;font-size:.89rem}
+  .reward-guide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:16px}
+  .reward-card{padding:10px 11px;background:linear-gradient(155deg,#fff7f6,#ffe9ef);border:1px solid #f0c3c5;border-radius:16px}
+  .reward-card:last-child{grid-column:1 / -1}
+  .drink-examples{margin:0 0 12px;padding:10px 12px;color:#82304f;font-size:.82rem;line-height:1.5;background:#fff1ec;border:1px solid #e9c3bc;border-radius:12px}
+  .reward-score{font-family:Georgia,serif;color:var(--berry);font-size:1.9rem;font-weight:700;line-height:1.1;white-space:nowrap}
+  .reward-list{margin-top:5px;color:#722944;font-size:.76rem;line-height:1.47;overflow-wrap:anywhere}
+  .table-container{width:100%;overflow-x:auto;border:1px solid #e8b8b8;border-radius:13px;overscroll-behavior-x:contain;scrollbar-color:#c84078 #ffe4eb}
+  table{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;font-size:.75rem}
+  th,td{border-right:1px solid #f0d5d4;border-bottom:1px solid #f0d5d4;text-align:center;min-width:81px;padding:7px 5px}
+  th{position:sticky;top:0;z-index:1;background:linear-gradient(145deg,#971d4e,#ca3c73);color:#fff4e6;font-size:.72rem;line-height:1.18;white-space:normal}
+  th small{display:block;margin-top:4px;color:#ffe6b3;font-size:.7rem}
+  .table-container th.task-head{min-width:145px;max-width:166px;width:156px;white-space:normal;vertical-align:middle;padding:10px 8px;overflow-wrap:break-word;hyphens:auto}
+  .task-label{display:block;line-height:1.25;font-size:.81rem;font-weight:750}
+  @media(max-width:520px){.table-container th.task-head{min-width:130px;max-width:145px;width:138px;padding:10px 6px}.task-label{font-size:.77rem}}
+  tbody tr:nth-child(even) td{background:#fff0f2}
+  tbody tr:nth-child(odd) td{background:#fffbf8}
+  .sticky-col,.sticky-col2{position:sticky;z-index:3;min-width:72px;width:72px;left:0;background:#fff8f4!important;font-weight:750;color:var(--wine)}
+  .sticky-col2{z-index:3;left:72px;min-width:55px;width:55px}
+  th.sticky-col,th.sticky-col2{z-index:5;background:var(--wine)!important;color:white}
+  td input[type="number"]{width:68px;text-align:center;padding:7px 4px;border-radius:7px;font-size:.86rem}
+  /* Light guidance only: no number is saved or counted until participant enters one. */
+  .table-container input[type="number"]::placeholder,
+  .special-row input[type="number"]::placeholder{color:#b8a8ad;opacity:1;font-weight:400}
+  td input[type="checkbox"]{width:19px;height:19px}
+  .note{margin:9px 0 0;color:#98516c;font-size:.76rem}
+  .special-block{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .special-row{display:flex;align-items:center;flex-wrap:wrap;gap:9px;border:1px solid #f2cbd0;border-radius:12px;background:#fff2f3;padding:10px}
+  .event-date{display:inline-flex;padding:4px 7px;border:1px solid #e7babb;border-radius:40px;background:#fff9f4;color:#a32b59;font-size:.71rem;font-weight:800;white-space:nowrap}
+  .special-row .special-label{flex:1 1 150px}
+  .special-row span:last-child{color:var(--berry);font-weight:800;white-space:nowrap}
+  .special-row input[type="number"]{width:65px;text-align:center;padding:7px}
+  .special-row.friend-event-row{display:grid;grid-template-columns:max-content minmax(0,1fr) 55px 51px;align-items:center;column-gap:7px;flex-wrap:nowrap}
+  .friend-event-row .special-label{min-width:0;flex:none;overflow-wrap:break-word}
+  .special-row.friend-event-row input[type="number"]{width:55px;min-width:0;padding:7px 3px;justify-self:end}
+  .friend-event-row span:last-child{justify-self:end;white-space:nowrap;text-align:right}
+  .total-box{text-align:center;margin:16px 0;padding:22px 16px;border-radius:24px;color:#fff7e7;background:
+    radial-gradient(ellipse at 90% 0,rgba(255,225,177,.24),transparent 42%),
+    linear-gradient(135deg,#921c4c,#c82d64 56%,#7f214a)}
+  .total-box:after{content:"✦";position:absolute;right:7%;top:14%;font-size:3rem;color:#ffd99a;opacity:.8}
+  .total-label{color:#ffebd2;font-size:.87rem;letter-spacing:.17em;font-weight:750}
+  .total-value{font-family:Georgia,serif;font-size:clamp(3rem,12vw,5rem);line-height:1.1;font-weight:700}
+  .footer{text-align:center;color:#8b4560;font-size:.74rem;margin:19px 8px}
+  .footer a{color:#9e2356;font-weight:700}
+  @media(min-width:700px){.hero{padding:35px 32px}.section{padding:23px}.reward-guide{grid-template-columns:repeat(3,minmax(0,1fr))}.reward-card:last-child{grid-column:auto}}
+  @media(max-width:520px){body{padding:8px 7px 28px}.hero{padding:24px 10px 20px;border-radius:20px}.section{padding:13px 10px;border-radius:19px;margin:10px 0}.special-block{grid-template-columns:1fr}
+    .reward-card{padding:9px}.reward-score{font-size:1.7rem}.reward-list{font-size:.72rem}.sticky-col{min-width:64px;width:64px}.sticky-col2{min-width:49px;width:49px;left:64px}th,td{min-width:76px}}
+
+  .prize-strip{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:7px;flex-basis:100%;margin-top:5px}
+  .prize-pill{display:inline-flex;align-items:center;gap:5px;padding:7px 10px;color:#8e2c57;background:rgba(255,249,245,.84);border:1px solid #d9ad81;border-radius:30px;font-size:.73rem;font-weight:750}
+  .prize-icon{height:24px;width:24px;flex:none;color:#a22b5e}
+  @media(max-width:520px){.prize-pill{padding:5px 7px;font-size:.66rem}.prize-icon{height:20px;width:20px}}
+  .hero-win{flex-basis:100%;font-weight:750;color:#992451;line-height:1.42;max-width:620px;margin:5px auto 0;padding:9px 14px;border-radius:16px;background:rgba(255,248,239,.75);border:1px solid #eebba8}
+  .share-section p{margin:0 0 13px}
+  .share-text,.share-hint{color:#8f4967;font-size:.83rem;line-height:1.5}
+  .action-buttons{display:flex;flex-wrap:wrap;gap:10px;margin:11px 0}
+  .action-btn{display:inline-flex;align-items:center;justify-content:center;flex:1 1 190px;min-height:46px;cursor:pointer;padding:11px 14px;border-radius:14px;text-decoration:none;text-align:center;font-size:.87rem;font-weight:750;line-height:1.3;border:1px solid #d7a56b;font-family:inherit;box-shadow:0 3px 9px rgba(131,30,64,.08)}
+  .action-btn.main{background:linear-gradient(120deg,#9a194b,#ca3267);color:#fff8f0}
+  .action-btn.light{background:#fff3ef;color:#9d2454}
+  .action-btn:focus-visible{outline:3px solid #ec70a1;outline-offset:2px}
+  .photos-panel{background:linear-gradient(135deg,#fff3ef,#ffe9f1);border:1px solid #f0c8cb;padding:14px;border-radius:18px;margin-top:18px}
+  .photos-title{font-weight:800;color:var(--wine);margin-bottom:10px}
+  .photo-weight-hint{margin:10px 0 12px;color:#89546c;font-size:.79rem;line-height:1.45}
+  .collage-weight-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:12px;margin:11px 0;background:#fffaf8;border:1px solid #e5b8c6;border-radius:14px}
+  .collage-weight-fields .photo-field{margin:0}
+  .collage-weight-fields input{width:100%;margin-top:5px;min-width:0;background:white;font-size:1rem;text-align:center;font-weight:750}
+  .photo-weight-status{grid-column:1/-1;font-weight:800;font-size:.86rem;text-align:center;color:#992552;margin-top:2px}
+  .photo-weight-status.warning{color:#ac4f5b}
+  .photo-weight-status strong{font-size:1.1rem;color:#a72254}
+  .photo-inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+  .photo-field{display:block;min-width:0;margin-bottom:9px;font-size:.83rem;color:var(--wine);font-weight:700}
+  .photo-field input[type=file],.photo-field textarea{display:block;width:100%;margin-top:6px;max-width:none;padding:9px;background:white;border-radius:10px}
+  .photo-field input[type=file]{font-size:.75rem}
+  .photo-field textarea{font-family:inherit;font-size:.9rem;resize:vertical}
+  .share-hint{margin:11px 0 0!important}
+  .collage-preview-box{margin:12px 0 6px;background:#fff9f6;border:1px solid #e3b6af;border-radius:16px;padding:11px}
+  .crop-editor{margin:13px 0;padding:13px 10px 15px;background:linear-gradient(145deg,#fffaf7,#ffe9ef);border:1px solid #dfb1aa;border-radius:17px}
+  .crop-editor[hidden]{display:none!important}
+  .crop-title{font-weight:800;font-size:1.02rem;color:#992653;text-align:center}
+  .crop-help,.crop-note{font-size:.79rem;color:#885268;line-height:1.5;margin:7px 2px 12px}
+  .crop-note{text-align:center;margin:9px 2px 0}
+  .crop-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .crop-side{min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:5px}
+  .crop-side-title{font-weight:800;font-size:.86rem;text-align:center;color:#ab2c60}
+  .crop-frame{position:relative;width:100%;aspect-ratio:504/708;background:#fff7f3;border:2px solid #c89a68;overflow:hidden;border-radius:11px;touch-action:none}
+  .crop-frame canvas{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+  .crop-frame canvas:active{cursor:grabbing}
+  .crop-guides{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,transparent 27%,rgba(255,255,255,.72) 27%,rgba(255,255,255,.72) 27.5%,transparent 27.5%,transparent 70%,rgba(255,255,255,.7) 70%,rgba(255,255,255,.7) 70.5%,transparent 70.5%);filter:drop-shadow(0 1px 1px rgba(100,30,50,.3))}
+  .crop-zoom-label{font-weight:750;font-size:.72rem;color:#853850;display:flex;justify-content:space-between;gap:3px}
+  .crop-zoom-label output{color:#b52361}
+  .crop-slider{width:100%;padding:0;accent-color:#bb2963;height:29px;cursor:pointer}
+  .crop-reset,.crop-edit-again{font-family:inherit;font-weight:750;font-size:.76rem;color:#9d2458;border:1px solid #e5bbc0;background:#fff8f6;border-radius:10px;padding:8px 7px;cursor:pointer}
+  .crop-edit-again{margin-left:auto;white-space:nowrap}
+  .crop-apply{width:100%;margin-top:13px}
+  @media(max-width:520px){.crop-editor{padding:11px 7px}.crop-pair{gap:7px}.crop-zoom-label{font-size:.68rem}.crop-edit-again{font-size:.69rem;padding:7px 5px}}
+  
+  .collage-preview-box[hidden]{display:none!important}
+  .collage-heading{font-size:.86rem;color:#942853;font-weight:800;min-width:0}
+  .collage-heading-row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 9px}
+  .photo-slot{min-width:0}
+  .file-picker-row{display:flex;align-items:center;gap:7px;min-width:0}
+  .file-picker-row input[type="file"]{flex:1;min-width:0;margin-top:0}
+  .photo-remove{display:inline-flex;align-items:center;justify-content:center;flex:0 0 40px;width:40px;height:40px;border:1px solid #e3a2b5;border-radius:11px;background:#fff5f4;color:#a21f50;font-size:1.3rem;font-weight:750;cursor:pointer;line-height:1}
+  .photo-remove[hidden]{display:none!important}
+  .photo-remove:focus-visible{outline:3px solid #d35082;outline-offset:2px}
+  .photo-remove:active{background:#f9dce7}
+  .collage-remove{flex:0 0 38px;width:38px;height:38px}
+  @media(max-width:520px){.file-picker-row input[type="file"]{font-size:.72rem}.photo-remove{flex-basis:39px;width:39px;height:39px}}
+  .collage-preview{display:block;width:100%;height:auto;border-radius:11px;border:1px solid #e9bcbd;box-shadow:0 4px 12px rgba(98,30,62,.11)}
+  .action-btn:disabled{cursor:default;opacity:.52;box-shadow:none}
+  @media(max-width:520px){.photo-inputs{grid-template-columns:1fr}.action-btn{flex-basis:100%}}
+
+
+  .prize-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;flex-basis:100%;width:100%;max-width:640px;margin:10px auto 5px}
+  .prize-item{min-width:0;display:flex;flex-direction:column;justify-content:space-between;align-items:center;overflow:hidden;background:linear-gradient(145deg,#fffaf6,#fff2f2);border:1.5px solid #d3a06b;border-radius:17px;padding:10px 6px 11px;box-shadow:0 3px 11px rgba(155,55,94,.08)}
+  .prize-image{display:block;width:100%;height:145px;object-fit:contain;object-position:center;filter:drop-shadow(0 5px 4px rgba(110,36,58,.15))}
+  .prize-label{font-size:.84rem;color:#8f2756;font-weight:800;line-height:1.2;text-align:center;margin-top:4px}
+  @media(max-width:520px){.prize-gallery{gap:6px}.prize-item{padding:6px 3px 8px;border-radius:13px}.prize-image{height:102px}.prize-label{font-size:.72rem}}
+  
+  /* Calm winter palette: pine green, ivory and restrained gold */
+  :root{--wine:#164932;--berry:#246546;--pink:#9abd9e;--blush:#eff4ea;--cream:#fffdf8;--gold:#b4a17b;--goldlight:#e7d8af;--ink:#203d2e}
+  body{background:radial-gradient(ellipse at 0 0,#edf4ed,transparent 38%),linear-gradient(155deg,#fafdf9,#f4efe9 56%,#eaf3eb);color:#244333}
+  body:before{opacity:.08}
+  .hero{background:linear-gradient(145deg,#fffdf8,#edf5ed 60%,#e4efdf);border-color:#b6cdb2}
+  .hero:before,.hero:after{border-color:#c9d8c7}
+  .hero h1 span{color:#275e43}
+  .section{background:#fffdfa;border-color:#cfdfcf}
+  .section-title{color:#1b5e3f}
+  .total-box{background:linear-gradient(135deg,#184e34,#337959)}
+  .prize-gallery{margin-top:14px}
+  .prize-item{background:#f7faf5;border-color:#d5e1d0}
+  .prize-photo{display:block;flex:0 0 auto;width:min(100%,104px);aspect-ratio:1;background-image:url(data:image/webp;base64,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);background-repeat:no-repeat;background-size:300% 100%}
+  .prize-tv{background-position:left center}
+  .prize-projector{background-position:center center}
+  .prize-plates{background-position:right center}
+  @media(max-width:520px){.prize-photo{width:min(100%,95px)}}
+  .prize-label{color:#255940}
+  .offline-status{position:relative;z-index:1;margin:9px auto 0;padding:9px 12px;max-width:620px;border-radius:12px;border:1px solid #d5e7d6;background:rgba(255,255,255,.68);font-size:.74rem;line-height:1.4;color:#315b42}
+  .privacy-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0}
+  .privacy-option{display:flex;align-items:center;gap:8px;padding:11px;border-radius:12px;background:#f2f9ef;border:1px solid #cbdac9;color:#24553b;font-size:.82rem;font-weight:750;cursor:pointer}
+  .privacy-option input{accent-color:#275b43;flex:none;width:18px;height:18px}
+  .face-controls{padding:13px;border:1px solid #d0dbc9;background:#f6fbf2;border-radius:14px;margin-bottom:12px}
+  .face-controls[hidden],.mask-drag[hidden]{display:none!important}
+  .face-controls label{font-size:.78rem;font-weight:750;color:#28533f}
+  .face-controls input{display:block;width:100%;accent-color:#306a49;margin:8px 0}
+  .mask-drag{position:absolute;left:50%;top:26%;width:45%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:#244935;box-shadow:0 0 0 3px rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;color:white;font-size:.69rem;font-weight:800;line-height:1.2;text-align:center;touch-action:none;cursor:grab;z-index:3;padding:3px;user-select:none}
+  .crop-guides{pointer-events:none}
+  .photo-weight-status{padding:9px 12px;background:#f2f7ef;border-radius:11px;margin:7px 0;color:#225e3d}
+  .photo-weight-status.warning{color:#a35f40}
+  .photos-panel{background:#f9fcf7;border-color:#d3e1cf}
+  .collage-preview-box{background:#fbfdfa;border-color:#d5e1d0}
+  @media(max-width:520px){.privacy-options{grid-template-columns:1fr}.mask-drag{font-size:.57rem}}
+  .face-controls select{width:100%;margin:5px 0 12px;padding:9px 12px;border:1px solid #c4d9c6;border-radius:10px;background:#fffdf7;color:#28533f;font-size:1rem}
+  .mask-drag{container-type:inline-size;border-radius:28%;background:#ffe17b;box-shadow:0 0 0 3px rgba(255,255,255,.92),0 2px 9px #1d4b3240;overflow:hidden}
+  .mask-drag span{display:block;font-size:85cqw;line-height:1;white-space:nowrap;pointer-events:none}
+  /* On narrow phones show each photo full-width, not two tiny thumbnails. */
+  /* Large export preview reaches the edges of the panel. */
+  .collage-preview-box{padding:7px}
+  @media(max-width:520px){.collage-preview-box{padding:4px;border-radius:11px}.collage-preview{border-radius:6px}}
+  .collage-preview{border-radius:8px}
+  .field-full-name{flex:2 1 280px}
+  .holiday-snow{position:absolute;z-index:1;pointer-events:none;color:#679578;opacity:.38;font-family:Georgia,serif}
+  .snow-left{top:12px;left:20px;font-size:30px}
+  .snow-right{top:15px;right:26px;font-size:26px}
+  @media(max-width:520px){.snow-left{left:9px}.snow-right{right:10px}}
+</style>
+  <!-- Crisp original cutouts; stored on the same site, not external image hosts -->
+  <link rel="stylesheet" href="./prizes-hq.css?v=20261116-3">
+</head>
+<body>
+
+<div class="container">
+  <header class="hero">
+    <span class="holiday-snow snow-left" aria-hidden="true">❄</span>
+    <span class="holiday-snow snow-right" aria-hidden="true">✦</span>
+    <h1>НОВОГОДНИЙ <span>ДЕТОКС МАРАФОН</span></h1>
+    <div class="subhead">⭐ Звёздная система</div>
+    <div class="hero-bottom">
+      <span><strong>Личный трекер</strong> · 16 ноября — 6 декабря 2026</span>
+      <div class="prize-gallery" aria-label="Главные призы марафона">
+        <div class="prize-item"><span class="prize-photo prize-tv" role="img" aria-label="Мобильный Smart TV на колёсах"></span><span class="prize-label">Smart TV<br>на колёсах</span></div>
+        <div class="prize-item"><span class="prize-photo prize-projector" role="img" aria-label="Проектор"></span><span class="prize-label">Проектор</span></div>
+        <div class="prize-item"><span class="prize-photo prize-plates" role="img" aria-label="Набор новогодней посуды"></span><span class="prize-label">Новогодний<br>набор посуды</span></div>
+      </div>
+      <div class="hero-win">✨ Собирайте звёзды! Все отметки автоматически сохраняются на этом устройстве.</div>
+      
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="section-title">👤 УЧАСТНИК</div>
+    <div class="row">
+      <div class="field field-full-name"><label for="pFullName">👤 Фамилия и имя</label><input type="text" id="pFullName" autocomplete="name" placeholder="Введите фамилию и имя"></div>
+      <div class="field"><label for="pConsultant">👩‍💼 Консультант</label><input type="text" id="pConsultant" placeholder="Имя консультанта"></div>
+      <div class="field"><label for="pDiscount">💰 Скидка</label><input type="text" id="pDiscount" placeholder="%"></div>
+    </div>
+    <div class="weight-block">
+      <div class="weight-row">
+        <strong>⚖️ Вес ДО:</strong>
+        <input type="number" id="pStartWeight" min="0" placeholder="кг" step="0.1" aria-label="Начальный вес">
+        <strong>→ Вес ПОСЛЕ:</strong>
+        <input type="number" id="pEndWeight" min="0" placeholder="кг" step="0.1" aria-label="Конечный вес">
+        <span class="weight-result" id="weightResult">⭐ 0 за снижение веса</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">⭐ ЗВЁЗДНАЯ СИСТЕМА</div>
+    <div class="reward-guide">
+      <div class="reward-card"><div class="reward-score">1 ★</div><div class="reward-list">Каждый 1 VP · каждые −300 г · ужин вечерним коктейлем · выпечка из продукта · Герби-напитки · Zoom с отзывом · друг на Zoom</div></div>
+      <div class="reward-card"><div class="reward-score">3 ★</div><div class="reward-list">Турбо-напиток · сторис с отметкой консультанта · репост друга</div></div>
+      <div class="reward-card"><div class="reward-score">5 ★</div><div class="reward-list">Онлайн-тренировка по средам · день Хибера · Reels о проекте</div></div>
+      <div class="reward-card"><div class="reward-score">10 ★</div><div class="reward-list">10-дневный абонемент · друг на диагностике состава тела</div></div>
+      <div class="reward-card"><div class="reward-score">20 ★</div><div class="reward-list">Домашний клиент (алоэ, чай, коктейль) или месячный абонемент в клуб</div></div>
+    </div>
+    <div class="section-title">📅 ЕЖЕДНЕВНЫЙ ТРЕКЕР</div>
+    <p class="drink-examples">🥤 <strong>Герби-напитки:</strong> кофе Гербалайф, коллагеновый лимонад, детокс, ЛифтОфф и другие напитки. В колонке укажи количество напитков — за каждый 1 ⭐.</p>
+    <div class="table-container" role="region" aria-label="Таблица звёзд по дням">
+      <table>
+        <thead><tr id="tableHead"><th class="sticky-col">Дата</th><th class="sticky-col2">День</th></tr></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+    <div class="note">↔️ Прокручивайте таблицу влево и вправо. 🧘 Онлайн-тренировка только по средам — 1 раз в неделю; в остальные дни галочек нет. ✅ Галочка — выполнено, 🔢 число — количество. Звёзды подсчитываются автоматически.</div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">🎉 ОСОБЫЕ СОБЫТИЯ</div>
+    <div class="special-block">
+      <label class="special-row"><span class="event-date">до 25.11</span><span class="special-label">🎪 Корпоратив + выпускной (оплатить участие)</span><input type="checkbox" id="corporate"><span>30 ⭐</span></label>
+      <label class="special-row friend-event-row"><span class="event-date">до 25.11</span><span class="special-label">👭 За друга (оплатившего участие)</span><input type="number" min="0" step="1" inputmode="numeric" id="friend" placeholder="0" aria-label="Количество друзей, оплативших участие"><span>30 ⭐</span></label>
+      <label class="special-row"><span class="event-date">до 06.12</span><span class="special-label">👑 Стать амбассадором</span><input type="checkbox" id="ambassador"><span>50 ⭐</span></label>
+      <label class="special-row"><span class="event-date">до 08.12</span><span class="special-label">📸 Фото ДО/ПОСЛЕ + отзыв</span><input type="checkbox" id="photo"><span>30 ⭐</span></label>
+    
+        <label class="special-row"><span class="event-date">до 30.11</span><span class="special-label">💎 VIP 300</span><input type="checkbox" id="vip300"><span>30 ⭐</span></label>
+        <label class="special-row"><span class="event-date">до 30.11</span><span class="special-label">💎 VIP 500</span><input type="checkbox" id="vip500"><span>50 ⭐</span></label>
+        <label class="special-row"><span class="event-date">до 30.11</span><span class="special-label">❄️ Промо Байкал <small style="display:block">500 очков + 3 НП</small></span><input type="checkbox" id="baikal"><span>100 ⭐</span></label>
+    </div>
+  </section>
+
+  <div class="total-box">
+    <div class="total-label">⭐ ВСЕГО ЗВЁЗД</div>
+    <div class="total-value" id="totalPoints">0</div>
+  </div>
+
+
+  <section class="section share-section">
+    <div class="section-title">📤 ВЫГРУЗКА ЗВЁЗД И ОТЧЁТОВ</div>
+    <p class="share-text">Заполняйте таблицу — итог пересчитывается автоматически. Готовый отчёт можно сохранить или отправить Виктории.</p>
+    <div class="action-buttons">
+      <button class="action-btn light" id="downloadStars" type="button">📥 Выгрузить звёзды (таблица)</button>
+      <button class="action-btn light" id="downloadCard" type="button">🖼️ Скачать карточку звёзд</button>
+      <button class="action-btn main" id="sendStars" type="button">📲 Отправить звёзды Виктории</button>
+    </div>
+    <div class="photos-panel">
+      <div class="photos-title">📸 Большой коллаж ДО / ПОСЛЕ</div>
+      <div class="photo-inputs">
+        <div class="photo-slot">
+          <label class="photo-field" for="beforePhoto">Фото ДО</label>
+          <div class="file-picker-row">
+            <input type="file" accept="image/*" id="beforePhoto" aria-label="Выбрать фото ДО">
+            <button type="button" class="photo-remove" id="removeBefore" aria-label="Удалить фото ДО" title="Удалить фото ДО" hidden>✕</button>
+          </div>
+        </div>
+        <div class="photo-slot">
+          <label class="photo-field" for="afterPhoto">Фото ПОСЛЕ</label>
+          <div class="file-picker-row">
+            <input type="file" accept="image/*" id="afterPhoto" aria-label="Выбрать фото ПОСЛЕ">
+            <button type="button" class="photo-remove" id="removeAfter" aria-label="Удалить фото ПОСЛЕ" title="Удалить фото ПОСЛЕ" hidden>✕</button>
+          </div>
+        </div>
+      </div>
+      <p class="photo-weight-hint">⚖️ Вес ДО и ПОСЛЕ автоматически берётся из карточки участника выше — вводить его повторно не нужно.</p>
+      <div class="photo-weight-status warning" id="photoWeightStatus" role="status" aria-live="polite">Укажите оба значения веса в карточке участника.</div>
+      <div class="privacy-options">
+        <label class="privacy-option"><input type="checkbox" id="hideFace"> Скрыть лицо на фотографиях</label>
+        <label class="privacy-option"><input type="checkbox" id="hideName"> Скрыть имя и фамилию в коллаже</label>
+      </div>
+      <div id="faceControls" class="face-controls" hidden>
+        <p class="photo-weight-hint">😊 Передвиньте смайлик на лицо на каждой фотографии. Проверьте оба кадра: лица автоматически не распознаются.</p>
+        <label for="faceEmoji">Смайлик для скрытия лица</label>
+        <select id="faceEmoji" aria-label="Выберите смайлик"><option value="😊">😊 Улыбка</option><option value="😍">😍 Глаза-сердечки</option></select>
+        <label for="maskSize">Размер смайлика: <output id="maskSizeValue">45%</output></label>
+        <input id="maskSize" type="range" min="25" max="85" value="45" step="1">
+      </div>
+      <label class="photo-field" for="photoReview">Ваш отзыв <span aria-hidden="true">*</span><textarea id="photoReview" placeholder="Напишите ваш отзыв о марафоне: что изменилось и какие результаты получили" rows="3" required aria-required="true"></textarea></label>
+      <div class="crop-editor" id="cropEditor" hidden>
+        <div class="crop-title">✂️ Подгони фотографии по размеру</div>
+        <p class="crop-help">Оба кадра одинаковые, как в марафоне «Перезагрузка». Передвигайте их пальцем и меняйте масштаб, чтобы фигура была хорошо видна. Для скрытия лица установите смайлик на каждом фото.</p>
+        <div class="crop-pair" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-width:430px;margin-inline:auto">
+          <div class="crop-side">
+            <div class="crop-side-title">ДО</div>
+            <div class="crop-frame" style="aspect-ratio:504/708;max-width:190px"><canvas id="cropBefore" width="504" height="708" aria-label="Подвинуть и увеличить фотографию ДО"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragBefore" class="mask-drag" hidden aria-label="Перетащить смайлик на лицо ДО"><span aria-hidden="true">😊</span></div></div>
+            <label class="crop-zoom-label" for="zoomBefore">Масштаб ДО <output id="zoomBeforeValue">100%</output></label>
+            <input class="crop-slider" id="zoomBefore" type="range" min="1" max="3.5" step=".01" value="1">
+            <button type="button" class="crop-reset" id="resetBefore">↺ Сбросить ДО</button>
+          </div>
+          <div class="crop-side">
+            <div class="crop-side-title">ПОСЛЕ</div>
+            <div class="crop-frame" style="aspect-ratio:504/708;max-width:190px"><canvas id="cropAfter" width="504" height="708" aria-label="Подвинуть и увеличить фотографию ПОСЛЕ"></canvas><div class="crop-guides" aria-hidden="true"></div><div id="maskDragAfter" class="mask-drag" hidden aria-label="Перетащить смайлик на лицо ПОСЛЕ"><span aria-hidden="true">😊</span></div></div>
+            <label class="crop-zoom-label" for="zoomAfter">Масштаб ПОСЛЕ <output id="zoomAfterValue">100%</output></label>
+            <input class="crop-slider" id="zoomAfter" type="range" min="1" max="3.5" step=".01" value="1">
+            <button type="button" class="crop-reset" id="resetAfter">↺ Сбросить ПОСЛЕ</button>
+          </div>
+        </div>
+        <button type="button" class="action-btn main crop-apply" id="applyCrop">✓ Готово, создать коллаж</button>
+        <p class="crop-note">Кадрируются только края фото. Внешность, пропорции лица и сами изображения не изменяются.</p>
+      </div>
+      <div class="collage-preview-box" id="collageBox" hidden>
+        <div class="collage-heading-row">
+          <div class="collage-heading">✨ Ваш готовый коллаж</div>
+          <button class="crop-edit-again" id="editCrop" type="button">✂️ Подправить кадры</button>
+          <button type="button" class="photo-remove collage-remove" id="removeCollage" aria-label="Удалить коллаж и очистить обе фотографии" title="Удалить коллаж и обе фотографии">✕</button>
+        </div>
+        <canvas class="collage-preview" id="collagePreview" width="1200" height="1530" aria-label="Большой коллаж ДО и ПОСЛЕ с итогом марафона"></canvas>
+      </div>
+      <div class="action-buttons">
+        <button class="action-btn main" id="sharePhotos" type="button" disabled>📲 Отправить коллаж Виктории</button>
+        <button class="action-btn light" id="downloadCollage" type="button" disabled>📥 Скачать коллаж</button>
+      </div>
+      <p class="share-hint" id="shareStatus" aria-live="polite">Выберите фотографии, заполните данные участника и отзыв, настройте кадры и сохраните коллаж. Если скрываете лицо, проверьте положение маски. Фотографии обрабатываются только на вашем устройстве и не загружаются на сайт.</p>
+    </div>
+  </section>
+
+  <div class="footer">
+    © 2026 · Разработчик: Сахаяна Скрябина · <a href="https://wa.me/message/TD45SYRF66AEK1" target="_blank">📞 WhatsApp</a>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  const STORAGE_KEY = 'novogodniy_detox_2026_stars_v1';
+  const EVENT_STORAGE_PREFIX = 'novogodniy_detox_2026_evt_';
+  const VICTORIA_PHONE = '79247611616';
+  const DATES = [];
+  const DAYS = [];
+  const WEEKDAYS = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+  for(let t=Date.UTC(2026,10,16);t<=Date.UTC(2026,11,6);t+=86400000){
+    const d = new Date(t);
+    DATES.push(String(d.getUTCDate()).padStart(2,'0')+'.'+String(d.getUTCMonth()+1).padStart(2,'0'));
+    DAYS.push(WEEKDAYS[d.getUTCDay()]);
+  }
+  const OLD_DATES=Array.from({length:11},(_,i)=>String(i+1).padStart(2,'0')+'.11');
+  const isTrainingDay = i => DAYS[i]==='Ср';
+  const ACTIVITIES = [
+    {key:'vp',short:'Каждый 1 VP (объём)',title:'Каждый 1 VP (балл объёма)',points:1,type:'num'},
+    {key:'dinner',short:'Ужин вечерним коктейлем',title:'Ужин вечерним коктейлем',points:1,type:'check'},
+    {key:'bake',short:'Выпечка из продукта',title:'Выпечка из продукта',points:1,type:'check'},
+    {key:'drink',short:'Герби-напитки: кофе Гербалайф, коллагеновый лимонад, детокс, ЛифтОфф и т. д.',title:'Герби-напитки (кофе Гербалайф, коллагеновый лимонад, детокс, ЛифтОфф и т. д.) — укажи количество',points:1,type:'num'},
+    {key:'zoom',short:'Zoom 07:30 и отзыв',title:'Посещение утреннего Zoom в 07:30 и отзыв',points:1,type:'check'},
+    {key:'zoomFriend',short:'Друг на Zoom 07:30',title:'Друг подключился к утреннему Zoom в 07:30 (количество друзей)',points:1,type:'num'},
+    {key:'zoomEvening',short:'Zoom 20:00 и отзыв',title:'Посещение вечернего Zoom в 20:00 и отзыв',points:1,type:'check'},
+    {key:'zoomEveningFriend',short:'Друг на Zoom 20:00',title:'Друг подключился к вечернему Zoom в 20:00 (количество друзей)',points:1,type:'num'},
+    {key:'turbo',short:'Турбо-напиток',title:'Турбо-напиток',points:3,type:'check'},
+    {key:'story',short:'Статус / сторис с отметкой консультанта',title:'Статус или сторис с отметкой консультанта',points:3,type:'check'},
+    {key:'repost',short:'Друг сделал репост статуса',title:'Друг сделал репост готового статуса (количество)',points:3,type:'num'},
+    {key:'training',short:'Онлайн-тренировка (среда)',title:'Онлайн-тренировка по средам',points:5,type:'check'},
+    {key:'hiber',short:'День Хибера',title:'День Хибера',points:5,type:'check'},
+    {key:'reels',short:'Рилс по теме проекта',title:'Рилс по теме проекта',points:5,type:'check'},
+    {key:'sub10',short:'10-дневный абонемент',title:'10-дневный абонемент',points:10,type:'check'},
+    {key:'diagnostic',short:'Друг на диагностике состава тела',title:'Друг на диагностике состава тела (количество)',points:10,type:'num'},
+    {key:'homeClient',short:'Домашний клиент или месячный абонемент',title:'Домашний клиент или месячный абонемент (количество)',points:20,type:'num'}
+  ];
+  const EVENT_POINTS = {corporate:30,friend:30,ambassador:50,photo:30,vip300:30,vip500:50,baikal:100};
+  const EVENT_LABELS = {corporate:'Корпоратив + выпускной (до 25.11)',friend:'За друга — оплата участия (до 25.11)',ambassador:'Стать амбассадором (до 06.12)',photo:'Фото ДО/ПОСЛЕ + отзыв (до 08.12)',vip300:'VIP 300 (до 30.11)',vip500:'VIP 500 (до 30.11)',baikal:'Промо Байкал: 500 очков + 3 НП (до 30.11)'};
+  const EVENT_IDS = Object.keys(EVENT_POINTS);
+  const PROFILE_IDS = ['pFullName','pConsultant','pDiscount','pStartWeight','pEndWeight'];
+  const PROFILE_STORAGE = {pFullName:'detox2026_full_name',pConsultant:'detox2026_cons',pDiscount:'detox2026_discount',pStartWeight:'detox2026_ws',pEndWeight:'detox2026_we'};
+  const $ = id => document.getElementById(id);
+  const get = key => {try{return localStorage.getItem(key)}catch(e){return null}};
+  const set = (key,value) => {try{localStorage.setItem(key,String(value))}catch(e){}};
+  function normalise(item,value){
+    // Старые значения сторис сохраняем как числа, даже когда столбец стал галочкой.
+    // Так прежние начисления за несколько сторис не пропадут у участников.
+    if(item.key==='story'){
+      if(value===true)return 1;
+      if(value===false)return 0;
+      const oldCount=Number(value);
+      return Number.isFinite(oldCount)&&oldCount>0?Math.floor(oldCount):0;
+    }
+    if(item.type === 'check')return value === true;
+    const n = Number(value);
+    return Number.isFinite(n) && n > 0 ? Math.floor(n) : 0;
+  }
+  function emptyDay(){
+    const day = {};
+    ACTIVITIES.forEach(item => {day[item.key] = item.key==='story' ? 0 : (item.type === 'check' ? false : 0)});
+    return day;
+  }
+  let tableData = DATES.map(emptyDay);
+  function load(){
+    const stored=get(STORAGE_KEY);
+    if(stored){
+      try{
+        const parsed=JSON.parse(stored);
+        if(Array.isArray(parsed.table)){
+          const dates=Array.isArray(parsed.dates)&&parsed.dates.length===parsed.table.length?parsed.dates:DATES;
+          const byDate=new Map(dates.map((d,i)=>[d,parsed.table[i]]));
+          tableData=DATES.map(date=>{
+            const day=emptyDay(),old=byDate.get(date)||{};
+            ACTIVITIES.forEach(item=>day[item.key]=normalise(item,old[item.key]));
+            return day;
+          });
+        }
+      }catch(err){console.warn('Ошибка восстановления трекера',err)}
+    }
+    PROFILE_IDS.forEach(id=>{$(id).value=get(PROFILE_STORAGE[id])||''});
+    if(!$('pFullName').value.trim()){
+      const former=[get('detox2026_last'),get('detox2026_first')].map(v=>(v||'').trim()).filter(Boolean).join(' ');
+      if(former){$('pFullName').value=former;set(PROFILE_STORAGE.pFullName,former)}
+    }
+    syncPhotoWeightInputs();
+    EVENT_IDS.forEach(id=>{
+      const el=$(id);
+      if(el.type==='checkbox')el.checked=get(EVENT_STORAGE_PREFIX+id)==='true';
+      else{
+        const count=normalise({type:'num'},get(EVENT_STORAGE_PREFIX+id));
+        el.value=count?String(count):'';
+      }
+    });
+    $('hideFace').checked=get('detox2026_privacy_face')==='true';
+    $('hideName').checked=get('detox2026_privacy_name')==='true';
+    $('maskSize').value=get('detox2026_mask_size')||'45';
+    $('faceEmoji').value=get('detox2026_face_emoji')==='😍'?'😍':'😊';
+    updatePrivacy();
+    renderTable();
+    calc();
+  }
+  function save(){
+    set(STORAGE_KEY,JSON.stringify({version:2,dates:DATES,table:tableData}));
+    PROFILE_IDS.forEach(id=>set(PROFILE_STORAGE[id],$(id).value));
+    EVENT_IDS.forEach(id=>set(EVENT_STORAGE_PREFIX+id,$(id).type==='checkbox'?$(id).checked:$(id).value));
+  }
+  function renderTable(){
+    let header='';
+    ACTIVITIES.forEach(item=>{
+      header+='<th class="task-head" scope="col" title="'+item.title+'"><span class="task-label">'+item.short+'</span><small>'+item.points+' ⭐</small></th>';
+    });
+    $('tableHead').innerHTML='<th class="sticky-col" scope="col">Дата</th><th class="sticky-col2" scope="col">День</th>'+header;
+    let rows='';
+    tableData.forEach((day,i)=>{
+      rows+='<tr><td class="sticky-col">'+DATES[i]+'</td><td class="sticky-col2">'+DAYS[i]+'</td>';
+      ACTIVITIES.forEach(item=>{
+        const desc=item.title+' — '+item.points+' звезд за выполнение, день '+DATES[i];
+        rows+='<td>';
+        if(item.key==='training'&&!isTrainingDay(i)){
+          // No checkbox or placeholder outside Wednesday and Friday.
+        }else if(item.type==='check'){
+          rows+='<input type="checkbox" data-day="'+i+'" data-col="'+item.key+'" aria-label="'+desc+'" '+(day[item.key]?'checked':'')+'>';
+        }else{
+          rows+='<input type="number" min="0" step="1" inputmode="numeric" data-day="'+i+'" data-col="'+item.key+'" aria-label="'+desc+'" placeholder="0" value="'+(normalise(item,day[item.key])||'')+'" title="'+item.title+'">';
+        }
+        rows+='</td>';
+      });
+      rows+='</tr>';
+    });
+    $('tableBody').innerHTML=rows;
+  }
+  function calc(){
+    let total=0;
+    tableData.forEach((day,i)=>{
+      ACTIVITIES.forEach(item=>{
+        if(item.key==='training'&&!isTrainingDay(i))return;
+        const v=normalise(item,day[item.key]);
+        total+=item.points*(item.type==='check'&&item.key!=='story'?(v?1:0):v);
+      });
+    });
+    EVENT_IDS.forEach(id=>{
+      const el=$(id);
+      if(el.type==='checkbox'){if(el.checked)total+=EVENT_POINTS[id]}
+      else{total+=normalise({type:'num'},el.value)*EVENT_POINTS[id]}
+    });
+    let weightStars=0;
+    if($('pStartWeight').value!=='' && $('pEndWeight').value!==''){
+      const start=Number($('pStartWeight').value),end=Number($('pEndWeight').value);
+      if(Number.isFinite(start)&&Number.isFinite(end)&&start>0&&end>0&&end<start){
+        const grams=Math.round((start-end)*1000);
+        weightStars=Math.floor(grams/300);
+      }
+    }
+    total+=weightStars;
+    const weightDetail=collageWeightData();
+    $('weightResult').textContent=weightDetail.result
+      ?'⚖️ '+weightDetail.result+' за марафон · ⭐ '+weightStars+' за снижение веса'
+      :'⭐ '+weightStars+' за снижение веса';
+    $('totalPoints').textContent=String(total);
+    save();
+  }
+  function onTableChange(e){
+    const el=e.target;
+    if(!el || !el.dataset || !el.dataset.col)return;
+    const rowIndex=Number(el.dataset.day);
+    const item=ACTIVITIES.find(a=>a.key===el.dataset.col);
+    if(!item||!Number.isInteger(rowIndex)||rowIndex<0||rowIndex>=tableData.length)return;
+    if(item.key==='training'&&!isTrainingDay(rowIndex))return;
+    tableData[rowIndex][item.key]=normalise(item,item.type==='check'?el.checked:el.value);
+    if(e.type==='change'&&item.type==='num'&&tableData[rowIndex][item.key]===0)el.value='';
+    calc();
+  }
+  function bind(){
+    $('tableBody').addEventListener('input',onTableChange);
+    $('tableBody').addEventListener('change',onTableChange);
+    EVENT_IDS.forEach(id=>{
+      const el=$(id);
+      el.addEventListener(el.type==='checkbox'?'change':'input',calc);
+      if(el.type==='number')el.addEventListener('change',()=>{
+        if(normalise({type:'num'},el.value)===0)el.value='';
+        calc();
+      });
+    });
+    PROFILE_IDS.forEach(id=>$(id).addEventListener('input',calc));
+  }
+
+  function rowTotal(day,i){
+    return ACTIVITIES.reduce((sum,item)=>{
+      if(item.key==='training'&&!isTrainingDay(i))return sum;
+      const n=normalise(item,day[item.key]);
+      return sum+item.points*(item.type==='check'&&item.key!=='story'?(n?1:0):n);
+    },0);
+  }
+  function eventTotal(){
+    return EVENT_IDS.reduce((sum,id)=>{
+      const el=$(id);
+      const n=el.type==='checkbox'?(el.checked?1:0):normalise({type:'num'},el.value);
+      return sum+EVENT_POINTS[id]*n;
+    },0);
+  }
+  function getWeightStars(){
+    const start=Number($('pStartWeight').value),end=Number($('pEndWeight').value);
+    if(!$('pStartWeight').value||!$('pEndWeight').value||start<=0||end<=0||end>=start)return 0;
+    return Math.floor(Math.round((start-end)*1000)/300);
+  }
+  function getReport(){
+    const byDay=tableData.map((day,i)=>rowTotal(day,i));
+    const daily=byDay.reduce((sum,v)=>sum+v,0);
+    const events=eventTotal();
+    const weight=getWeightStars();
+    const name=$('pFullName').value.trim()||'Участник';
+    const consultant=$('pConsultant').value.trim()||'Не указан';
+    return {name,consultant,discount:$('pDiscount').value.trim(),daily,events,weight,total:daily+events+weight,byDay};
+  }
+  function reportText(){
+    const r=getReport();
+    const w=collageWeightData();
+    const eventLines=EVENT_IDS.map(id=>{
+      const el=$(id);
+      const v=el.type==='checkbox'?(el.checked?1:0):normalise({type:'num'},el.value);
+      return v>0 ? '• '+EVENT_LABELS[id]+': '+v+' × '+EVENT_POINTS[id]+' = '+(v*EVENT_POINTS[id])+' ⭐' : '';
+    }).filter(Boolean);
+    return [
+      '⭐ ОТЧЁТ ПО ЗВЁЗДАМ · НОВОГОДНИЙ ДЕТОКС МАРАФОН',
+      'Период: 16 ноября — 6 декабря 2026',
+      'Участник: '+r.name,
+      'Консультант: '+r.consultant,
+      'Скидка: '+(r.discount||'—'),
+      'По дням:',
+      ...DATES.map((date,i)=>date.replace('🎓','')+': '+r.byDay[i]+' ⭐'),
+      'Ежедневные задания: '+r.daily+' ⭐',
+      'Особые события: '+r.events+' ⭐',
+      ...(eventLines.length?eventLines:[]),
+      'Вес ДО: '+(w.start||'—'),
+      'Вес ПОСЛЕ: '+(w.end||'—'),
+      'Изменение веса за марафон: '+(w.result||'—'),
+      'Звёзды за снижение веса: '+r.weight+' ⭐',
+      'ИТОГО: '+r.total+' ⭐'
+    ].join('\n');
+  }
+  function saveBlob(blob,fileName){
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),15000);
+  }
+  function fileStem(){
+    const r=getReport();
+    return 'zvezdy_'+r.name.replace(/[^a-zA-Zа-яА-ЯёЁ0-9_-]+/g,'_').slice(0,40);
+  }
+  function exportCsv(){
+    const r=getReport();
+    const esc=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+    const rows=[
+      ['Новогодний Детокс Марафон · 16 ноября — 6 декабря 2026'],
+      ['Участник',r.name],
+      ['Консультант',r.consultant],
+      ['Скидка',r.discount],
+      ['Дата',...ACTIVITIES.map(a=>a.title),'Звёзд за день']
+    ];
+    tableData.forEach((day,i)=>{
+      rows.push([DATES[i].replace('🎓',''),...ACTIVITIES.map(a=>a.key==='training'&&!isTrainingDay(i)?'':day[a.key]),r.byDay[i]]);
+    });
+    const w=collageWeightData();
+    rows.push(['Ежедневные звёзды',r.daily],['События',r.events],
+      ['Вес ДО',w.start||''],['Вес ПОСЛЕ',w.end||''],
+      ['Изменение веса за марафон',w.result||''],
+      ['Звёзды за снижение веса',r.weight],['ИТОГО',r.total]);
+    EVENT_IDS.forEach(id=>{
+      const el=$(id);
+      rows.push([EVENT_LABELS[id],el.type==='checkbox'?(el.checked?'да':'нет'):el.value]);
+    });
+    const csv='\ufeff'+rows.map(row=>row.map(esc).join(';')).join('\r\n');
+    saveBlob(new Blob([csv],{type:'text/csv;charset=utf-8'}),fileStem()+'.csv');
+  }
+  function drawCard(){
+    const r=getReport();
+    const c=document.createElement('canvas');
+    c.width=1000;c.height=1420;
+    const ctx=c.getContext('2d');
+    const grad=ctx.createLinearGradient(0,0,1000,1420);
+    grad.addColorStop(0,'#fff8f1');grad.addColorStop(.55,'#ffe5eb');grad.addColorStop(1,'#f5b0c6');
+    ctx.fillStyle=grad;ctx.fillRect(0,0,1000,1420);
+    ctx.strokeStyle='#c59459';ctx.lineWidth=6;ctx.strokeRect(26,26,948,1368);
+    ctx.fillStyle='#a61b50';ctx.textAlign='center';ctx.font='bold 45px Georgia,serif';ctx.fillText('НОВОГОДНИЙ',500,120);
+    ctx.fillStyle='#bc8645';ctx.font='bold 66px Georgia,serif';ctx.fillText('ДЕТОКС МАРАФОН',500,205);
+    ctx.fillStyle='#83304c';ctx.font='30px Arial,sans-serif';ctx.fillText('Звёздный отчёт • 16 ноября — 6 декабря 2026',500,260);
+    ctx.textAlign='left';ctx.font='bold 34px Arial,sans-serif';
+    const clip=(v,n)=>v.length>n?v.slice(0,n-1)+'…':v;
+    ctx.fillText('Участник: '+clip(r.name,30),90,352);
+    ctx.font='29px Arial,sans-serif';ctx.fillText('Консультант: '+clip(r.consultant,31),90,408);
+    ctx.fillStyle='#fff9f6';ctx.fillRect(73,454,854,145);
+    ctx.fillStyle='#a61b50';ctx.textAlign='center';ctx.font='bold 84px Georgia,serif';ctx.fillText(r.total+' ★',500,561);
+    const w=collageWeightData();
+    ctx.textAlign='center';ctx.fillStyle='#286445';ctx.font='bold 26px Arial,sans-serif';
+    ctx.fillText('Вес ДО '+(w.start||'—')+'  →  ПОСЛЕ '+(w.end||'—')+'  ·  '+(w.result||'—'),500,633);
+    ctx.textAlign='left';ctx.fillStyle='#83304c';ctx.font='bold 29px Arial,sans-serif';ctx.fillText('ЗВЁЗДЫ ПО ДНЯМ',93,677);
+    ctx.font='24px Arial,sans-serif';
+    r.byDay.forEach((n,i)=>{
+      const x=[91,378,665][Math.floor(i/8)];
+      const y=730+(i%8)*59;
+      ctx.fillText(DATES[i]+'  —  '+n+' ★',x,y);
+    });
+    ctx.fillStyle='#9b1c53';ctx.fillRect(73,1248,854,85);
+    ctx.fillStyle='#fffaf0';ctx.textAlign='center';ctx.font='bold 28px Arial,sans-serif';
+    ctx.fillText('Задания '+r.daily+' ★   ·   События '+r.events+' ★   ·   Вес '+r.weight+' ★',500,1303);
+    c.toBlob(blob=>{if(blob)saveBlob(blob,fileStem()+'.png');else alert('Не удалось подготовить карточку. Попробуйте выгрузить таблицу.')},'image/png');
+  }
+  function whatsappUrl(text){
+    return 'https://wa.me/'+VICTORIA_PHONE+'?text='+encodeURIComponent(text);
+  }
+  function openWhatsApp(text){
+    const link=document.createElement('a');
+    link.href=whatsappUrl(text);
+    link.target='_blank';
+    link.rel='noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+  function sendStars(){
+    openWhatsApp(reportText()+'\n\nВиктория, проверьте, пожалуйста, мой результат ⭐');
+  }
+  // The photos never leave this device while the collage is being assembled.
+  let collageReady = null;
+  let collageVersion = 0;
+
+  function roundedPath(ctx,x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.lineTo(x+w-r,y);
+    ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+    ctx.lineTo(x+w,y+h-r);
+    ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    ctx.lineTo(x+r,y+h);
+    ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+    ctx.lineTo(x,y+r);
+    ctx.quadraticCurveTo(x,y,x+r,y);
+    ctx.closePath();
+  }
+  function photoFromFile(file){
+    return new Promise((resolve,reject)=>{
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = ()=>{URL.revokeObjectURL(url);resolve(img)};
+      img.onerror = ()=>{URL.revokeObjectURL(url);reject(new Error('Не удалось открыть изображение: '+file.name))};
+      img.src = url;
+    });
+  }
+  // Only geometric framing: no filters, face retouching, AI or distortion.
+  const crops=[{zoom:1,x:0,y:0},{zoom:1,x:0,y:0}];
+  let loadedPhotoFiles=[null,null];
+  let loadedPhotoImages=[null,null];
+  // Opaque privacy masks are manually positioned; no face recognition or image alteration.
+  const maskPositions=[{x:.5,y:.25},{x:.5,y:.25}];
+  function updateMaskOverlay(index){
+    const el=$(index===0?'maskDragBefore':'maskDragAfter');
+    const enabled=$('hideFace').checked;
+    el.hidden=!enabled;
+    const size=(Number($('maskSize').value)||45)/100;
+    const pos=maskPositions[index];
+    el.style.left=(pos.x*100)+'%';
+    el.style.top=(pos.y*100)+'%';
+    el.style.width=(size*100)+'%';
+    el.querySelector('span').textContent=$('faceEmoji').value==='😍'?'😍':'😊';
+  }
+  function updatePrivacy(){
+    const enabled=$('hideFace').checked;
+    $('faceControls').hidden=!enabled;
+    $('maskSizeValue').textContent=$('maskSize').value+'%';
+    updateMaskOverlay(0);
+    updateMaskOverlay(1);
+    set('detox2026_privacy_face',String(enabled));
+    set('detox2026_privacy_name',String($('hideName').checked));
+    set('detox2026_mask_size',$('maskSize').value);
+    set('detox2026_face_emoji',$('faceEmoji').value==='😍'?'😍':'😊');
+  }
+  function setupMaskDrag(index){
+    const el=$(index===0?'maskDragBefore':'maskDragAfter');
+    const frame=el.parentElement;
+    let pointer=null;
+    el.addEventListener('pointerdown',e=>{
+      if(!$('hideFace').checked)return;
+      e.preventDefault();
+      pointer=e.pointerId;
+      el.setPointerCapture(pointer);
+    });
+    el.addEventListener('pointermove',e=>{
+      if(pointer!==e.pointerId)return;
+      e.preventDefault();
+      const r=frame.getBoundingClientRect();
+      if(!r.width||!r.height)return;
+      const radiusX=(Number($('maskSize').value)||45)/200;
+      const radiusY=radiusX*r.width/r.height;
+      maskPositions[index].x=Math.max(radiusX,Math.min(1-radiusX,(e.clientX-r.left)/r.width));
+      maskPositions[index].y=Math.max(radiusY,Math.min(1-radiusY,(e.clientY-r.top)/r.height));
+      updateMaskOverlay(index);
+    });
+    const up=e=>{if(pointer===e.pointerId)pointer=null};
+    el.addEventListener('pointerup',up);
+    el.addEventListener('pointercancel',up);
+    el.addEventListener('lostpointercapture',up);
+  }
+  function cropBounds(img,index,w,h){
+    const z=crops[index].zoom;
+    const scale=Math.max(w/img.naturalWidth,h/img.naturalHeight)*z;
+    const iw=img.naturalWidth*scale,ih=img.naturalHeight*scale;
+    return {iw,ih,xLimit:Math.max(0,(iw-w)/2),yLimit:Math.max(0,(ih-h)/2)};
+  }
+  function paintPhoto(ctx,img,x,y,w,h,index){
+    const p=crops[index];
+    const b=cropBounds(img,index,w,h);
+    const shiftX=Math.min(b.xLimit,Math.max(-b.xLimit,p.x*w));
+    const shiftY=Math.min(b.yLimit,Math.max(-b.yLimit,p.y*h));
+    p.x=shiftX/w;p.y=shiftY/h;
+    ctx.save();
+    ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();
+    ctx.fillStyle='#fffaf7';ctx.fillRect(x,y,w,h);
+    ctx.drawImage(img,x+(w-b.iw)/2+shiftX,y+(h-b.ih)/2+shiftY,b.iw,b.ih);
+    ctx.restore();
+  }
+  function drawCropPreview(index){
+    const img=loadedPhotoImages[index];
+    if(!img)return;
+    const id=index===0?'cropBefore':'cropAfter';
+    const canvas=$(id),ctx=canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    paintPhoto(ctx,img,0,0,canvas.width,canvas.height,index);
+    const id2=index===0?'zoomBefore':'zoomAfter';
+    $(id2).value=String(crops[index].zoom);
+    $(id2+'Value').textContent=Math.round(crops[index].zoom*100)+'%';
+  }
+  function drawBothCropPreviews(){
+    drawCropPreview(0);
+    drawCropPreview(1);
+    updateMaskOverlay(0);
+    updateMaskOverlay(1);
+  }
+  function resetCrop(index){
+    crops[index]={zoom:1,x:0,y:0};
+    drawCropPreview(index);
+  }
+  function setCropZoom(index,newZoom){
+    crops[index].zoom=Math.min(3.5,Math.max(1,Number(newZoom)||1));
+    drawCropPreview(index);
+  }
+  function setupCropDrag(index){
+    const canvas=$(index===0?'cropBefore':'cropAfter');
+    const pointers=new Map();
+    let previous=null,pinch=null;
+    function distance(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+    canvas.addEventListener('pointerdown',e=>{
+      if(!loadedPhotoImages[index])return;
+      e.preventDefault();
+      canvas.setPointerCapture(e.pointerId);
+      pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      previous={x:e.clientX,y:e.clientY};
+      if(pointers.size===2){
+        const [a,b]=Array.from(pointers.values());
+        pinch={distance:Math.max(distance(a,b),1),zoom:crops[index].zoom};
+      }
+    });
+    canvas.addEventListener('pointermove',e=>{
+      if(!pointers.has(e.pointerId))return;
+      e.preventDefault();
+      const old=pointers.get(e.pointerId);
+      const now={x:e.clientX,y:e.clientY};
+      pointers.set(e.pointerId,now);
+      if(pointers.size===2){
+        if(!pinch){
+          const [a,b]=Array.from(pointers.values());
+          pinch={distance:Math.max(distance(a,b),1),zoom:crops[index].zoom};
+        }
+        const [a,b]=Array.from(pointers.values());
+        setCropZoom(index,pinch.zoom*distance(a,b)/pinch.distance);
+        return;
+      }
+      pinch=null;
+      const rect=canvas.getBoundingClientRect();
+      if(rect.width&&rect.height){
+        crops[index].x+=(now.x-old.x)/rect.width;
+        crops[index].y+=(now.y-old.y)/rect.height;
+        drawCropPreview(index);
+      }
+      previous=now;
+    });
+    function release(e){
+      pointers.delete(e.pointerId);
+      pinch=null;
+      if(pointers.size===1)previous=Array.from(pointers.values())[0];
+      else previous=null;
+    }
+    canvas.addEventListener('pointerup',release);
+    canvas.addEventListener('pointercancel',release);
+    canvas.addEventListener('lostpointercapture',release);
+  }
+  function wrapCaption(ctx,message,x,y,width,lineHeight,maxLines){
+    const words=message.trim().split(/\s+/).filter(Boolean);
+    const lines=[];
+    let line='';
+    for(const word of words){
+      const candidate=line?line+' '+word:word;
+      if(ctx.measureText(candidate).width>width&&line){
+        lines.push(line);
+        line=word;
+      }else{line=candidate}
+    }
+    if(line)lines.push(line);
+    for(let i=0;i<Math.min(lines.length,maxLines);i++){
+      let txt=lines[i];
+      if(i===maxLines-1&&lines.length>maxLines)txt=txt.replace(/[\s.,!?]+$/,'')+'…';
+      ctx.fillText(txt,x,y+i*lineHeight);
+    }
+  }
+  function collageWeightData(){
+    const parse=id=>{
+      const raw=String($(id)?.value||'').trim().replace(',','.');
+      if(!raw)return null;
+      const number=Number(raw);
+      return Number.isFinite(number)&&number>0?number:null;
+    };
+    const start=parse('pStartWeight'),end=parse('pEndWeight');
+    const fmt=n=>Number(n).toLocaleString('ru-RU',{maximumFractionDigits:2});
+    const delta=start!=null&&end!=null?Math.round((end-start)*100)/100:null;
+    return {
+      start:start==null?null:fmt(start)+' кг',
+      end:end==null?null:fmt(end)+' кг',
+      result:delta==null?null:(delta>0?'+':delta<0?'−':'')+fmt(Math.abs(delta))+' кг'
+    };
+  }
+  // Keep the photo-section fields and the participant profile weight fields in sync.
+  // The profile storage keys and all saved marathon stars remain unchanged.
+  function updatePhotoWeightStatus(){
+    const weights=collageWeightData();
+    const el=$('photoWeightStatus');
+    if(weights.start&&weights.end){
+      el.classList.remove('warning');
+      el.textContent='⚖️ ДО '+weights.start+' · ПОСЛЕ '+weights.end+' · ИТОГ '+weights.result;
+    }else{
+      el.classList.add('warning');
+      el.textContent='⚖️ Заполните вес ДО и ПОСЛЕ в карточке участника выше.';
+    }
+  }
+  function syncPhotoWeightInputs(){updatePhotoWeightStatus()}
+  function paintPrivacyMask(c,index,x,top,boxWidth,photoHeight){
+    if(!$('hideFace').checked)return;
+    const p=maskPositions[index];
+    const d=(Number($('maskSize').value)||45)/100*boxWidth;
+    const cx=x+p.x*boxWidth,cy=top+p.y*photoHeight;
+    const emoji=$('faceEmoji').value==='😍'?'😍':'😊';
+    c.save();
+    // Opaque rounded base ensures even transparent emoji pixels do not expose a face.
+    c.fillStyle='#ffe17b';
+    roundedPath(c,cx-d/2,cy-d/2,d,d,d*.30);
+    c.fill();
+    c.textAlign='center';
+    c.textBaseline='middle';
+    c.font=''+Math.round(d*.94)+'px "Apple Color Emoji","Segoe UI Emoji",sans-serif';
+    c.fillText(emoji,cx,cy+d*.02);
+    c.restore();
+  }
+  function paintCollage(canvas,before,after){
+    const c=canvas.getContext('2d');
+    const W=canvas.width,H=canvas.height;
+    c.clearRect(0,0,W,H);
+    c.fillStyle='#f5f8f1';
+    c.fillRect(0,0,W,H);
+    c.fillStyle='#214b37';c.fillRect(0,0,W,197);
+    c.fillStyle='#fffef7';c.textAlign='center';
+    c.font='bold 56px Georgia,serif';c.fillText('НОВОГОДНИЙ ДЕТОКС',W/2,68);
+    c.font='bold 28px Arial,sans-serif';c.fillText('МАРАФОН · ДО И ПОСЛЕ',W/2,110);
+    const fullName=$('pFullName').value.trim();
+    const displayedName=$('hideName').checked?'Участник марафона':(fullName||'Участник марафона');
+    c.font=(displayedName.length>34?'bold 27px':'bold 34px')+' Arial,sans-serif';
+    c.fillText(displayedName.slice(0,54),W/2,151);
+    const consultant=$('pConsultant').value.trim()||'Не указан';
+    c.font=(consultant.length>34?'22px':'26px')+' Arial,sans-serif';
+    c.fillStyle='#e1eadc';
+    c.fillText('Консультант: '+consultant.slice(0,48),W/2,181);
+    const weights=collageWeightData();
+    // Original photo proportions. Each image touches the center, divided by one thin line.
+    const top=206,photoHeight=1002,boxWidth=600,photoX=[0,600];
+    for(let i=0;i<2;i++){
+      const x=photoX[i];
+      c.save();
+      c.beginPath();c.rect(x,top,boxWidth,photoHeight);c.clip();
+      paintPhoto(c,i===0?before:after,x,top,boxWidth,photoHeight,i);
+      paintPrivacyMask(c,i,x,top,boxWidth,photoHeight);
+      c.fillStyle='rgba(23,67,48,.91)';
+      c.fillRect(x,top,boxWidth,74);
+      c.fillStyle='#fffdf7';c.textAlign='center';c.font='bold 39px Arial,sans-serif';
+      c.fillText(i===0?'ДО':'ПОСЛЕ',x+boxWidth/2,top+50);
+      c.fillStyle='rgba(23,67,48,.91)';
+      c.fillRect(x,top+photoHeight-85,boxWidth,85);
+      c.fillStyle='#fffdf7';c.font='bold 49px Georgia,serif';
+      c.fillText(i===0?weights.start:weights.end,x+boxWidth/2,top+photoHeight-26);
+      c.restore();
+    }
+    // One neat continuous 4px line, no empty gap between photos.
+    c.fillStyle='#fffdf7';
+    c.fillRect(W/2-2,top,4,photoHeight);
+    c.fillStyle='#edf4e9';c.fillRect(0,1208,W,322);
+    c.textAlign='center';c.fillStyle='#285c40';
+    c.font='bold 27px Arial,sans-serif';c.fillText('ИТОГ ЗА МАРАФОН',W/2,1260);
+    c.font='bold 72px Georgia,serif';c.fillText(weights.result||'—',W/2,1344);
+    c.fillStyle='#426a51';
+    const review=$('photoReview').value.trim();
+    c.font='27px Arial,sans-serif';
+    c.textAlign='left';
+    if(review)wrapCaption(c,'“'+review+'”',56,1403,W-112,37,3);
+    c.textAlign='center';c.font='bold 22px Arial,sans-serif';
+    c.fillText('НОВОГОДНИЙ ДЕТОКС МАРАФОН · 2026',W/2,1514);
+  }
+  function canvasPng(canvas){
+    return new Promise((resolve,reject)=>{
+      canvas.toBlob(blob=>blob?resolve(blob):reject(new Error('Не удалось сохранить коллаж')),'image/png');
+    });
+  }
+  function updatePhotoClearButtons(){
+    $('removeBefore').hidden=!$('beforePhoto').files.length;
+    $('removeAfter').hidden=!$('afterPhoto').files.length;
+  }
+  function removeSelectedPhoto(id){
+    $(id).value='';
+    prepareCollage();
+  }
+  function removeEntireCollage(){
+    $('beforePhoto').value='';
+    $('afterPhoto').value='';
+    $('photoReview').value='';
+    prepareCollage();
+    $('shareStatus').textContent='Коллаж и обе выбранные фотографии удалены. Вы можете выбрать новые фото.';
+  }
+  async function prepareCollage(){
+    const version=++collageVersion;
+    updatePhotoClearButtons();
+    collageReady=null;
+    $('sharePhotos').disabled=true;
+    $('downloadCollage').disabled=true;
+    $('collageBox').hidden=true;
+    const before=$('beforePhoto').files[0],after=$('afterPhoto').files[0];
+    if(!before||!after){
+      loadedPhotoFiles=[null,null];
+      loadedPhotoImages=[null,null];
+      $('cropEditor').hidden=true;
+      $('shareStatus').textContent='Выберите фото ДО и ПОСЛЕ, затем настройте кадры и создайте коллаж.';
+      return;
+    }
+    $('shareStatus').textContent='⏳ Загружаю фотографии для настройки кадра…';
+    try{
+      const files=[before,after];
+      const newImages=await Promise.all(files.map((file,i)=>
+        loadedPhotoFiles[i]===file&&loadedPhotoImages[i]
+          ?Promise.resolve(loadedPhotoImages[i]):photoFromFile(file)));
+      if(version!==collageVersion)return;
+      files.forEach((file,i)=>{
+        if(loadedPhotoFiles[i]!==file)crops[i]={zoom:1,x:0,y:0};
+      });
+      loadedPhotoFiles=files;
+      loadedPhotoImages=newImages;
+      drawBothCropPreviews();
+      $('cropEditor').hidden=false;
+      $('shareStatus').textContent='✂️ Передвиньте и увеличьте фото ДО и ПОСЛЕ, чтобы человек был одного размера, затем нажмите «Готово, создать коллаж».';
+      $('cropEditor').scrollIntoView({behavior:'smooth',block:'nearest'});
+    }catch(error){
+      if(version!==collageVersion)return;
+      loadedPhotoImages=[null,null];
+      $('cropEditor').hidden=true;
+      $('shareStatus').textContent='Не удалось открыть фото. Попробуйте выбрать JPG или PNG.';
+    }
+  }
+  async function applyCrop(){
+    if(!loadedPhotoImages[0]||!loadedPhotoImages[1])return;
+    const weight=collageWeightData();
+    if(!weight.start||!weight.end){
+      collageReady=null;
+      $('sharePhotos').disabled=true;
+      $('downloadCollage').disabled=true;
+      $('collageBox').hidden=true;
+      $('shareStatus').textContent='⚖️ Для коллажа укажите вес ДО и ПОСЛЕ в карточке участника наверху страницы.';
+      (!$('pStartWeight').value?$('pStartWeight'):$('pEndWeight')).focus();
+      return;
+    }
+    if(!$('photoReview').value.trim()){
+      collageReady=null;
+      $('sharePhotos').disabled=true;
+      $('downloadCollage').disabled=true;
+      $('collageBox').hidden=true;
+      $('shareStatus').textContent='✍️ Напишите ваш отзыв о марафоне — он обязателен для создания коллажа.';
+      $('photoReview').focus();
+      return;
+    }
+    const version=++collageVersion;
+    $('sharePhotos').disabled=true;
+    $('downloadCollage').disabled=true;
+    $('shareStatus').textContent='⏳ Создаю коллаж из выбранных кадров…';
+    try{
+      const canvas=$('collagePreview');
+      paintCollage(canvas,loadedPhotoImages[0],loadedPhotoImages[1]);
+      const blob=await canvasPng(canvas);
+      if(version!==collageVersion)return;
+      const filename='detox_do_posle_'+($('hideName').checked?'uchastnik':getReport().name.replace(/[^a-zA-Zа-яА-ЯёЁ0-9_-]+/g,'_').slice(0,40))+'.png';
+      collageReady={blob,filename};
+      $('cropEditor').hidden=true;
+      $('collageBox').hidden=false;
+      $('sharePhotos').disabled=false;
+      $('downloadCollage').disabled=false;
+      $('shareStatus').textContent='✅ Коллаж готов! Сохраните его или нажмите «Отправить коллаж Виктории»: откроется её WhatsApp, где нужно прикрепить скачанное изображение.';
+    }catch(error){
+      if(version!==collageVersion)return;
+      $('shareStatus').textContent='Не удалось собрать коллаж. Попробуйте ещё раз.';
+      $('cropEditor').hidden=false;
+    }
+  }
+  function reframePhotos(){
+    if(!loadedPhotoImages[0]||!loadedPhotoImages[1])return;
+    collageReady=null;
+    $('sharePhotos').disabled=true;
+    $('downloadCollage').disabled=true;
+    $('collageBox').hidden=true;
+    drawBothCropPreviews();
+    $('cropEditor').hidden=false;
+    $('cropEditor').scrollIntoView({behavior:'smooth',block:'nearest'});
+    $('shareStatus').textContent='✂️ Поправьте кадры и нажмите «Готово, создать коллаж».';
+  }
+  function refreshCollageContent(){
+    if(loadedPhotoImages[0]&&loadedPhotoImages[1]&&$('cropEditor').hidden)applyCrop();
+  }
+  function downloadCollage(){
+    if(!$('photoReview').value.trim()){
+      $('shareStatus').textContent='✍️ Для сохранения коллажа сначала напишите отзыв.';
+      $('photoReview').focus();
+      return;
+    }
+    if(!collageReady)return;
+    saveBlob(collageReady.blob,collageReady.filename);
+    $('shareStatus').textContent='Коллаж скачан. Теперь его можно отправить Виктории в WhatsApp.';
+  }
+  function sharePhotos(){
+    const status=$('shareStatus');
+    if(!$('photoReview').value.trim()){
+      status.textContent='✍️ Напишите отзыв о марафоне — он обязателен для отправки коллажа.';
+      $('photoReview').focus();
+      return;
+    }
+    if(!collageReady){
+      status.textContent='Сначала выберите обе фотографии и дождитесь готового коллажа.';
+      return;
+    }
+    const review=$('photoReview').value.trim();
+    const report=getReport();
+    const text='Здравствуйте, Виктория! Отправляю мой коллаж ДО / ПОСЛЕ.\n'
+      +'Участник: '+($('hideName').checked?'Имя скрыто':report.name)+'\n'
+      +'Консультант: '+report.consultant
+      +'\nМой отзыв: '+review
+      +'\nНовогодний Детокс Марафон.\n'
+      +'Коллаж прикреплю отдельной фотографией.';
+    // Use the exact same wa.me direct-chat mechanism as "Отправить звёзды Виктории".
+    // WhatsApp click-to-chat URLs do not support attaching local image files.
+    // Offer the generated image locally so the participant can attach it in that chat.
+    saveBlob(collageReady.blob,collageReady.filename);
+    status.textContent='Чат Виктории откроется в WhatsApp с готовым сообщением. Коллаж сохранён для прикрепления: добавьте его через «+» и подтвердите отправку. Если закрываете лицо, перед отправкой проверьте маски.';
+    openWhatsApp(text);
+  }
+  $('downloadStars').addEventListener('click',exportCsv);
+  $('downloadCard').addEventListener('click',drawCard);
+  $('sendStars').addEventListener('click',sendStars);
+  $('sharePhotos').addEventListener('click',sharePhotos);
+  $('downloadCollage').addEventListener('click',downloadCollage);
+  $('beforePhoto').addEventListener('change',prepareCollage);
+  setupCropDrag(0);
+  setupCropDrag(1);
+  $('zoomBefore').addEventListener('input',v=>setCropZoom(0,v.target.value));
+  $('zoomAfter').addEventListener('input',v=>setCropZoom(1,v.target.value));
+  $('resetBefore').addEventListener('click',()=>resetCrop(0));
+  $('resetAfter').addEventListener('click',()=>resetCrop(1));
+  $('applyCrop').addEventListener('click',applyCrop);
+  $('editCrop').addEventListener('click',reframePhotos);
+  $('removeBefore').addEventListener('click',()=>removeSelectedPhoto('beforePhoto'));
+  $('removeAfter').addEventListener('click',()=>removeSelectedPhoto('afterPhoto'));
+  $('removeCollage').addEventListener('click',removeEntireCollage);
+  $('afterPhoto').addEventListener('change',prepareCollage);
+  $('photoReview').addEventListener('input',()=>{
+    if(!$('photoReview').value.trim()){
+      collageReady=null;
+      $('collageBox').hidden=true;
+      $('sharePhotos').disabled=true;
+      $('downloadCollage').disabled=true;
+      $('shareStatus').textContent='✍️ Напишите ваш отзыв, чтобы завершить коллаж.';
+    }
+  });
+  $('photoReview').addEventListener('change',refreshCollageContent);
+  $('pFullName').addEventListener('change',refreshCollageContent);
+  $('pConsultant').addEventListener('change',refreshCollageContent);
+  ['pStartWeight','pEndWeight'].forEach(id=>{
+    $(id).addEventListener('input',updatePhotoWeightStatus);
+    $(id).addEventListener('change',refreshCollageContent);
+  });
+  ['hideFace','hideName'].forEach(id=>{
+    $(id).addEventListener('change',()=>{
+      updatePrivacy();
+      refreshCollageContent();
+    });
+  });
+  $('maskSize').addEventListener('input',()=>{
+    updatePrivacy();
+    refreshCollageContent();
+  });
+  $('faceEmoji').addEventListener('change',()=>{
+    updatePrivacy();
+    refreshCollageContent();
+  });
+  setupMaskDrag(0);
+  setupMaskDrag(1);
+
+  load();
+  bind();
+  // Keep offline support working; do not display technical status banners.
+  if('serviceWorker' in navigator && window.isSecureContext){
+    window.addEventListener('load',()=>{
+      navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).catch(()=>{});
+    });
+  }
+
+})();</script>
+</body>
+</html>
