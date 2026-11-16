@@ -221,7 +221,6 @@
   <header class="hero">
     <span class="holiday-snow snow-left" aria-hidden="true">❄</span>
     <span class="holiday-snow snow-right" aria-hidden="true">✦</span>
-    <div class="eyebrow">Herbalife · Новый сезон 2026</div>
     <h1>НОВОГОДНИЙ <span>ДЕТОКС МАРАФОН</span></h1>
     <div class="subhead">⭐ Звёздная система</div>
     <div class="hero-bottom">
@@ -238,7 +237,7 @@
   <section class="section">
     <div class="section-title">👤 УЧАСТНИК</div>
     <div class="row">
-      <div class="field field-full-name"><label for="pFullName">👤 Фамилия и имя</label><input type="text" id="pFullName" autocomplete="name" placeholder="Например, Скрябина Сахаяна"></div>
+      <div class="field field-full-name"><label for="pFullName">👤 Фамилия и имя</label><input type="text" id="pFullName" autocomplete="name" placeholder="Введите фамилию и имя"></div>
       <div class="field"><label for="pConsultant">👩‍💼 Консультант</label><input type="text" id="pConsultant" placeholder="Имя консультанта"></div>
       <div class="field"><label for="pDiscount">💰 Скидка</label><input type="text" id="pDiscount" placeholder="%"></div>
     </div>
@@ -529,7 +528,10 @@
       }
     }
     total+=weightStars;
-    $('weightResult').textContent='⭐ '+weightStars+' за каждые −300 г';
+    const weightDetail=collageWeightData();
+    $('weightResult').textContent=weightDetail.result
+      ?'⚖️ '+weightDetail.result+' за марафон · ⭐ '+weightStars+' за снижение веса'
+      :'⭐ '+weightStars+' за снижение веса';
     $('totalPoints').textContent=String(total);
     save();
   }
@@ -588,6 +590,7 @@
   }
   function reportText(){
     const r=getReport();
+    const w=collageWeightData();
     const eventLines=EVENT_IDS.map(id=>{
       const el=$(id);
       const v=el.type==='checkbox'?(el.checked?1:0):normalise({type:'num'},el.value);
@@ -604,7 +607,10 @@
       'Ежедневные задания: '+r.daily+' ⭐',
       'Особые события: '+r.events+' ⭐',
       ...(eventLines.length?eventLines:[]),
-      'За снижение веса: '+r.weight+' ⭐',
+      'Вес ДО: '+(w.start||'—'),
+      'Вес ПОСЛЕ: '+(w.end||'—'),
+      'Изменение веса за марафон: '+(w.result||'—'),
+      'Звёзды за снижение веса: '+r.weight+' ⭐',
       'ИТОГО: '+r.total+' ⭐'
     ].join('\n');
   }
@@ -635,7 +641,11 @@
     tableData.forEach((day,i)=>{
       rows.push([DATES[i].replace('🎓',''),...ACTIVITIES.map(a=>a.key==='training'&&!isTrainingDay(i)?'':day[a.key]),r.byDay[i]]);
     });
-    rows.push(['Ежедневные звёзды',r.daily],['События',r.events],['Снижение веса',r.weight],['ИТОГО',r.total]);
+    const w=collageWeightData();
+    rows.push(['Ежедневные звёзды',r.daily],['События',r.events],
+      ['Вес ДО',w.start||''],['Вес ПОСЛЕ',w.end||''],
+      ['Изменение веса за марафон',w.result||''],
+      ['Звёзды за снижение веса',r.weight],['ИТОГО',r.total]);
     EVENT_IDS.forEach(id=>{
       const el=$(id);
       rows.push([EVENT_LABELS[id],el.type==='checkbox'?(el.checked?'да':'нет'):el.value]);
@@ -661,6 +671,9 @@
     ctx.font='29px Arial,sans-serif';ctx.fillText('Консультант: '+clip(r.consultant,31),90,408);
     ctx.fillStyle='#fff9f6';ctx.fillRect(73,454,854,145);
     ctx.fillStyle='#a61b50';ctx.textAlign='center';ctx.font='bold 84px Georgia,serif';ctx.fillText(r.total+' ★',500,561);
+    const w=collageWeightData();
+    ctx.textAlign='center';ctx.fillStyle='#286445';ctx.font='bold 26px Arial,sans-serif';
+    ctx.fillText('Вес ДО '+(w.start||'—')+'  →  ПОСЛЕ '+(w.end||'—')+'  ·  '+(w.result||'—'),500,633);
     ctx.textAlign='left';ctx.fillStyle='#83304c';ctx.font='bold 29px Arial,sans-serif';ctx.fillText('ЗВЁЗДЫ ПО ДНЯМ',93,677);
     ctx.font='24px Arial,sans-serif';
     r.byDay.forEach((n,i)=>{
