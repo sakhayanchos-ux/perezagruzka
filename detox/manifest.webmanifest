@@ -10,14 +10,9 @@
   "lang": "ru",
   "icons": [
     {
-      "src": "../app-icon.png",
+      "src": "./app-icon-detox-green-20261117.png",
       "sizes": "180x180",
-      "type": "image/png"
-    },
-    {
-      "src": "../app-icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any"
     }
   ]

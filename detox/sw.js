@@ -1,7 +1,7 @@
 // Novogodniy Detox Marathon: fully self-contained offline app cache.
 // A first successful load while connected is needed to install this worker.
-const CACHE='novogodniy-detox-pwa-v8-perezagruzka-crop';
-const APP=['./','./index.html','./index-compact-20261117.html','./manifest.webmanifest','./prizes-hq.css','./prizes-cutouts-20261116.webp','../app-icon.svg','../app-icon.png'];
+const CACHE='novogodniy-detox-pwa-v9-green-holiday-icon';
+const APP=['./','./index.html','./index-compact-20261117.html','./manifest.webmanifest','./prizes-hq.css','./prizes-cutouts-20261116.webp','./app-icon-detox-green-20261117.png'];
 self.addEventListener('install',event=>{
   event.waitUntil(
     caches.open(CACHE).then(async cache=>{
