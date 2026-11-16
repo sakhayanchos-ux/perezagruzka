@@ -1,0 +1,24 @@
+{
+  "id": "/perezagruzka/detox/",
+  "name": "Новогодний Детокс Марафон · Звёздный трекер",
+  "short_name": "Детокс Марафон",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f8faf4",
+  "theme_color": "#215839",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "../app-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "../app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
