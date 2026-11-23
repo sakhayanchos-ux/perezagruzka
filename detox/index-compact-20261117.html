@@ -286,16 +286,16 @@
   <section class="section">
     <div class="section-title">🎉 ОСОБЫЕ СОБЫТИЯ</div>
     <div class="special-block">
-      <label class="special-row friend-event-row"><span class="event-date">до 25.11</span><span class="special-label">👭 За друга (оплатившего участие)</span><input type="number" min="0" step="1" inputmode="numeric" id="friend" placeholder="0" aria-label="Количество друзей, оплативших участие"><span>30 ⭐</span></label>
+      <label class="special-row friend-event-row"><span class="event-date">до 27.11</span><span class="special-label">👭 За друга (оплатившего участие)</span><input type="number" min="0" step="1" inputmode="numeric" id="friend" placeholder="0" aria-label="Количество друзей, оплативших участие"><span>200 ⭐</span></label>
       <label class="special-row"><span class="event-date">до 27.11</span><span class="special-label">🎪 Корпоратив + выпускной (оплатить участие)</span><input type="checkbox" id="corporate"><span>200 ⭐</span></label>
       <label class="special-row"><span class="event-date">до 29.11</span><span class="special-label">👭 2 друга на марафон</span><input type="checkbox" id="twoMarathonFriends"><span>200 ⭐</span></label>
       <label class="special-row"><span class="event-date">до 30.11</span><span class="special-label">💎 VIP 300</span><input type="checkbox" id="vip300"><span>30 ⭐</span></label>
       <label class="special-row"><span class="event-date">до 30.11</span><span class="special-label">💎 VIP 500</span><input type="checkbox" id="vip500"><span>50 ⭐</span></label>
-      <label class="special-row"><span class="event-date">до 06.12</span><span class="special-label">👑 Стать амбассадором</span><input type="checkbox" id="ambassador"><span>50 ⭐</span></label>
-      <label class="special-row"><span class="event-date">до 08.12</span><span class="special-label">📸 Фото ДО/ПОСЛЕ + отзыв</span><input type="checkbox" id="photo"><span>30 ⭐</span></label>
+      <label class="special-row"><span class="event-date">до 30.11</span><span class="special-label">❄️ Промо Байкал <small style="display:block">500 очков + 3 НП</small></span><input type="checkbox" id="baikal"><span>100 ⭐</span></label>
       <label class="special-row"><span class="event-date">13.12</span><span class="special-label">🎤 Мероприятие «2 Звезды» (посещение)</span><input type="checkbox" id="twoStars"><span>30 ⭐</span></label>
       <label class="special-row friend-event-row"><span class="event-date">13.12</span><span class="special-label">👥 Друг на мероприятии «2 Звезды»</span><input type="number" min="0" step="1" inputmode="numeric" id="twoStarsFriends" placeholder="0" aria-label="Количество друзей на мероприятии 2 Звезды"><span>30 ⭐</span></label>
-      <label class="special-row"><span class="event-date">до 30.11</span><span class="special-label">❄️ Промо Байкал <small style="display:block">500 очков + 3 НП</small></span><input type="checkbox" id="baikal"><span>100 ⭐</span></label>
+      <label class="special-row"><span class="event-date">до 14.12</span><span class="special-label">👑 Стать амбассадором</span><input type="checkbox" id="ambassador"><span>50 ⭐</span></label>
+      <label class="special-row"><span class="event-date">до 15.12</span><span class="special-label">📸 Фото ДО/ПОСЛЕ + отзыв</span><input type="checkbox" id="photo"><span>30 ⭐</span></label>
     </div>
   </section>
 
@@ -423,8 +423,8 @@
     {key:'diagnostic',short:'Друг на диагностике состава тела',title:'Друг на диагностике состава тела (количество)',points:10,type:'num'},
     {key:'homeClient',short:'Домашний клиент или месячный абонемент',title:'Домашний клиент или месячный абонемент (количество)',points:20,type:'num'}
   ];
-  const EVENT_POINTS = {friend:30,corporate:200,twoMarathonFriends:200,vip300:30,vip500:50,ambassador:50,photo:30,twoStars:30,twoStarsFriends:30,baikal:100};
-  const EVENT_LABELS = {friend:'За друга — оплата участия (до 25.11)',corporate:'Корпоратив + выпускной — оплата (до 27.11)',twoMarathonFriends:'2 друга на марафон (до 29.11)',vip300:'VIP 300 (до 30.11)',vip500:'VIP 500 (до 30.11)',ambassador:'Стать амбассадором (до 06.12)',photo:'Фото ДО/ПОСЛЕ + отзыв (до 08.12)',twoStars:'Посещение мероприятия «2 Звезды» (13.12)',twoStarsFriends:'Друг на мероприятии «2 Звезды» (13.12)',baikal:'Промо Байкал: 500 очков + 3 НП (до 30.11)'};
+  const EVENT_POINTS = {friend:200,corporate:200,twoMarathonFriends:200,vip300:30,vip500:50,baikal:100,twoStars:30,twoStarsFriends:30,ambassador:50,photo:30};
+  const EVENT_LABELS = {friend:'За друга — оплата участия (до 27.11)',corporate:'Корпоратив + выпускной — оплата (до 27.11)',twoMarathonFriends:'2 друга на марафон (до 29.11)',vip300:'VIP 300 (до 30.11)',vip500:'VIP 500 (до 30.11)',baikal:'Промо Байкал: 500 очков + 3 НП (до 30.11)',twoStars:'Посещение мероприятия «2 Звезды» (13.12)',twoStarsFriends:'Друг на мероприятии «2 Звезды» (13.12)',ambassador:'Стать амбассадором (до 14.12)',photo:'Фото ДО/ПОСЛЕ + отзыв (до 15.12)'};
   const EVENT_IDS = Object.keys(EVENT_POINTS);
   const PROFILE_IDS = ['pFullName','pConsultant','pDiscount','pStartWeight','pEndWeight'];
   const PROFILE_STORAGE = {pFullName:'detox2026_full_name',pConsultant:'detox2026_cons',pDiscount:'detox2026_discount',pStartWeight:'detox2026_ws',pEndWeight:'detox2026_we'};
