@@ -217,6 +217,7 @@
   @media(max-width:520px){.collage-preview-box{padding:4px;border-radius:11px}.collage-preview{border-radius:6px}}
   .collage-preview{border-radius:8px}
   .field-full-name{flex:2 1 280px}
+  .promo-rate-note{font-size:.77rem;line-height:1.4;color:#35664a;background:#f2f8f1;border:1px solid #d8e8d6;border-radius:10px;padding:9px 12px;margin:4px 0 9px}
   .holiday-snow{position:absolute;z-index:1;pointer-events:none;color:#679578;opacity:.38;font-family:Georgia,serif}
   .snow-left{top:12px;left:20px;font-size:30px}
   .snow-right{top:15px;right:26px;font-size:26px}
@@ -286,8 +287,9 @@
   <section class="section">
     <div class="section-title">🎉 ОСОБЫЕ СОБЫТИЯ</div>
     <div class="special-block">
-      <label class="special-row friend-event-row"><span class="event-date">до 27.11</span><span class="special-label">👭 Друг на корпоратив + выпускной</span><input type="number" min="0" step="1" inputmode="numeric" id="friend" placeholder="0" aria-label="Количество друзей, оплативших корпоратив и выпускной"><span>200 ⭐</span></label>
-      <label class="special-row"><span class="event-date">до 27.11</span><span class="special-label">🎪 Корпоратив + выпускной</span><input type="checkbox" id="corporate"><span>200 ⭐</span></label>
+      <label class="special-row friend-event-row"><span class="event-date">до 27.11, 14:00</span><span class="special-label">👭 Друг на корпоратив + выпускной</span><input type="number" min="0" step="1" inputmode="numeric" id="friend" placeholder="0" aria-label="Количество друзей, оплативших корпоратив и выпускной"><span id="friendRewardDisplay" aria-live="polite">200 ⭐</span></label>
+      <label class="special-row"><span class="event-date">до 27.11, 14:00</span><span class="special-label">🎪 Корпоратив + выпускной</span><input type="checkbox" id="corporate"><span id="corporateRewardDisplay" aria-live="polite">200 ⭐</span></label>
+      <div id="promoRateNote" class="promo-rate-note" role="status" aria-live="polite">Акция 200 ⭐ действует до 27 ноября, 14:00 по Якутску. Затем — 30 ⭐. Заработанные до этого срока 200 ⭐ сохраняются.</div>
       <label class="special-row"><span class="event-date">до 29.11</span><span class="special-label">👭 2 друга на марафон</span><input type="checkbox" id="twoMarathonFriends"><span>200 ⭐</span></label>
       <label class="special-row"><span class="event-date">до 30.11</span><span class="special-label">💎 VIP 300</span><input type="checkbox" id="vip300"><span>30 ⭐</span></label>
       <label class="special-row"><span class="event-date">до 30.11</span><span class="special-label">💎 VIP 500</span><input type="checkbox" id="vip500"><span>50 ⭐</span></label>
@@ -426,6 +428,57 @@
   const EVENT_POINTS = {friend:200,corporate:200,twoMarathonFriends:200,vip300:30,vip500:50,baikal:100,twoStars:30,twoStarsFriends:30,ambassador:50,photo:30};
   const EVENT_LABELS = {friend:'Друг на корпоратив + выпускной (до 27.11)',corporate:'Корпоратив + выпускной (до 27.11)',twoMarathonFriends:'2 друга на марафон (до 29.11)',vip300:'VIP 300 (до 30.11)',vip500:'VIP 500 (до 30.11)',baikal:'Промо Байкал: 500 очков + 3 НП (до 30.11)',twoStars:'Посещение мероприятия «2 Звезды» (13.12)',twoStarsFriends:'Друг на мероприятии «2 Звезды» (13.12)',ambassador:'Стать амбассадором (до 14.12)',photo:'Фото ДО/ПОСЛЕ + отзыв (до 15.12)'};
   const EVENT_IDS = Object.keys(EVENT_POINTS);
+  // 27 November, 14:00 in Yakutsk (UTC+09:00). This is a client-side automatic change.
+  const PROMO_CUTOFF = Date.parse('2026-11-27T14:00:00+09:00');
+  const PROMO_FRIEND_KEY = 'novogodniy_detox_2026_promo_friend_count_v1';
+  const PROMO_CORPORATE_KEY = 'novogodniy_detox_2026_promo_corporate_v1';
+  let premiumFriendCount=0,premiumCorporate=false;
+  const promoOpen = () => Date.now() < PROMO_CUTOFF;
+  function eventCount(id){
+    const el=$(id);
+    return el.type==='checkbox'?(el.checked?1:0):normalise({type:'num'},el.value);
+  }
+  function loadPromoHistory(){
+    const friendSaved=get(PROMO_FRIEND_KEY);
+    const corporateSaved=get(PROMO_CORPORATE_KEY);
+    // Entries saved in the preceding tracker version are grandfathered at 200 ⭐.
+    premiumFriendCount=friendSaved===null
+      ?normalise({type:'num'},get(EVENT_STORAGE_PREFIX+'friend'))
+      :normalise({type:'num'},friendSaved);
+    premiumCorporate=corporateSaved===null
+      ?get(EVENT_STORAGE_PREFIX+'corporate')==='true'
+      :corporateSaved==='true';
+  }
+  function syncPromoHistory(){
+    const count=eventCount('friend'),selected=!!$('corporate').checked;
+    if(promoOpen()){
+      premiumFriendCount=count;
+      premiumCorporate=selected;
+    }else{
+      // Additional friends after the promotion receive 30; removing a tick resets it.
+      premiumFriendCount=Math.min(premiumFriendCount,count);
+      if(!selected)premiumCorporate=false;
+    }
+    set(PROMO_FRIEND_KEY,premiumFriendCount);
+    set(PROMO_CORPORATE_KEY,String(premiumCorporate));
+  }
+  function promotionStars(id){
+    const n=eventCount(id);
+    if(id==='friend'){
+      const early=promoOpen()?n:Math.min(n,premiumFriendCount);
+      return early*200+(n-early)*30;
+    }
+    if(id==='corporate')return n*(promoOpen()||premiumCorporate?200:30);
+    return n*EVENT_POINTS[id];
+  }
+  function refreshPromoDisplay(){
+    const open=promoOpen();
+    $('friendRewardDisplay').textContent=open?'200 ⭐':'30 ⭐';
+    $('corporateRewardDisplay').textContent=open?'200 ⭐':'30 ⭐';
+    $('promoRateNote').textContent=open
+      ?'200 ⭐ до 27 ноября, 14:00 по Якутску. После — 30 ⭐. Заработанные 200 ⭐ сохраняются.'
+      :'Акция 200 ⭐ завершена. С 27 ноября, 14:00 по Якутску новые отметки дают 30 ⭐. Ранее заработанные 200 ⭐ сохраняются.';
+  }
   const PROFILE_IDS = ['pFullName','pConsultant','pDiscount','pStartWeight','pEndWeight'];
   const PROFILE_STORAGE = {pFullName:'detox2026_full_name',pConsultant:'detox2026_cons',pDiscount:'detox2026_discount',pStartWeight:'detox2026_ws',pEndWeight:'detox2026_we'};
   const $ = id => document.getElementById(id);
@@ -480,6 +533,8 @@
         el.value=count?String(count):'';
       }
     });
+    loadPromoHistory();
+    refreshPromoDisplay();
     $('hideFace').checked=get('detox2026_privacy_face')==='true';
     $('hideName').checked=get('detox2026_privacy_name')==='true';
     $('maskSize').value=get('detox2026_mask_size')||'45';
@@ -527,11 +582,9 @@
         total+=item.points*(item.type==='check'&&item.key!=='story'?(v?1:0):v);
       });
     });
-    EVENT_IDS.forEach(id=>{
-      const el=$(id);
-      if(el.type==='checkbox'){if(el.checked)total+=EVENT_POINTS[id]}
-      else{total+=normalise({type:'num'},el.value)*EVENT_POINTS[id]}
-    });
+    syncPromoHistory();
+    refreshPromoDisplay();
+    EVENT_IDS.forEach(id=>{total+=promotionStars(id)});
     let weightStars=0;
     if($('pStartWeight').value!=='' && $('pEndWeight').value!==''){
       const start=Number($('pStartWeight').value),end=Number($('pEndWeight').value);
@@ -581,11 +634,7 @@
     },0);
   }
   function eventTotal(){
-    return EVENT_IDS.reduce((sum,id)=>{
-      const el=$(id);
-      const n=el.type==='checkbox'?(el.checked?1:0):normalise({type:'num'},el.value);
-      return sum+EVENT_POINTS[id]*n;
-    },0);
+    return EVENT_IDS.reduce((sum,id)=>sum+promotionStars(id),0);
   }
   function getWeightStars(){
     const start=Number($('pStartWeight').value),end=Number($('pEndWeight').value);
@@ -605,9 +654,15 @@
     const r=getReport();
     const w=collageWeightData();
     const eventLines=EVENT_IDS.map(id=>{
-      const el=$(id);
-      const v=el.type==='checkbox'?(el.checked?1:0):normalise({type:'num'},el.value);
-      return v>0 ? '• '+EVENT_LABELS[id]+': '+v+' × '+EVENT_POINTS[id]+' = '+(v*EVENT_POINTS[id])+' ⭐' : '';
+      const v=eventCount(id);
+      if(v<=0)return '';
+      const stars=promotionStars(id);
+      if(id==='friend'&&!promoOpen()){
+        const early=Math.min(v,premiumFriendCount),late=v-early;
+        const breakdown=[early?early+' × 200':null,late?late+' × 30':null].filter(Boolean).join(' + ');
+        return '• '+EVENT_LABELS[id]+': '+breakdown+' = '+stars+' ⭐';
+      }
+      return '• '+EVENT_LABELS[id]+': '+v+' × '+(stars/v)+' = '+stars+' ⭐';
     }).filter(Boolean);
     return [
       '⭐ ОТЧЁТ ПО ЗВЁЗДАМ · НОВОГОДНИЙ ДЕТОКС МАРАФОН',
@@ -661,7 +716,7 @@
       ['Звёзды за снижение веса',r.weight],['ИТОГО',r.total]);
     EVENT_IDS.forEach(id=>{
       const el=$(id);
-      rows.push([EVENT_LABELS[id],el.type==='checkbox'?(el.checked?'да':'нет'):el.value]);
+      rows.push([EVENT_LABELS[id],el.type==='checkbox'?(el.checked?'да':'нет'):el.value,promotionStars(id)+' ⭐']);
     });
     const csv='\ufeff'+rows.map(row=>row.map(esc).join(';')).join('\r\n');
     saveBlob(new Blob([csv],{type:'text/csv;charset=utf-8'}),fileStem()+'.csv');
@@ -1209,6 +1264,14 @@
 
   load();
   bind();
+  // Schedule the exact switch even while the page is already open.
+  if(promoOpen()){
+    setTimeout(()=>{refreshPromoDisplay();calc();},Math.max(1,PROMO_CUTOFF-Date.now()));
+  }
+  document.addEventListener('visibilitychange',()=>{
+    if(!document.hidden){refreshPromoDisplay();calc()}
+  });
+  window.addEventListener('focus',()=>{refreshPromoDisplay();calc()});
   // Keep offline support working; do not display technical status banners.
   if('serviceWorker' in navigator && window.isSecureContext){
     window.addEventListener('load',()=>{
