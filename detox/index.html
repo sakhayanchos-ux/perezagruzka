@@ -473,11 +473,21 @@
   }
   function refreshPromoDisplay(){
     const open=promoOpen();
-    $('friendRewardDisplay').textContent=open?'200 ⭐':'30 ⭐';
-    $('corporateRewardDisplay').textContent=open?'200 ⭐':'30 ⭐';
+    const friendCount=eventCount('friend');
+    const earlierFriends=Math.min(friendCount,premiumFriendCount);
+    const lateFriends=friendCount-earlierFriends;
+    let friendLabel='30 ⭐';
+    if(open || (earlierFriends>0 && lateFriends===0)){
+      friendLabel='200 ⭐';
+    }else if(earlierFriends>0 && lateFriends>0){
+      friendLabel=earlierFriends+' × 200 + '+lateFriends+' × 30 ⭐';
+    }
+    $('friendRewardDisplay').textContent=friendLabel;
+    $('corporateRewardDisplay').textContent=
+      open || ($('corporate').checked && premiumCorporate)?'200 ⭐':'30 ⭐';
     $('promoRateNote').textContent=open
       ?'200 ⭐ до 27 ноября, 14:00 по Якутску. После — 30 ⭐. Заработанные 200 ⭐ сохраняются.'
-      :'Акция 200 ⭐ завершена. С 27 ноября, 14:00 по Якутску новые отметки дают 30 ⭐. Ранее заработанные 200 ⭐ сохраняются.';
+      :'Акция завершена: уже отмеченные участники и друзья сохраняют 200 ⭐, новые отметки дают 30 ⭐.';
   }
   const PROFILE_IDS = ['pFullName','pConsultant','pDiscount','pStartWeight','pEndWeight'];
   const PROFILE_STORAGE = {pFullName:'detox2026_full_name',pConsultant:'detox2026_cons',pDiscount:'detox2026_discount',pStartWeight:'detox2026_ws',pEndWeight:'detox2026_we'};
